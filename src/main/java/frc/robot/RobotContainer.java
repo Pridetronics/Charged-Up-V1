@@ -3,14 +3,21 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+import edu.wpi.first.wpilibj.Joystick;
+//subsystems
 import frc.robot.subsystems.Drive;
-
-
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ExampleSubsystem;
+//Hardware imports
+import com.revrobotics.CANSparkMax;
+
+//commands
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+//Driver station stuff
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//to be removed
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -22,7 +29,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
- 
+  //controllers
+  public Joystick joystickDriver;
+  public Joystick joystickShooter;
+  //motors 
+  public static CANSparkMax rightFrontMotor;
+  public static CANSparkMax leftFrontMotor;
+  public static CANSparkMax rightBackMotor;
+  public static CANSparkMax leftBackMotor;
+  
+
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drive m_drive = new Drive();
 
@@ -31,6 +47,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    //connects joystick ids to proper ports
+    joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
+    joystickShooter = new Joystick(OperatorConstants.kJoystickShooterID);
     // Configure the trigger bindings
     configureBindings();
   }
