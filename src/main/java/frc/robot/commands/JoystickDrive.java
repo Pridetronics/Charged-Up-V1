@@ -13,16 +13,16 @@ import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class JoystickDrive extends CommandBase {
-  private Drive drive;
+  private Drive m_drive;
   private Joystick m_joystickdriver;
 
 
 
   /** Creates a new JoystickDrive. */
-  public JoystickDrive(Joystick joystickDriver, Drive m_drive) {
+  public JoystickDrive(Joystick joystickDriver, Drive drive) {
     m_joystickdriver = joystickDriver;
     m_drive = drive;
-    addRequirements(drive);
+    addRequirements(m_drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -33,9 +33,9 @@ public class JoystickDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double Y1 = m_joystickdriver.getRawAxis(1);
-    double Y2 = m_joystickdriver.getRawAxis(5);
-
+    double Yval1 = m_joystickdriver.getRawAxis(1);
+    double Yval2 = m_joystickdriver.getRawAxis(5);
+    m_drive.Tankdrive(m_joystickdriver, Yval1, Yval2);
   }
 
   // Called once the command ends or is interrupted.

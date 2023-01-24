@@ -8,12 +8,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.Drive;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ExampleSubsystem;
+
+import java.lang.ModuleLayer.Controller;
+
 //Hardware imports
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 //commands
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.JoystickDrive;
 //Driver station stuff
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,6 +54,13 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    rightFrontMotor = new CANSparkMax(OperatorConstants.kRightFrontDriveCANID, MotorType.kBrushless);
+    leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
+    rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
+    leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
+    //inverts the front right and back left motors to match with their respective sides.
+    rightFrontMotor.setInverted(true);
+    leftBackMotor.setInverted(true);    
     //connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickShooter = new Joystick(OperatorConstants.kJoystickShooterID);
@@ -56,6 +68,7 @@ public class RobotContainer {
     m_drive = new Drive(joystickDriver);
     // Configure the trigger bindings
     configureBindings();
+    m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
   }
 
   /**
