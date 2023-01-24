@@ -29,6 +29,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+ //subsystems
+ public static Drive m_drive;
   //controllers
   public Joystick joystickDriver;
   public Joystick joystickShooter;
@@ -40,7 +42,7 @@ public class RobotContainer {
   
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drive m_drive = new Drive();
+ // private final Drive m_drive = new Drive();
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kJoystickDriverID);
@@ -50,6 +52,8 @@ public class RobotContainer {
     //connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickShooter = new Joystick(OperatorConstants.kJoystickShooterID);
+    //drive
+    m_drive = new Drive(joystickDriver);
     // Configure the trigger bindings
     configureBindings();
   }

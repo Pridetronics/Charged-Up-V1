@@ -10,6 +10,7 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 //hardware
+import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxRelativeEncoder;
@@ -25,10 +26,10 @@ public class Drive extends SubsystemBase {
   public static RelativeEncoder m_rightBackEncoder;
   public static RelativeEncoder m_leftBackEncoder;
   //makes differential drive and drivetrains
-  public DifferentialDrive WCDrive;
-  
+  public DifferentialDrive Left;
+  public DifferentialDrive Right; 
   /** Creates a new Drive. */
-    public Drive() {
+    public Drive( Joystick joystickDriver) {
     //motors are now set to same as robotcontainer
     m_rightFrontMotor = RobotContainer.rightFrontMotor;
     m_leftFrontMotor = RobotContainer.leftFrontMotor;
@@ -42,7 +43,9 @@ public class Drive extends SubsystemBase {
     
     //zeroes encoders when set
     zeroEncoders();
-      
+      //hopefully I can use 2 differentials as a tank drive by only using 2 y axis
+      Left = new DifferentialDrive(m_leftFrontMotor, m_leftBackMotor);
+      Right = new DifferentialDrive(m_rightFrontMotor, m_rightBackMotor);
  
   }
 
@@ -56,6 +59,9 @@ public class Drive extends SubsystemBase {
     m_rightBackEncoder.setPosition(0);
     m_leftBackEncoder.setPosition(0);
   }
+  public void tankDrive(){
+   // Y1 = m_joystickdriver.getRawAxis(1);
 
+  }
 
 }
