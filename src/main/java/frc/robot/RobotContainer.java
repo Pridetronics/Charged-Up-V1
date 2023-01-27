@@ -59,7 +59,7 @@ public class RobotContainer {
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
     //inverts the front right and back left motors to match with their respective sides.
-    rightFrontMotor.setInverted(true);
+    leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);    
     //connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
