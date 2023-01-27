@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.Drive;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Manipulator;
 
-import java.lang.ModuleLayer.Controller;
 
 //Hardware imports
 import com.revrobotics.CANSparkMax;
@@ -58,9 +58,11 @@ public class RobotContainer {
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-    //inverts the front right and back left motors to match with their respective sides.
+    //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
-    leftBackMotor.setInverted(true);    
+    leftBackMotor.setInverted(true);
+    rightFrontMotor.setInverted(false);
+    rightBackMotor.setInverted(false);    
     //connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickShooter = new Joystick(OperatorConstants.kJoystickShooterID);
