@@ -3,54 +3,56 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import edu.wpi.first.wpilibj.Joystick;
-//subsystems
-import frc.robot.subsystems.Drive;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.ExampleSubsystem;
 
-import java.lang.ModuleLayer.Controller;
+//Joystick Imports
+import edu.wpi.first.wpilibj.Joystick;
+
+//Nav-X Imports
+import com.kauailabs.navx.frc.AHRS;
 
 //Hardware imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-//commands
+//Commands
 import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.JoystickDrive;
-//Driver station stuff
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//to be removed
+
+//Subsystems
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.NavX;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OperatorConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
- //subsystems
- public static Drive m_drive;
-  //controllers
-  public Joystick joystickDriver;
+  //Subsystems
+  public static Drive m_drive;
+  public static NavX m_navX;
+
+  //Controllers
+  public static Joystick joystickDriver;
   public Joystick joystickShooter;
-  //motors 
+
+  //Motors 
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
-  
 
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //Nav-X
+  public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
+  public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
+  public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
+
  // private final Drive m_drive = new Drive();
-
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kJoystickDriverID);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -58,17 +60,17 @@ public class RobotContainer {
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-    //inverts the front right and back left motors to match with their respective sides.
+    //Inverts the front right and back left motors to match with their respective sides.
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);    
-    //connects joystick ids to proper ports
+    //Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickShooter = new Joystick(OperatorConstants.kJoystickShooterID);
-    //drive
+    //Drive
     m_drive = new Drive(joystickDriver);
+    
     // Configure the trigger bindings
     configureBindings();
-    m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
   }
 
   /**
@@ -81,13 +83,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
   }
 
   /**
@@ -97,6 +93,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return Autos.exampleAuto();
   }
 }

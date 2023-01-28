@@ -14,15 +14,21 @@ package frc.robot;
  */
 public final class Constants {
   public static class OperatorConstants {
-    //controller IDs 
+    //Controller IDs 
     public static final int kJoystickDriverID = 0;
     public static final int kJoystickShooterID = 1;
 
-    //drive CANIDs 
+    //Drive CANIDs 
     public static final int kRightFrontDriveCANID = 1;
     public static final int kLeftFrontDriveCANID = 2;
     public static final int kLeftBackDriveCANID = 3;
     public static final int kRightBackDriveCANID = 4;
+
+    //Nav-x IDs
+    public static final double kOffBalanceAngleThresholdDegrees = 10;
+    public static final double kOnBalanceAngleThresholdDegrees  = 5;
+
+    
     
     
     
