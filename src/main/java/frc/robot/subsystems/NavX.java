@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.OperatorConstants; 
+import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavX extends SubsystemBase {
@@ -55,12 +55,12 @@ public class NavX extends SubsystemBase {
         (Math.abs(pitchAngleDegrees) >= 
         Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
       m_autoBalanceYMode = true;
-}
+  }
     else if (m_autoBalanceYMode && 
          (Math.abs(pitchAngleDegrees) <= 
           Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
       m_autoBalanceYMode = false;
-}
+  }
 
 // Control drive system automatically, 
 // driving in reverse direction of pitch/roll angle,
@@ -69,11 +69,11 @@ public class NavX extends SubsystemBase {
     if (m_autoBalanceXMode) {
       double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
       xAxisRate = Math.sin(pitchAngleRadians) * -1;
-}
+  }
     if (m_autoBalanceYMode) {
       double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
       yAxisRate = Math.sin(rollAngleRadians) * -1;
-}
+  }
 
     try {
       Drive.tankDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
@@ -82,7 +82,7 @@ public class NavX extends SubsystemBase {
       String err_string = "Drive system error: " + ex.getMessage();
       DriverStation.reportError(err_string, true);
     }  
-  SmartDashboard.putString("NavX:", "Periodic Test");
+    SmartDashboard.putString("NavX:", "Periodic Test");
   }
 }
 

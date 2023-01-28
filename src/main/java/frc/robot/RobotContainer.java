@@ -73,7 +73,11 @@ public class RobotContainer {
     
     // Configure the trigger bindings
     configureBindings();
+
     SmartDashboard.putString("Code: ", "Helen's");
+    SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
+    SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
+    SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
   }
 
   /**
