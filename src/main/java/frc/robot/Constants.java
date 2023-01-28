@@ -23,7 +23,8 @@ public final class Constants {
     public static final int kLeftFrontDriveCANID = 2;
     public static final int kLeftBackDriveCANID = 3;
     public static final int kRightBackDriveCANID = 4;
-    
+    //drive Autonomous
+    public static final double kAutoVolt = -.5;
     
     
  
