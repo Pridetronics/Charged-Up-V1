@@ -54,6 +54,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    //motors
     rightFrontMotor = new CANSparkMax(OperatorConstants.kRightFrontDriveCANID, MotorType.kBrushless);
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
@@ -70,7 +71,7 @@ public class RobotContainer {
     m_drive = new Drive(joystickDriver);
     // Configure the trigger bindings
     configureBindings();
-    m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
+    
   }
 
   /**
@@ -83,6 +84,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));

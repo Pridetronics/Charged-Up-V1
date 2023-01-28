@@ -10,6 +10,9 @@ import frc.robot.RobotContainer;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CameraServerJNI;
+import edu.wpi.first.cscore.UsbCamera;
 //networktable imports to organize limelight and camera
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -18,8 +21,34 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import com.revrobotics.CANSparkMax;
 
 public class Vision extends SubsystemBase {
-  /** Creates a new Vision. */
-  public Vision() {}
+ UsbCamera camera_0;
+
+ 
+ private double ty;
+ private double tx;
+ private double tv;
+ private double ta;
+
+ private double heightTotal;
+ private double angleTotal;
+ private double angleTan;
+//  private double initialDistance;
+//  private double distanceInInches;
+//  private double distanceInFeet;
+//  private double roundedDistance;
+ 
+  public Vision() {
+    NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    NetworkTable table = inst.getTable("Limelight");
+    inst.startDSClient();
+    //normal camera
+    // UsbCamera camera_0 = new UsbCamera("POV Camera", 0);
+    // CameraServer.startAutomaticCapture(camera_0);
+    // camera_0.setFPS(30);
+    // camera_0.setResolution(120, 120);
+    
+ 
+  }
 
   @Override
   public void periodic() {

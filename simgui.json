@@ -3,5 +3,29 @@
     "types": {
       "/FMSInfo": "FMSInfo"
     }
+  },
+  "NetworkTables": {
+    "Retained Values": {
+      "open": false
+    },
+    "transitory": {
+      "LiveWindow": {
+        "open": true
+      },
+      "Shuffleboard": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "open": true
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "Server": {
+      "Subscribers": {
+        "open": true
+      }
+    },
+    "visible": true
   }
 }

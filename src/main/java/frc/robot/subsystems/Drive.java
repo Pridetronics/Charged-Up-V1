@@ -7,14 +7,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+//drive train
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-//import edu.wpi.first.wpilibj.drive;
 //hardware
 import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxRelativeEncoder;
+//data collection
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Drive extends SubsystemBase {
   //motors
   private CANSparkMax m_rightFrontMotor;
@@ -62,7 +64,10 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
+    SmartDashboard.putNumber("Front Left Encoder", m_leftFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Back Left Encoder", m_leftBackEncoder.getPosition());
+    SmartDashboard.putNumber("Front Right Encoder", m_rightFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Back Right Encoder", m_rightBackEncoder.getPosition());
   }
   public void zeroEncoders(){
     m_rightFrontEncoder.setPosition(0);
@@ -77,9 +82,13 @@ public class Drive extends SubsystemBase {
     Yval1 = Yval1 * .8;
     Yval2 = Yval2 * .8;
     tankDrive.tankDrive(Yval1, Yval2);
-    
   }
-
+  public void driveStop(){
+    m_leftFrontMotor.set(0);
+    m_leftBackMotor.set(0);
+    m_rightFrontMotor.set(0);
+    m_rightBackMotor.set(0);
+  }
 
 
 

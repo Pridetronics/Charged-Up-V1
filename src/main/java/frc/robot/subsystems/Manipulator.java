@@ -5,10 +5,22 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+//hardware
+import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
-  public Manipulator() {}
+
+
+
+
+  public Manipulator() {
+
+
+
+
+
+  }
 
   @Override
   public void periodic() {
