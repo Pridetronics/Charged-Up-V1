@@ -15,7 +15,6 @@ public class AutoBalance extends CommandBase {
   public AutoBalance(NavX navX) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_navX = navX;
-    
     addRequirements(m_navX);
   }
 

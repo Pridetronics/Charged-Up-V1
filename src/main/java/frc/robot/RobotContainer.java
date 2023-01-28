@@ -68,9 +68,13 @@ public class RobotContainer {
     //Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickShooter = new Joystick(OperatorConstants.kJoystickShooterID);
+    
     //Drive
     m_drive = new Drive(joystickDriver);
     
+    m_navX = new NavX();
+    ahrs = new AHRS();
+
     // Configure the trigger bindings
     configureBindings();
 

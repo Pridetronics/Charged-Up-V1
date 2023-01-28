@@ -19,8 +19,6 @@ public class NavX extends SubsystemBase {
   private boolean m_autoBalanceYMode = RobotContainer.autoBalanceYMode;
   public double xAxisRate = RobotContainer.joystickDriver.getX();
   public double yAxisRate = RobotContainer.joystickDriver.getY();
-  public double pitchAngleDegrees = m_ahrs.getPitch();
-  public double rollAngleDegrees = m_ahrs.getRoll();
 
   /** Creates a new NavX. */
   public NavX() {
@@ -40,6 +38,8 @@ public class NavX extends SubsystemBase {
   
   
   public void autoBalance() {
+    double pitchAngleDegrees = m_ahrs.getPitch();
+    double rollAngleDegrees = m_ahrs.getRoll();
     if (!m_autoBalanceXMode && 
       (Math.abs(pitchAngleDegrees) >= 
       Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
