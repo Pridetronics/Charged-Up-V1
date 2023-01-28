@@ -5,13 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.NavX;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoBalance extends CommandBase {
+  private NavX m_navX;
+
   /** Creates a new AutoBalance. */
-  public AutoBalance() {
+  public AutoBalance(NavX navX) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_navX = navX;
+    
+    addRequirements(m_navX);
   }
 
   // Called when the command is initially scheduled.
@@ -20,7 +27,9 @@ public class AutoBalance extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_navX.autoBalance();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

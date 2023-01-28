@@ -6,6 +6,7 @@ package frc.robot;
 
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //Nav-X Imports
 import com.kauailabs.navx.frc.AHRS;
@@ -14,6 +15,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.commands.AutoBalance;
 //Commands
 import frc.robot.commands.Autos;
 import frc.robot.commands.JoystickDrive;
@@ -71,6 +73,7 @@ public class RobotContainer {
     
     // Configure the trigger bindings
     configureBindings();
+    SmartDashboard.putString("Code: ", "Helen's");
   }
 
   /**
@@ -84,6 +87,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
+    m_navX.setDefaultCommand(new AutoBalance(m_navX));
   }
 
   /**

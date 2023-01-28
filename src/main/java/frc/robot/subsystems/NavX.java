@@ -36,48 +36,53 @@ public class NavX extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-      if (!m_autoBalanceXMode && 
-           (Math.abs(pitchAngleDegrees) >= 
-            Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
-          m_autoBalanceXMode = true;
-      }
-        else if (m_autoBalanceXMode && 
-                (Math.abs(pitchAngleDegrees) <= 
-                 Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
-          m_autoBalanceXMode = false;
-      }
+  }
+  
+  
+  public void autoBalance() {
+    if (!m_autoBalanceXMode && 
+      (Math.abs(pitchAngleDegrees) >= 
+      Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
+      m_autoBalanceXMode = true;
+  }
+    else if (m_autoBalanceXMode && 
+         (Math.abs(pitchAngleDegrees) <= 
+          Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
+      m_autoBalanceXMode = false;
+  }
 
-      if (!m_autoBalanceYMode && 
-           (Math.abs(pitchAngleDegrees) >= 
-            Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
-          m_autoBalanceYMode = true;
-      }
-        else if (m_autoBalanceYMode && 
-                (Math.abs(pitchAngleDegrees) <= 
-                 Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
-          m_autoBalanceYMode = false;
-      }
-      
-      // Control drive system automatically, 
-      // driving in reverse direction of pitch/roll angle,
-      // with a magnitude based upon the angle
-      
-      if (m_autoBalanceXMode) {
-          double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
-          xAxisRate = Math.sin(pitchAngleRadians) * -1;
-      }
-      if (m_autoBalanceYMode) {
-          double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
-          yAxisRate = Math.sin(rollAngleRadians) * -1;
-      }
-      
-      try {
-        Drive.tankDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
-      } 
-      catch(RuntimeException ex) {
-          String err_string = "Drive system error: " + ex.getMessage();
-          DriverStation.reportError(err_string, true);
-      }
-      SmartDashboard.putString("NavX:", "Periodic Test");
+    if (!m_autoBalanceYMode && 
+        (Math.abs(pitchAngleDegrees) >= 
+        Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
+      m_autoBalanceYMode = true;
+}
+    else if (m_autoBalanceYMode && 
+         (Math.abs(pitchAngleDegrees) <= 
+          Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
+      m_autoBalanceYMode = false;
+}
+
+// Control drive system automatically, 
+// driving in reverse direction of pitch/roll angle,
+// with a magnitude based upon the angle
+
+    if (m_autoBalanceXMode) {
+      double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
+      xAxisRate = Math.sin(pitchAngleRadians) * -1;
+}
+    if (m_autoBalanceYMode) {
+      double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
+      yAxisRate = Math.sin(rollAngleRadians) * -1;
+}
+
+    try {
+      Drive.tankDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
+    } 
+    catch(RuntimeException ex) {
+      String err_string = "Drive system error: " + ex.getMessage();
+      DriverStation.reportError(err_string, true);
+    }  
+  SmartDashboard.putString("NavX:", "Periodic Test");
   }
 }
+
