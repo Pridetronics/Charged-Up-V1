@@ -30,9 +30,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     //allows tester to know if correct code is uploaded
     SmartDashboard.putString("Code","Gerald");
-
-    //camera_0.setFPS(30);
-   // camera_0.setResolution(120, 120);
+    CameraServer.startAutomaticCapture();  
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();

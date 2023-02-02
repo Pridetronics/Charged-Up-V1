@@ -17,7 +17,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 //commands
 import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
+
 import frc.robot.commands.JoystickDrive;
 //Driver station stuff
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -37,8 +37,8 @@ public class RobotContainer {
  //subsystems
  public static Drive m_drive;
   //controllers
-  public Joystick joystickDriver;
-  public Joystick joystickShooter;
+  public static Joystick joystickDriver;
+  public static Joystick joystickShooter;
   //motors 
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
@@ -49,8 +49,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
  // private final Drive m_drive = new Drive();
 
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kJoystickDriverID);
+ 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -69,7 +68,29 @@ public class RobotContainer {
     joystickShooter = new Joystick(OperatorConstants.kJoystickShooterID);
     //drive
     m_drive = new Drive(joystickDriver);
-    // Configure the trigger bindings
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+      // Configure the trigger bindings
     configureBindings();
     
   }
@@ -86,12 +107,12 @@ public class RobotContainer {
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+   // new Trigger(m_exampleSubsystem::exampleCondition)
+    //    .onTrue(new ExampleCommand(m_exampleSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+   // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
   }
 
   /**
