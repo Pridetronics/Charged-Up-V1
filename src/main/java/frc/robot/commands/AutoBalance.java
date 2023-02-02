@@ -26,7 +26,7 @@ public class AutoBalance extends CommandBase {
   @Override
   public void execute() {
     m_navX.autoBalance();
-    SmartDashboard.putString("AutoBalance", "Test");
+    SmartDashboard.putString("AutoBalance:", "Test");
   }
 
   // Called once the command ends or is interrupted.

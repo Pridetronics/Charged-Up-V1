@@ -95,7 +95,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
+    
     m_navX.setDefaultCommand(new AutoBalance(m_navX));
+    // if (joystickDriver.getRawButtonPressed(0)) {
+    //   new AutoBalance(m_navX);
+    // }
+    // if (joystickDriver.getRawButton(1)) {
+    //   new AutoBalance(m_navX);
+    // } //Not needed as of 2/2/2023 for now
   }
 
   /**
