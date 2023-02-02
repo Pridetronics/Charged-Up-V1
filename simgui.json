@@ -1,7 +1,18 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
     }
   },
   "NetworkTables": {
@@ -9,6 +20,13 @@
       "open": false
     },
     "transitory": {
+      "CameraPublisher": {
+        "USB Camera 0": {
+          "PropertyInfo": {
+            "open": true
+          }
+        }
+      },
       "LiveWindow": {
         "open": true
       },
@@ -27,5 +45,8 @@
       },
       "open": true
     }
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

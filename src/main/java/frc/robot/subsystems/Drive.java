@@ -75,7 +75,7 @@ public class Drive extends SubsystemBase {
     m_rightBackEncoder.setPosition(0);
     m_leftBackEncoder.setPosition(0);
   }
-  public void Tankdrive(Joystick joystickDriver,double Yval1, double Yval2){
+  public void Tankinput(Joystick joystickDriver,double Yval1, double Yval2){
     Yval1 = joystickDriver.getRawAxis(1);
     Yval2 = joystickDriver.getRawAxis(5);
     //reduces speed so field is not torn apart

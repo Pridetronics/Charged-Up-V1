@@ -36,22 +36,32 @@ public class Vision extends SubsystemBase {
 //  private double distanceInInches;
 //  private double distanceInFeet;
 //  private double roundedDistance;
- 
+NetworkTableInstance inst = NetworkTableInstance.getDefault();
+NetworkTable table = inst.getTable("Limelight");
   public Vision() {
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    NetworkTable table = inst.getTable("Limelight");
+   
     inst.startDSClient();
-    //normal camera
-    // UsbCamera camera_0 = new UsbCamera("POV Camera", 0);
-    // CameraServer.startAutomaticCapture(camera_0);
-    // camera_0.setFPS(30);
-    // camera_0.setResolution(120, 120);
+    NetworkTableEntry yEntry = table.getEntry("ty");
+    NetworkTableEntry xEntry = table.getEntry("tx");
+    NetworkTableEntry aEntry = table.getEntry("ta");
+    NetworkTableEntry vEntry = table.getEntry("tv");
+  
+    ta = aEntry.getDouble(0.0); // Target Area (0% of image to 100% of image)
+    ty = yEntry.getDouble(0.0); // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
+    tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair to Target (-27.5 degrees to 27.5 degrees)
+    tv = vEntry.getDouble(0.0); // Whether the limelight has any valid targets (0 or 1)
+
     
- 
   }
 
   @Override
   public void periodic() {
+   
+    SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
+    SmartDashboard.putNumber("Limelight X", tx);
+    SmartDashboard.putNumber("Limelight Y", ty);
+    SmartDashboard.putNumber("Limelight V", tv);
+   
     // This method will be called once per scheduler run
   }
 }
