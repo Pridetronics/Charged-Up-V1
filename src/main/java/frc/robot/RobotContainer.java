@@ -9,7 +9,7 @@ import frc.robot.subsystems.Drive;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Manipulator;
-
+import frc.robot.subsystems.Vision;
 
 //Hardware imports
 import com.revrobotics.CANSparkMax;
@@ -36,9 +36,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
  //subsystems
  public static Drive m_drive;
+ public static Vision m_vision;
   //controllers
   public static Joystick joystickDriver;
-  public static Joystick joystickShooter;
+  public static Joystick joystickManipulator;
   //motors 
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
@@ -65,30 +66,12 @@ public class RobotContainer {
     rightBackMotor.setInverted(false);    
     //connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
-    joystickShooter = new Joystick(OperatorConstants.kJoystickShooterID);
+    joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
     //drive
     m_drive = new Drive(joystickDriver);
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
+    m_vision = new Vision();
+    //sendable chooser
+    SendableChooser<Command> m_Chooser = new SendableChooser<>();
     
       // Configure the trigger bindings
     configureBindings();

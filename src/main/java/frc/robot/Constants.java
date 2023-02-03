@@ -16,7 +16,7 @@ public final class Constants {
   public static class OperatorConstants {
     //controller IDs 
     public static final int kJoystickDriverID = 0;
-    public static final int kJoystickShooterID = 1;
+    public static final int kJoystickManipulatorID = 1;
    
     //drive CANIDs 
     public static final int kRightFrontDriveCANID = 1;
