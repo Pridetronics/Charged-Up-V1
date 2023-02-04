@@ -10,6 +10,8 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
+  public Manipulator() {
+  }
 
 
 

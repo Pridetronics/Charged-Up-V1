@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 //drive train
@@ -18,18 +17,20 @@ import com.revrobotics.SparkMaxRelativeEncoder;
 //data collection
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Drive extends SubsystemBase {
-  //motors
+  //Motors
   private CANSparkMax m_rightFrontMotor;
   private CANSparkMax m_leftFrontMotor;
   private CANSparkMax m_rightBackMotor;
   private CANSparkMax m_leftBackMotor;
-  //encoders
+
+  //Encoders
   public static RelativeEncoder m_rightFrontEncoder;
   public static RelativeEncoder m_leftFrontEncoder;
   public static RelativeEncoder m_rightBackEncoder;
   public static RelativeEncoder m_leftBackEncoder;
-  //makes differential drive and motorcontroller groups
-  public DifferentialDrive tankDrive;
+
+  //Makes differential drive and motorcontroller groups
+  public static DifferentialDrive tankDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
   //Variables
@@ -39,7 +40,8 @@ public class Drive extends SubsystemBase {
   public double desiredDistance;
   /** Creates a new Drive. */
     public Drive( Joystick joystickDriver) {
-    //motors are now set to same as robotcontainer
+
+    //Motors are now set to same as robotcontainer
     m_rightFrontMotor = RobotContainer.rightFrontMotor;
     m_leftFrontMotor = RobotContainer.leftFrontMotor;
     m_rightBackMotor = RobotContainer.rightBackMotor;
@@ -50,9 +52,9 @@ public class Drive extends SubsystemBase {
     m_rightBackEncoder = m_rightBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     m_leftBackEncoder = m_leftBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     
-    //zeroes encoders
+    //Zeroes encoders
     zeroEncoders();
-      //two motorcontroller groups that will act as left and right in tank drive 
+      //Two motorcontroller groups that will act as left and right in tank drive 
       Left = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
       Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
       tankDrive = new DifferentialDrive(Left, Right);
