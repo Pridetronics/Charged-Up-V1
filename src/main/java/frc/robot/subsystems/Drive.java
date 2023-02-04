@@ -86,12 +86,12 @@ public class Drive extends SubsystemBase {
     m_leftBackEncoder.setPosition(0);
   }
   public void Tankinput(Joystick joystickDriver,double Yval1, double Yval2){
-    Yval1 = joystickDriver.getRawAxis(1);
-    Yval2 = joystickDriver.getRawAxis(5);
+    Yval1 = joystickDriver.getRawAxis(1);//left
+    Yval2 = joystickDriver.getRawAxis(5);//right
     //reduces speed so field is not torn apart
-    Yval1 = Yval1 * .8;
+    Yval1 = Yval1 * .85;
     Yval2 = Yval2 * .8;
-    tankDrive.tankDrive(Yval1, Yval2);
+    tankDrive.tankDrive(Yval1, Yval2, true);
   }
   public void driveStop(){
     m_leftFrontMotor.set(0);
