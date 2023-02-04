@@ -3,33 +3,40 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
+//Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
 //subsystems
 import frc.robot.subsystems.Drive;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.ExampleSubsystem;
+
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
+
+//Nav-X Imports
+import com.kauailabs.navx.frc.AHRS;
 
 //Hardware imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-//commands
+import frc.robot.commands.AutoBalance;
+//Commands
 import frc.robot.commands.Autos;
-
 import frc.robot.commands.JoystickDrive;
-//Driver station stuff
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//to be removed
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+//Subsystems
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.NavX;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
@@ -41,16 +48,18 @@ public class RobotContainer {
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
   //motors 
+  public static NavX m_navX;
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
-  
 
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //Nav-X
+  public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
+  public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
+  public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
+
  // private final Drive m_drive = new Drive();
-
- 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -69,13 +78,22 @@ public class RobotContainer {
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
     //drive
     m_drive = new Drive(joystickDriver);
+    
+    m_navX = new NavX();
+    ahrs = new AHRS();
+
+    // Configure the trigger bindings
     m_vision = new Vision();
     //sendable chooser
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     
       // Configure the trigger bindings
     configureBindings();
-    
+
+    SmartDashboard.putString("Code: ", "Helen's");
+    SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
+    SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
+    SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
   }
 
   /**
@@ -89,13 +107,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-   // new Trigger(m_exampleSubsystem::exampleCondition)
-    //    .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-   // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    
+    m_navX.setDefaultCommand(new AutoBalance(m_navX));
+    // if (joystickDriver.getRawButtonPressed(0)) {
+    //   new AutoBalance(m_navX);
+    // }
+    // if (joystickDriver.getRawButton(1)) {
+    //   new AutoBalance(m_navX);
+    // } //Not needed as of 2/2/2023 for now
   }
 
   /**
@@ -105,6 +124,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return Autos.exampleAuto();
   }
 }
