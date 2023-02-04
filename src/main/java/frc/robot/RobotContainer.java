@@ -41,7 +41,7 @@ public class RobotContainer {
 
   //Controllers
   public static Joystick joystickDriver;
-  public Joystick joystickShooter;
+  public Joystick joystickMainpulator;
 
   //Motors 
   public static CANSparkMax rightFrontMotor;
@@ -67,7 +67,7 @@ public class RobotContainer {
     leftBackMotor.setInverted(true);    
     //Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
-    joystickShooter = new Joystick(OperatorConstants.kJoystickShooterID);
+    joystickMainpulator = new Joystick(OperatorConstants.kJoystickShooterID);
     
     //Drive
     m_drive = new Drive(joystickDriver);
@@ -97,12 +97,11 @@ public class RobotContainer {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
     
     m_navX.setDefaultCommand(new AutoBalance(m_navX));
-    // if (joystickDriver.getRawButtonPressed(0)) {
-    //   new AutoBalance(m_navX);
-    // }
-    // if (joystickDriver.getRawButton(1)) {
-    //   new AutoBalance(m_navX);
-    // } //Not needed as of 2/2/2023 for now
+
+    // if (joystickDriver.getRawButtonPressed(1)) {
+    //    new AutoBalance(m_navX);
+    //  } //Not needed as of 2/2/2023 for now
+    // Nav-X Button?????
   }
 
   /**
