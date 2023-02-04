@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 //subsystems
 import frc.robot.subsystems.Drive;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.ExampleSubsystem;
+
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
 
@@ -31,7 +31,8 @@ import frc.robot.subsystems.NavX;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OperatorConstants;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}

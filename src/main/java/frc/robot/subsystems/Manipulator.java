@@ -16,13 +16,7 @@ public class Manipulator extends SubsystemBase {
 
 
 
-  public Manipulator() {
-
-
-
-
-
-  }
+  
 
   @Override
   public void periodic() {
