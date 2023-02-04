@@ -41,7 +41,7 @@ public class RobotContainer {
 
   //Controllers
   public static Joystick joystickDriver;
-  public Joystick joystickMainpulator;
+  public Joystick joystickManipulator;
 
   //Motors 
   public static CANSparkMax rightFrontMotor;
@@ -67,7 +67,7 @@ public class RobotContainer {
     leftBackMotor.setInverted(true);    
     //Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
-    joystickMainpulator = new Joystick(OperatorConstants.kJoystickShooterID);
+    joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
     
     //Drive
     m_drive = new Drive(joystickDriver);
