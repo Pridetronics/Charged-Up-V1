@@ -32,6 +32,11 @@ public class Drive extends SubsystemBase {
   public DifferentialDrive tankDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
+  //Variables
+  public double TPR;//ticks per revolution
+  public double TPI;//Ticks per inch
+  public double wheelCircumference;
+  public double desiredDistance;
   /** Creates a new Drive. */
     public Drive( Joystick joystickDriver) {
     //motors are now set to same as robotcontainer
@@ -56,10 +61,13 @@ public class Drive extends SubsystemBase {
         tankDrive.setExpiration(.1);
         tankDrive.setMaxOutput(1);
       
-
-
-
-  }
+      //calculations
+      TPR = m_leftFrontEncoder.getCountsPerRevolution();
+      SmartDashboard.putNumber("Ticks per revolution", TPR);
+      wheelCircumference = 2*(Math.PI*3);// circumference of wheel in inches
+      TPI = TPR*wheelCircumference;
+      desiredDistance = 24;// 2 feet in inches, sujbect to change
+    }   
 
   @Override
   public void periodic() {
