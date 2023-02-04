@@ -6,16 +6,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+//drive train
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-//import edu.wpi.first.wpilibj.drive;
-
-//Hardware
+//hardware
 import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxRelativeEncoder;
-
+//data collection
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Drive extends SubsystemBase {
   //Motors
   private CANSparkMax m_rightFrontMotor;
@@ -33,7 +33,11 @@ public class Drive extends SubsystemBase {
   public static DifferentialDrive tankDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
-
+  //Variables
+  public double TPR;//ticks per revolution
+  public double TPI;//Ticks per inch
+  public double wheelCircumference;
+  public double desiredDistance;
   /** Creates a new Drive. */
     public Drive( Joystick joystickDriver) {
 
@@ -59,15 +63,21 @@ public class Drive extends SubsystemBase {
         tankDrive.setExpiration(.1);
         tankDrive.setMaxOutput(1);
       
-
-
-
-  }
+      //calculations
+      TPR = m_leftFrontEncoder.getCountsPerRevolution();
+      SmartDashboard.putNumber("Ticks per revolution", TPR);
+      wheelCircumference = 2*(Math.PI*3);// circumference of wheel in inches
+      TPI = TPR*wheelCircumference;
+      desiredDistance = 24;// 2 feet in inches, sujbect to change
+    }   
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
+    SmartDashboard.putNumber("Front Left Encoder", m_leftFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Back Left Encoder", m_leftBackEncoder.getPosition());
+    SmartDashboard.putNumber("Front Right Encoder", m_rightFrontEncoder.getPosition());
+    SmartDashboard.putNumber("Back Right Encoder", m_rightBackEncoder.getPosition());
   }
   public void zeroEncoders(){
     m_rightFrontEncoder.setPosition(0);
@@ -75,13 +85,22 @@ public class Drive extends SubsystemBase {
     m_rightBackEncoder.setPosition(0);
     m_leftBackEncoder.setPosition(0);
   }
-
-  public void Tankdrive(Joystick joystickDriver,double Yval1, double Yval2){
+  public void Tankinput(Joystick joystickDriver,double Yval1, double Yval2){
     Yval1 = joystickDriver.getRawAxis(1);
     Yval2 = joystickDriver.getRawAxis(5);
-      tankDrive.tankDrive(Yval1, Yval2);
-
+    //reduces speed so field is not torn apart
+    Yval1 = Yval1 * .8;
+    Yval2 = Yval2 * .8;
+    tankDrive.tankDrive(Yval1, Yval2);
   }
+  public void driveStop(){
+    m_leftFrontMotor.set(0);
+    m_leftBackMotor.set(0);
+    m_rightFrontMotor.set(0);
+    m_rightBackMotor.set(0);
+  }
+
+
 
 
 }

@@ -6,7 +6,12 @@ package frc.robot;
 
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//subsystems
+import frc.robot.subsystems.Drive;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Vision;
 
 //Nav-X Imports
 import com.kauailabs.navx.frc.AHRS;
@@ -35,15 +40,14 @@ import frc.robot.Constants.OperatorConstants;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  //Subsystems
-  public static Drive m_drive;
-  public static NavX m_navX;
-
-  //Controllers
+ //subsystems
+ public static Drive m_drive;
+ public static Vision m_vision;
+  //controllers
   public static Joystick joystickDriver;
-  public Joystick joystickManipulator;
-
-  //Motors 
+  public static Joystick joystickManipulator;
+  //motors 
+  public static NavX m_navX;
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
@@ -58,14 +62,17 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    //motors
     rightFrontMotor = new CANSparkMax(OperatorConstants.kRightFrontDriveCANID, MotorType.kBrushless);
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-    //Inverts the front right and back left motors to match with their respective sides.
+    //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
-    leftBackMotor.setInverted(true);    
-    //Connects joystick ids to proper ports
+    leftBackMotor.setInverted(true);
+    rightFrontMotor.setInverted(false);
+    rightBackMotor.setInverted(false);    
+    //connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
     
@@ -76,6 +83,11 @@ public class RobotContainer {
     ahrs = new AHRS();
 
     // Configure the trigger bindings
+    m_vision = new Vision();
+    //sendable chooser
+    SendableChooser<Command> m_Chooser = new SendableChooser<>();
+    
+      // Configure the trigger bindings
     configureBindings();
 
     SmartDashboard.putString("Code: ", "Helen's");
