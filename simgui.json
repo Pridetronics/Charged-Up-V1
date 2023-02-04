@@ -50,15 +50,5 @@
   },
   "NetworkTables View": {
     "visible": false
-  },
-  "NetworkTables": {
-    "transitory": {
-      "SmartDashboard": {
-        "BalanceMode": {
-          "open": true
-        },
-        "open": true
-      }
-    }
   }
 }
