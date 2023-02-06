@@ -26,8 +26,16 @@
         "USB Camera 0": {
           "PropertyInfo": {
             "open": true
-          }
-        }
+          },
+          "RawProperty": {
+            "open": true
+          },
+          "RawPropertyInfo": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
       },
       "LiveWindow": {
         "open": true
@@ -47,8 +55,5 @@
       },
       "open": true
     }
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }

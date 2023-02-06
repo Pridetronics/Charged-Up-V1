@@ -69,6 +69,7 @@ public class Drive extends SubsystemBase {
       wheelCircumference = 2*(Math.PI*3);// circumference of wheel in inches
       TPI = TPR*wheelCircumference;
       desiredDistance = 24;// 2 feet in inches, sujbect to change
+      SmartDashboard.putNumber("Ticks per Inch", TPI);
     }   
 
   @Override
@@ -99,7 +100,10 @@ public class Drive extends SubsystemBase {
     m_rightFrontMotor.set(0);
     m_rightBackMotor.set(0);
   }
-
+  public void driveBack(){
+    Left.set(-.6);
+    Right.set(-.6);
+  }
 
 
 

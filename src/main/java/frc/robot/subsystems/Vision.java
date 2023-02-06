@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CameraServerJNI;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.MjpegServer;
 //networktable imports to organize limelight and camera
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -22,7 +25,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 public class Vision extends SubsystemBase {
- //Hardware
+ //software
+ public MjpegServer Server1;
+ public MjpegServer Server2;
+ public CvSource outputStream;
+  //Hardware
   UsbCamera camera_0;
   //motors
   private CANSparkMax m_rightFrontMotor;
@@ -50,6 +57,7 @@ public class Vision extends SubsystemBase {
 NetworkTableInstance inst = NetworkTableInstance.getDefault();
 NetworkTable table = inst.getTable("Limelight");
   public Vision() {
+    //motors
     m_leftFrontMotor  = RobotContainer.leftFrontMotor;
 m_leftFrontEncoder = m_leftFrontMotor.getEncoder();
     m_leftBackMotor = RobotContainer.leftBackMotor;
@@ -58,10 +66,19 @@ m_leftBackEncoder = m_leftBackMotor.getEncoder();
 m_rightFrontEncoder = m_rightFrontMotor.getEncoder();
     m_rightBackMotor = RobotContainer.rightBackMotor;
 m_rightBackEncoder = m_rightBackMotor.getEncoder();
-  
+  //pov camera
+  camera_0 = new UsbCamera("POV", 0);
+  Server1 = new MjpegServer("Serve_POV_Camera", 0);
+  Server1.setSource(camera_0);
+//cv stuff for modification
+  CvSink Sink = new CvSink("Sink POV");
+  Sink.setSource(camera_0);
+  //additions
+  CvSource outputStream = new CvSource("", null, 320, 340, 15);
+
     //starts new  DS client, Very important for lime 
     inst.startDSClient();
-
+    
 
     //network tables 
     NetworkTableEntry yEntry = table.getEntry("ty");
