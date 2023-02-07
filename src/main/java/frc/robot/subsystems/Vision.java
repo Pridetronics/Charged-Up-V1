@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CameraServerJNI;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
@@ -74,8 +75,8 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
   CvSink Sink = new CvSink("Sink POV");
   Sink.setSource(camera_0);
   //additions
-  CvSource outputStream = new CvSource("", null, 320, 340, 15);
-
+  CvSource outputStream = new CvSource("Compression", PixelFormat.kMJPEG, 320, 340, 15);
+  Server2 = new MjpegServer("Serve_Compression", getName(), 0);
     //starts new  DS client, Very important for lime 
     inst.startDSClient();
     

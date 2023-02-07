@@ -15,9 +15,19 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/BalanceMode": "Command"
+    },
+    "windows": {
+      "/FMSInfo": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {
+    "Persistent Values": {
+      "open": false
+    },
     "Retained Values": {
       "open": false
     },
