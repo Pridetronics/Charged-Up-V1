@@ -85,7 +85,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     m_vision = new Vision();
     //sendable chooser
-    SendableChooser<Command> m_Chooser = new SendableChooser<>();
+    SendableChooser<Command> m_Chooser = new SendableChooser<>();//make within 5 days from 2/7
     
       // Configure the trigger bindings
     configureBindings();
@@ -108,7 +108,7 @@ public class RobotContainer {
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
     
-    m_navX.setDefaultCommand(new AutoBalance(m_navX));
+    //m_navX.setDefaultCommand(new AutoBalance(m_navX));
     // if (joystickDriver.getRawButtonPressed(0)) {
     //   new AutoBalance(m_navX);
     // }

@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
-
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -24,6 +28,11 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   //private MjpegServer Server1;
   private UsbCamera POV_Camera;
+  public MjpegServer Server1;
+  public MjpegServer Server2;
+  public CvSource outputStream;
+  //Hardware
+  UsbCamera camera_0;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -32,6 +41,16 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     //allows tester to know if correct code is uploaded
     SmartDashboard.putString("Code","Gerald");
+    camera_0 = new UsbCamera("POV", 0);
+    Server1 = new MjpegServer("Serve_POV_Camera", 0);
+    Server1.setSource(camera_0);
+  //cv stuff for modification
+    CvSink Sink = new CvSink("Sink POV");
+    Sink.setSource(camera_0);
+    //additions
+    CvSource outputStream = new CvSource("Compression", PixelFormat.kMJPEG, 320, 340, 15);
+    Server2 = new MjpegServer("Serve_Compression", "3853", 0);
+    Server2.setSource(outputStream);
     //CREATES CAMERA 
     // POV_Camera = new UsbCamera("POV", 0);
     // MjpegServer.Server1 = new MjpegServer("Serve_POV_Camera", 0);

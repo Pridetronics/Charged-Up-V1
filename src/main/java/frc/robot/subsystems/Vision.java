@@ -68,15 +68,7 @@ m_rightFrontEncoder = m_rightFrontMotor.getEncoder();
     m_rightBackMotor = RobotContainer.rightBackMotor;
 m_rightBackEncoder = m_rightBackMotor.getEncoder();
   //pov camera
-  camera_0 = new UsbCamera("POV", 0);
-  Server1 = new MjpegServer("Serve_POV_Camera", 0);
-  Server1.setSource(camera_0);
-//cv stuff for modification
-  CvSink Sink = new CvSink("Sink POV");
-  Sink.setSource(camera_0);
-  //additions
-  CvSource outputStream = new CvSource("Compression", PixelFormat.kMJPEG, 320, 340, 15);
-  Server2 = new MjpegServer("Serve_Compression", getName(), 0);
+ 
     //starts new  DS client, Very important for lime 
     inst.startDSClient();
     
