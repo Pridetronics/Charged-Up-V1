@@ -7,46 +7,54 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-//camera imports
+
+//Camera imports
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CameraServerJNI;
 import edu.wpi.first.cscore.UsbCamera;
-//networktable imports to organize limelight and camera
+
+//Networktable imports to organize limelight and camera
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-//hardware imports for automatic actions
+
+//Hardware imports for automatic actions
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 public class Vision extends SubsystemBase {
- //Hardware
+  //Hardware
   UsbCamera camera_0;
-  //motors
+  
+  //Motors
   private CANSparkMax m_rightFrontMotor;
   private CANSparkMax m_leftFrontMotor;
   private CANSparkMax m_rightBackMotor;
   private CANSparkMax m_leftBackMotor;
-//Encoders
+  
+  //Encoders
   private static RelativeEncoder m_rightFrontEncoder;
   private static RelativeEncoder m_leftFrontEncoder;
   private static RelativeEncoder m_rightBackEncoder;
   private static RelativeEncoder m_leftBackEncoder;
- //variables
- private double ty;
- private double tx;
- private double tv;
- private double ta;
-//converted variables
- private double heightTotal;
- private double angleTotal;
- private double angleTan;
- private double initialDistance;
- private double distanceInInches;
- private double distanceInFeet;
- private double roundedDistance;
+  
+  //Variables
+  private double ty;
+  private double tx;
+  private double tv;
+  private double ta;
+
+  //converted variables
+  private double heightTotal;
+  private double angleTotal;
+  private double angleTan;
+  private double initialDistance;
+  private double distanceInInches;
+  private double distanceInFeet;
+  private double roundedDistance;
+
 NetworkTableInstance inst = NetworkTableInstance.getDefault();
 NetworkTable table = inst.getTable("Limelight");
   public Vision() {
@@ -73,7 +81,6 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
     ty = yEntry.getDouble(0.0); // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair to Target (-27.5 degrees to 27.5 degrees)
     tv = vEntry.getDouble(0.0); // Whether the limelight has any valid targets (0 or 1)
-
     
   }
 
@@ -87,6 +94,7 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
    
     // This method will be called once per scheduler run
   }
+  
   public void findDistance() {
     // Equation for distance is d = (h1 - h2)/(tan(a1 + a2)) //Defaults to
     // meters/radian
@@ -105,10 +113,12 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
     SmartDashboard.putNumber("Distance in Feet", distanceInFeet);
     SmartDashboard.putNumber("Rounded Distance", roundedDistance);
   }
+  
   public void lightsOut() {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
     System.out.println("Lights off");
   }
+  
   public void DriveMotorsStop() {
     m_leftFrontMotor.set(0);
     m_rightFrontMotor.set(0);

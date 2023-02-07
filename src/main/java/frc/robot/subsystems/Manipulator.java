@@ -13,17 +13,6 @@ public class Manipulator extends SubsystemBase {
   public Manipulator() {
   }
 
-
-
-
-  public Manipulator() {
-
-
-
-
-
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

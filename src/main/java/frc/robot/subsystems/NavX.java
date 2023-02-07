@@ -29,6 +29,9 @@ public class NavX extends SubsystemBase {
         DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
       }
       SmartDashboard.putString("NavX:", "Test");
+      SmartDashboard.putNumber("PitchingAngleDegrees", m_ahrs.getPitch()); //Shows NavX's X axis value on SmartDashboard
+      SmartDashboard.putNumber("RollAngleDegrees", m_ahrs.getRoll()); //Shows NavX's Y axis value on SmartDashboard
+      SmartDashboard.putNumber("YawDegrees", m_ahrs.getYaw()); //Shows NavX's Z axis value on SmartDashboard
     }
 
   @Override
@@ -38,8 +41,9 @@ public class NavX extends SubsystemBase {
   
   
   public void autoBalance() {
-    double pitchAngleDegrees = m_ahrs.getPitch();
-    double rollAngleDegrees = m_ahrs.getRoll();
+    double pitchAngleDegrees = m_ahrs.getPitch(); //NavX's X
+    double rollAngleDegrees = m_ahrs.getRoll(); //NavX's Y
+
     if (!m_autoBalanceXMode && 
       (Math.abs(pitchAngleDegrees) >= 
       Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
@@ -83,6 +87,11 @@ public class NavX extends SubsystemBase {
       DriverStation.reportError(err_string, true);
     }  
     SmartDashboard.putString("NavX:", "Periodic Test");
+
+  }
+  
+  public void resetNavX() {
+    m_ahrs.reset();
   }
 }
 

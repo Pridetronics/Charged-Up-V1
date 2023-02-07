@@ -46,6 +46,7 @@ public class Drive extends SubsystemBase {
     m_leftFrontMotor = RobotContainer.leftFrontMotor;
     m_rightBackMotor = RobotContainer.rightBackMotor;
     m_leftBackMotor = RobotContainer.leftBackMotor;
+    
     //Detects and sets encoder values
     m_rightFrontEncoder = m_rightFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     m_leftFrontEncoder = m_leftFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
@@ -86,11 +87,11 @@ public class Drive extends SubsystemBase {
     m_leftBackEncoder.setPosition(0);
   }
   public void Tankinput(Joystick joystickDriver,double Yval1, double Yval2){
-    Yval1 = joystickDriver.getRawAxis(1);
-    Yval2 = joystickDriver.getRawAxis(5);
+    Yval1 = joystickDriver.getRawAxis(1); //Left side of the robot
+    Yval2 = joystickDriver.getRawAxis(5); //Right side of the robot
     //reduces speed so field is not torn apart
-    Yval1 = Yval1 * .8;
-    Yval2 = Yval2 * .8;
+    Yval1 = Yval1 * .85; //.61
+    Yval2 = Yval2 * .8; //.6
     tankDrive.tankDrive(Yval1, Yval2);
   }
   public void driveStop(){

@@ -6,10 +6,12 @@ package frc.robot;
 
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
-//subsystems
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+//Subsystems
 import frc.robot.subsystems.Drive;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
 
@@ -40,39 +42,41 @@ import frc.robot.Constants.OperatorConstants;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
- //subsystems
- public static Drive m_drive;
- public static Vision m_vision;
-  //controllers
+  //Subsystems
+  public static Drive m_drive;
+  public static Vision m_vision;
+ 
+  //Controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
-  //motors 
-  public static NavX m_navX;
+  
+  //Motors 
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
 
   //Nav-X
+  public static NavX m_navX;
   public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
   public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
   public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
 
- // private final Drive m_drive = new Drive();
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    //motors
+    //Motors
     rightFrontMotor = new CANSparkMax(OperatorConstants.kRightFrontDriveCANID, MotorType.kBrushless);
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-    //inverts the left motors and leaves the right motors 
+    
+    //Inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
     rightFrontMotor.setInverted(false);
     rightBackMotor.setInverted(false);    
-    //connects joystick ids to proper ports
+    
+    //Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
     
@@ -82,12 +86,13 @@ public class RobotContainer {
     m_navX = new NavX();
     ahrs = new AHRS();
 
-    // Configure the trigger bindings
+    //Configure the trigger bindings
     m_vision = new Vision();
-    //sendable chooser
+    
+    //Sendable chooser
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     
-      // Configure the trigger bindings
+    //Configure the trigger bindings
     configureBindings();
 
     SmartDashboard.putString("Code: ", "Helen's");

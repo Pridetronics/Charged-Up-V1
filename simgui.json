@@ -5,6 +5,11 @@
         "header": {
           "open": true
         }
+      },
+      "navX-Sensor[0]": {
+        "header": {
+          "open": true
+        }
       }
     }
   },
@@ -50,15 +55,5 @@
   },
   "NetworkTables View": {
     "visible": false
-  },
-  "NetworkTables": {
-    "transitory": {
-      "SmartDashboard": {
-        "BalanceMode": {
-          "open": true
-        },
-        "open": true
-      }
-    }
   }
 }
