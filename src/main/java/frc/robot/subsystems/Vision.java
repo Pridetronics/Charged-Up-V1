@@ -28,7 +28,7 @@ import com.revrobotics.RelativeEncoder;
 public class Vision extends SubsystemBase {
  //software
  public MjpegServer Server1;
- public MjpegServer Server2;
+ 
  public CvSource outputStream;
   //Hardware
   UsbCamera camera_0;
@@ -68,7 +68,13 @@ m_rightFrontEncoder = m_rightFrontMotor.getEncoder();
     m_rightBackMotor = RobotContainer.rightBackMotor;
 m_rightBackEncoder = m_rightBackMotor.getEncoder();
   //pov camera
- 
+    camera_0 = new UsbCamera("POV", 0);
+    Server1 = new MjpegServer("Serve_POV_Camera", 0);
+    Server1.setSource(camera_0);
+    CameraServer.addServer(Server1);
+    Server1.setFPS(15);
+    Server1.setCompression(13);
+    CameraServer.putVideo("Serve_POV_Camera", 360, 360);
     //starts new  DS client, Very important for lime 
     inst.startDSClient();
     
@@ -126,4 +132,12 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
     m_rightBackMotor.set(0);
     System.out.println("Stopped");
   }
+
+
+
+
+
+
+
+
 }

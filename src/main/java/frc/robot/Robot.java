@@ -39,21 +39,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    
     //allows tester to know if correct code is uploaded
     SmartDashboard.putString("Code","Gerald");
-    camera_0 = new UsbCamera("POV", 0);
-    Server1 = new MjpegServer("Serve_POV_Camera", 0);
-    Server1.setSource(camera_0);
-  //cv stuff for modification
-    CvSink Sink = new CvSink("Sink POV");
-    Sink.setSource(camera_0);
-    //additions
-    CvSource outputStream = new CvSource("Compression", PixelFormat.kMJPEG, 320, 340, 15);
-    Server2 = new MjpegServer("Serve_Compression", "3853", 0);
-    Server2.setSource(outputStream);
-    //CREATES CAMERA 
-    // POV_Camera = new UsbCamera("POV", 0);
-    // MjpegServer.Server1 = new MjpegServer("Serve_POV_Camera", 0);
+  
     // CameraServer.startAutomaticCapture(0);
     
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our

@@ -33,6 +33,9 @@
     },
     "transitory": {
       "CameraPublisher": {
+        "Serve_POV_Camera": {
+          "open": true
+        },
         "USB Camera 0": {
           "PropertyInfo": {
             "open": true
