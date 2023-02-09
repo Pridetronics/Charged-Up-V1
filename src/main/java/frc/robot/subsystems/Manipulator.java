@@ -5,18 +5,18 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+//joystick
+import edu.wpi.first.wpilibj.Joystick;
+
 //hardware
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
-  public Manipulator() {
+  public Manipulator(Joystick joystick) {
+    double x;
   }
-
-
-
-
-  
 
   @Override
   public void periodic() {
