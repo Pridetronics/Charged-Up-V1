@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.Joystick;
 //hardware
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
   public Manipulator(Joystick joystick) {
-    double x;
   }
 
   @Override

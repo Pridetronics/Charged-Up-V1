@@ -34,11 +34,15 @@ public final class Constants {
    
     //manipulator Motor IDs 
     public static final int kArmMotorCANID = 5;
-    public static final int kTelescopicMotorCANID = 6;
-    public static final int kWristMotor = 7;
+    public static final int kExtentionMotorCANID = 6;
+    public static final int kWristMotorCANID = 7;
     
- 
- 
+    public static final int kArmInputAxis = 2;
+    public static final int kManipulatorInputExtend = 11;
+    public static final int kManipulatorInputRetract = 12;
+    public static final int kWristInputUp = 5;
+    public static final int kWristInputDown = 6;
+
  
   }
 }

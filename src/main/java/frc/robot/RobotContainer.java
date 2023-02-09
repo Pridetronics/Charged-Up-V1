@@ -20,10 +20,11 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import frc.robot.commands.AutoBalance;
 //Commands
+import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Autos;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.ManipulatorInput;
 
 //Subsystems
 import frc.robot.subsystems.Drive;
@@ -44,6 +45,7 @@ public class RobotContainer {
  //subsystems
  public static Drive m_drive;
  public static Vision m_vision;
+ public static Manipulator m_manipulator;
   //controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
@@ -53,6 +55,11 @@ public class RobotContainer {
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
+  
+  public static CANSparkMax manipulatorArmMotor;
+  public static CANSparkMax manipulatorEntentionMotor;
+  public static CANSparkMax manipulatorWristMotor;
+  public static CANSparkMax manipulatorClawMotor;
 
   //Nav-X
   public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
@@ -68,6 +75,10 @@ public class RobotContainer {
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
+    
+    manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
+    manipulatorEntentionMotor = new CANSparkMax(OperatorConstants.kExtentionMotorCANID, MotorType.kBrushless);
+    manipulatorWristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushless);
     //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
@@ -78,7 +89,8 @@ public class RobotContainer {
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
     //drive
     m_drive = new Drive(joystickDriver);
-    
+    m_manipulator = new Manipulator(joystickManipulator);    
+
     m_navX = new NavX();
     ahrs = new AHRS();
 
@@ -107,8 +119,9 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
-    
+    m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
     m_navX.setDefaultCommand(new AutoBalance(m_navX));
+
     // if (joystickDriver.getRawButtonPressed(0)) {
     //   new AutoBalance(m_navX);
     // }
