@@ -10,11 +10,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.RobotContainer;
+import frc.robot.Constants.OperatorConstants;
 
 //hardware
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxRelativeEncoder;
@@ -22,11 +23,16 @@ import com.revrobotics.SparkMaxRelativeEncoder;
 public class Manipulator extends SubsystemBase {
   private Joystick joystick;
   private Manipulator manipulator;
+  private DigitalInput armLimitSwitch = new DigitalInput(OperatorConstants.kArmLimitID);
+  private DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kClawLimitID);
 
   private CANSparkMax armMotor;
   private CANSparkMax wristMotor;
   private RelativeEncoder armEncoder;
   private RelativeEncoder wristEncoder;
+  private DigitalInput armLowerLimit = new DigitalInput(OperatorConstants.kArmLimitID);
+  private DigitalInput wristLowerLimit = new DigitalInput(OperatorConstants.kClawLimitID);
+
 
   /** Creates a new Manipulator. */
   public Manipulator(Joystick joystickManipulator, Manipulator m_manipulator) {
@@ -50,7 +56,7 @@ public class Manipulator extends SubsystemBase {
     double curArmPos = armEncoder.getPosition()/armEncoder.getCountsPerRevolution();
 
     boolean upperLimit = curArmPos > 0.125f;
-    boolean lowerLimit = curArmPos < -0.125f;
+    boolean lowerLimit = !armLimitSwitch.get();
 
     if (upperLimit) {
       Speed = Math.min(Speed, 0);
@@ -65,7 +71,7 @@ public class Manipulator extends SubsystemBase {
     double curWristPos = wristEncoder.getPosition()/wristEncoder.getCountsPerRevolution();
 
     boolean upperLimit = curWristPos > 0.25f;
-    boolean lowerLimit = curWristPos < -0.25f;
+    boolean lowerLimit = !wristLimitSwitch.get();
 
     int upMotion = up ? 1 : 0;
     int downMotion = down ? -1 : 0;

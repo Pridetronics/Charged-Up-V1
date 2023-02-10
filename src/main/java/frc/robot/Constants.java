@@ -43,6 +43,9 @@ public final class Constants {
     public static final int kWristInputUp = 5;
     public static final int kWristInputDown = 6;
 
- 
+    public static final int kArmLimitID = 0;
+    public static final int kExtendLimitID = 1;
+    public static final int kClawLimitID = 2;
+
   }
 }

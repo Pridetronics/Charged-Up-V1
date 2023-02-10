@@ -6,7 +6,6 @@ package frc.robot.commands;
 //joystick
 import edu.wpi.first.wpilibj.Joystick;
 
-import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
 //subsystems
 import frc.robot.subsystems.Manipulator;
