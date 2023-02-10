@@ -3,13 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+import frc.robot.Constants.OperatorConstants;
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
 //subsystems
 import frc.robot.subsystems.Drive;
-import frc.robot.Constants.OperatorConstants;
-
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Vision;
 
@@ -20,16 +18,15 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import frc.robot.commands.AutoBalance;
 //Commands
-import frc.robot.commands.Autos;
-import frc.robot.commands.JoystickDrive;
-
+import frc.robot.commands.*;
 //Subsystems
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.NavX;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -41,9 +38,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
- //subsystems
- public static Drive m_drive;
- public static Vision m_vision;
+  //subsystems
+  public static Drive m_drive;
+  public static Vision m_vision;
+  //commands
+  public static AutoMoveForward m_forward;
   //controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
@@ -53,14 +52,13 @@ public class RobotContainer {
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
-
   //Nav-X
   public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
   public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
   public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
-
- // private final Drive m_drive = new Drive();
-
+  //Sendable Chooser
+  SendableChooser<Command> m_Chooser = new SendableChooser<>();//make within 5 days from 2/7
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //motors
@@ -76,21 +74,19 @@ public class RobotContainer {
     //connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
-    //drive
+    //Subsystems
     m_drive = new Drive(joystickDriver);
-    
     m_navX = new NavX();
     ahrs = new AHRS();
-
-    // Configure the trigger bindings
     m_vision = new Vision();
-    //sendable chooser
-    SendableChooser<Command> m_Chooser = new SendableChooser<>();//make within 5 days from 2/7
-    
+    //commands
+    m_forward = new AutoMoveForward(m_drive);
+    //sendable chooser commands
+    m_Chooser.addOption("AutoForwards", new SequentialCommandGroup(m_forward, new InstantCommand(m_drive::driveStop)));
+    m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
       // Configure the trigger bindings
     configureBindings();
-
-  
+    SmartDashboard.putData("sendableChooser", m_Chooser);
     SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
     SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
     SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
@@ -124,7 +120,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto();
+    return m_Chooser.getSelected();
   }
 
 

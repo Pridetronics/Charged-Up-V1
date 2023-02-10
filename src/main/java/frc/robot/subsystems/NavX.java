@@ -69,19 +69,19 @@ public class NavX extends SubsystemBase {
     if (m_autoBalanceXMode) {
       double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
       xAxisRate = Math.sin(pitchAngleRadians) * -1;
-  }
+      }
     if (m_autoBalanceYMode) {
       double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
       yAxisRate = Math.sin(rollAngleRadians) * -1;
-  }
+      }
 
     try {
       Drive.tankDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
-    } 
+      } 
     catch(RuntimeException ex) {
       String err_string = "Drive system error: " + ex.getMessage();
       DriverStation.reportError(err_string, true);
-    }  
+      }  
     SmartDashboard.putString("NavX:", "Periodic Test");
   }
 }

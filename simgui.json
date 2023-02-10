@@ -1,20 +1,12 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "SPARK MAX [3]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
-      "/SmartDashboard/BalanceMode": "Command"
+      "/SmartDashboard/BalanceMode": "Command",
+      "/SmartDashboard/sendableChooser": "String Chooser"
     },
     "windows": {
       "/FMSInfo": {
@@ -29,6 +21,9 @@
       "open": false
     },
     "Retained Values": {
+      "open": false
+    },
+    "Transitory Values": {
       "open": false
     },
     "transitory": {

@@ -73,12 +73,11 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
     Server1.setSource(camera_0);
     CameraServer.addServer(Server1);
     Server1.setFPS(15);
-    Server1.setCompression(13);
+    Server1.setCompression(100);
     CameraServer.putVideo("Serve_POV_Camera", 360, 360);
+    System.out.println("See All");
     //starts new  DS client, Very important for lime 
     inst.startDSClient();
-    
-
     //network tables 
     NetworkTableEntry yEntry = table.getEntry("ty");
     NetworkTableEntry xEntry = table.getEntry("tx");
@@ -88,14 +87,11 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
     ta = aEntry.getDouble(0.0); // Target Area (0% of image to 100% of image)
     ty = yEntry.getDouble(0.0); // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair to Target (-27.5 degrees to 27.5 degrees)
-    tv = vEntry.getDouble(0.0); // Whether the limelight has any valid targets (0 or 1)
-
-    
+    tv = vEntry.getDouble(0.0); // Whether the limelight has any valid targets (0 or 1) 
   }
 
   @Override
   public void periodic() {
-   
     SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
     SmartDashboard.putNumber("Limelight X", tx);
     SmartDashboard.putNumber("Limelight Y", ty);
@@ -132,7 +128,6 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
     m_rightBackMotor.set(0);
     System.out.println("Stopped");
   }
-
 
 
 

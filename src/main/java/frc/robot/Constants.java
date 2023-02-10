@@ -17,21 +17,16 @@ public final class Constants {
     //Controller IDs 
     public static final int kJoystickDriverID = 0;
     public static final int kJoystickManipulatorID = 1;
-   
     //drive CANIDs 
     public static final int kRightFrontDriveCANID = 1;
     public static final int kLeftFrontDriveCANID = 2;
     public static final int kLeftBackDriveCANID = 3;
     public static final int kRightBackDriveCANID = 4;
-
     //Nav-x IDs
     public static final double kOffBalanceAngleThresholdDegrees = 10;
     public static final double kOnBalanceAngleThresholdDegrees  = 5;
-
-    
     //drive Autonomous
     public static final double kAutoVolt = -.5;
-   
     //manipulator Motor IDs 
     public static final int kArmMotorCANID = 5;
     public static final int kTelescopicMotorCANID = 6;
