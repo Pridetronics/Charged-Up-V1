@@ -19,7 +19,7 @@ public class NavX extends SubsystemBase {
   private boolean m_autoBalanceYMode = RobotContainer.autoBalanceYMode;
   public double xAxisRate = RobotContainer.joystickDriver.getX();
   public double yAxisRate = RobotContainer.joystickDriver.getY();
-
+  
   /** Creates a new NavX. */
   public NavX() {
     //try method tests a block of code to execute 
@@ -29,15 +29,16 @@ public class NavX extends SubsystemBase {
       catch (RuntimeException ex ) {
         DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
       }
+      resetNavX();
       SmartDashboard.putString("NavX:", "Test"); //Shows "NavX: Test" on SmartDashboard
-      SmartDashboard.putNumber("PitchingAngleDegrees", m_ahrs.getPitch()); //Shows NavX's Rotation around the X axis value on SmartDashboard
-      SmartDashboard.putNumber("RollAngleDegrees", m_ahrs.getRoll()); //Shows NavX's Rotation around the Y axis value on SmartDashboard
-      SmartDashboard.putNumber("YawDegrees", m_ahrs.getYaw()); //Shows NavX's Rotation Z axis value on SmartDashboard
     }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("PitchingAngleDegrees", m_ahrs.getPitch()); //Shows NavX's Rotation around the X axis value on SmartDashboard
+    SmartDashboard.putNumber("RollAngleDegrees", m_ahrs.getRoll()); //Shows NavX's Rotation around the Y axis value on SmartDashboard
+    SmartDashboard.putNumber("YawDegrees", m_ahrs.getYaw()); //Shows NavX's Rotation Z axis value on SmartDashboard
   }
   
   
