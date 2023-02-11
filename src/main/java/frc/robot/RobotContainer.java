@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
 import frc.robot.Constants.OperatorConstants;
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
@@ -30,61 +31,68 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
 
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+/**
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * 
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  //subsystems
+  // subsystems
   public static Drive m_drive;
   public static Vision m_vision;
-  //commands
+  public static NavX m_navX;
+  public static Manipulator m_manipulator;
+  // commands
   public static AutoMoveForward m_forward;
-  //controllers
+  // controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
-  //motors 
-  public static NavX m_navX;
+  // motors
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
-  //Nav-X
-  public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
-  public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
-  public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
-  //Sendable Chooser
-  SendableChooser<Command> m_Chooser = new SendableChooser<>();//make within 5 days from 2/7
-  
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  // Nav-X
+  public static AHRS ahrs; // Attitude and Heading Reference System (motion sensor).
+  public static boolean autoBalanceXMode; // Object Declaration for autoBalanceXmode. True/False output.
+  public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
+  // Sendable Chooser
+  SendableChooser<Command> m_Chooser = new SendableChooser<>();// make within 5 days from 2/7
+
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
-    //motors
+    // motors
     rightFrontMotor = new CANSparkMax(OperatorConstants.kRightFrontDriveCANID, MotorType.kBrushless);
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-    //inverts the left motors and leaves the right motors 
+    // inverts the left motors and leaves the right motors
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
     rightFrontMotor.setInverted(false);
-    rightBackMotor.setInverted(false);    
-    //connects joystick ids to proper ports
+    rightBackMotor.setInverted(false);
+    // connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
-    //Subsystems
+    // Subsystems
     m_drive = new Drive(joystickDriver);
     m_navX = new NavX();
     ahrs = new AHRS();
     m_vision = new Vision();
-    //commands
+    // commands
     m_forward = new AutoMoveForward(m_drive);
-    //sendable chooser commands
+    // sendable chooser commands
     m_Chooser.addOption("AutoForwards", new SequentialCommandGroup(m_forward, new InstantCommand(m_drive::driveStop)));
     m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
-      // Configure the trigger bindings
+    // Configure the trigger bindings
     configureBindings();
     SmartDashboard.putData("sendableChooser", m_Chooser);
     SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
@@ -93,23 +101,28 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
-    
-    //m_navX.setDefaultCommand(new AutoBalance(m_navX));
+
+    // m_navX.setDefaultCommand(new AutoBalance(m_navX));
     // if (joystickDriver.getRawButtonPressed(0)) {
-    //   new AutoBalance(m_navX);
+    // new AutoBalance(m_navX);
     // }
     // if (joystickDriver.getRawButton(1)) {
-    //   new AutoBalance(m_navX);
+    // new AutoBalance(m_navX);
     // } //Not needed as of 2/2/2023 for now
   }
 
@@ -122,10 +135,5 @@ public class RobotContainer {
     // An example command will be run in autonomous
     return m_Chooser.getSelected();
   }
-
-
-
-
-
 
 }

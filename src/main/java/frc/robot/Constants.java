@@ -31,7 +31,8 @@ public final class Constants {
     public static final int kArmMotorCANID = 5;
     public static final int kTelescopicMotorCANID = 6;
     public static final int kWristMotor = 7;
-    
+    // Controller buttons
+
  
  
  
