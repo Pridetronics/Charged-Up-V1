@@ -22,16 +22,17 @@ public class NavX extends SubsystemBase {
 
   /** Creates a new NavX. */
   public NavX() {
+    //try method tests a block of code to execute 
     try {
       m_ahrs = new AHRS(SPI.Port.kMXP); 
         } 
       catch (RuntimeException ex ) {
         DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
       }
-      SmartDashboard.putString("NavX:", "Test");
-      SmartDashboard.putNumber("PitchingAngleDegrees", m_ahrs.getPitch()); //Shows NavX's X axis value on SmartDashboard
-      SmartDashboard.putNumber("RollAngleDegrees", m_ahrs.getRoll()); //Shows NavX's Y axis value on SmartDashboard
-      SmartDashboard.putNumber("YawDegrees", m_ahrs.getYaw()); //Shows NavX's Z axis value on SmartDashboard
+      SmartDashboard.putString("NavX:", "Test"); //Shows "NavX: Test" on SmartDashboard
+      SmartDashboard.putNumber("PitchingAngleDegrees", m_ahrs.getPitch()); //Shows NavX's Rotation around the X axis value on SmartDashboard
+      SmartDashboard.putNumber("RollAngleDegrees", m_ahrs.getRoll()); //Shows NavX's Rotation around the Y axis value on SmartDashboard
+      SmartDashboard.putNumber("YawDegrees", m_ahrs.getYaw()); //Shows NavX's Rotation Z axis value on SmartDashboard
     }
 
   @Override
@@ -41,29 +42,37 @@ public class NavX extends SubsystemBase {
   
   
   public void autoBalance() {
-    double pitchAngleDegrees = m_ahrs.getPitch(); //NavX's X
-    double rollAngleDegrees = m_ahrs.getRoll(); //NavX's Y
+    double pitchAngleDegrees = m_ahrs.getPitch(); //NavX's Rotation around the X axis
+    double rollAngleDegrees = m_ahrs.getRoll(); //NavX's Rotation around the Y axis
 
     if (!m_autoBalanceXMode && 
       (Math.abs(pitchAngleDegrees) >= 
       Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
-      m_autoBalanceXMode = true;
+      m_autoBalanceXMode = true; //If m_autoBalanceXMode AND absolute value of pitchAngleDegrees is
+      //greater/equal than the absolute value of the kOffBalanceAngleThresholdDegree, then m_autoBalanceXMode
+      //will equal true.
   }
     else if (m_autoBalanceXMode && 
          (Math.abs(pitchAngleDegrees) <= 
           Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
-      m_autoBalanceXMode = false;
+      m_autoBalanceXMode = false; //If m_autoBalanceXMode AND absolute value of pitchAngleDegrees is
+      //less/equal than the absolute value of the kOnBalanceAngleThresholdDegree, then m_autoBalanceXMode
+      //will equal false.
   }
 
     if (!m_autoBalanceYMode && 
         (Math.abs(pitchAngleDegrees) >= 
         Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
-      m_autoBalanceYMode = true;
+      m_autoBalanceYMode = true; //If m_autoBalanceXMode AND absolute value of pitchAngleDegrees is
+      //greater/equal than the absolute value of the kOffBalanceAngleThresholdDegree, then m_autoBalanceYMode
+      //will equal true.
   }
     else if (m_autoBalanceYMode && 
          (Math.abs(pitchAngleDegrees) <= 
           Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
-      m_autoBalanceYMode = false;
+      m_autoBalanceYMode = false; //If m_autoBalanceYMode AND absolute value of pitchAngleDegrees is
+      //less/equal than the absolute value of the kOnBalanceAngleThresholdDegree, then m_autoBalanceYMode
+      //will equal false.
   }
 
 // Control drive system automatically, 
