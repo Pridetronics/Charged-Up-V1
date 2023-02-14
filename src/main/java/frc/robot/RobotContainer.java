@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
 //subsystems
@@ -19,6 +20,7 @@ import com.kauailabs.navx.frc.AHRS;
 //Hardware imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 //Commands
 import frc.robot.commands.AutoBalance;
@@ -60,7 +62,8 @@ public class RobotContainer {
   public static CANSparkMax manipulatorEntentionMotor;
   public static CANSparkMax manipulatorWristMotor;
   public static CANSparkMax manipulatorClawMotor;
-
+  //Solenoids
+  public static DoubleSolenoid claw;
   //Nav-X
   public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
   public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.

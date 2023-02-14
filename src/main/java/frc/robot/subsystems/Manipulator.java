@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //joystick
 import edu.wpi.first.wpilibj.Joystick;
-
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ManipulatorInput;
 
 //hardware
 import com.revrobotics.CANSparkMax;
@@ -28,6 +30,7 @@ public class Manipulator extends SubsystemBase {
 
   private CANSparkMax armMotor;
   private CANSparkMax wristMotor;
+  private DoubleSolenoid claw;
   private RelativeEncoder armEncoder;
   private RelativeEncoder wristEncoder;
   private DigitalInput armLowerLimit = new DigitalInput(OperatorConstants.kArmLimitID);
@@ -41,6 +44,7 @@ public class Manipulator extends SubsystemBase {
 
     armMotor = RobotContainer.manipulatorArmMotor;
     wristMotor = RobotContainer.manipulatorWristMotor;
+    claw = RobotContainer.clawSolenoid;
 
     armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     wristEncoder = wristMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
@@ -83,6 +87,13 @@ public class Manipulator extends SubsystemBase {
     }
 
     wristMotor.set(upMotion + downMotion);
+  }
+
+  public void controlClaw() {
+    boolean clawInput = joystick.getRawButtonPressed(OperatorConstants.clawOpenCloseButtonNumber);
+    if(clawInput){
+      claw.toggle(); //Please don't hate me for this code
+    }
   }
 
 

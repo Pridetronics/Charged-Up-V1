@@ -47,5 +47,9 @@ public final class Constants {
     public static final int kExtendLimitID = 1;
     public static final int kClawLimitID = 2;
 
+    //Solenoids
+    public static final int kClawExtend = 0;
+    public static final int kClawRetract = 1;
+
   }
 }

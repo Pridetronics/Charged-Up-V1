@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+import java.lang.management.OperatingSystemMXBean;
+
 //joystick
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -39,9 +41,14 @@ public class ManipulatorInput extends CommandBase {
     boolean btnUp = joystick.getRawButtonPressed(OperatorConstants.kWristInputUp);
     boolean btnDown = joystick.getRawButtonPressed(OperatorConstants.kWristInputDown);
 
+    boolean clawInputUp = joystick.getRawButtonPressed(OperatorConstants.clawOpenCloseButtonNumber);
+    boolean clawInputDown = joystick.getRawButtonPressed(OperatorConstants.clawOpenCloseButtonNumber);
+
     manipulator.moveArm(armJoystickMovement);
 
     manipulator.moveWrist(btnUp, btnDown);
+
+    manipulator.controlClaw(clawInputUp, clawInputDown);
   }
 
   // Called once the command ends or is interrupted.
