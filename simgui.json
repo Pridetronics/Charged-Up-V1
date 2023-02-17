@@ -19,6 +19,9 @@
   "NetworkTables": {
     "transitory": {
       "CameraPublisher": {
+        "Serve_POV": {
+          "open": true
+        },
         "Serve_POV_Camera": {
           "open": true
         },

@@ -63,7 +63,7 @@ public class RobotContainer {
   public static boolean autoBalanceXMode; // Object Declaration for autoBalanceXmode. True/False output.
   public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
   // Sendable Chooser
-  SendableChooser<Command> m_Chooser = new SendableChooser<>();// make within 5 days from 2/7
+  SendableChooser<Command> m_Chooser = new SendableChooser<Command>();// make within 5 days from 2/7
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -90,7 +90,7 @@ public class RobotContainer {
     // commands
     m_forward = new AutoMoveForward(m_drive);
     // sendable chooser commands
-    m_Chooser.addOption("AutoForwards", new SequentialCommandGroup(m_forward, new InstantCommand(m_drive::driveStop)));
+    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
     m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
     // Configure the trigger bindings
     configureBindings();

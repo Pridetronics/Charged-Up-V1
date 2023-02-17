@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+
 //camera imports
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,6 +23,7 @@ import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 //hardware imports for automatic actions
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -43,6 +45,9 @@ public class Vision extends SubsystemBase {
   private static RelativeEncoder m_leftFrontEncoder;
   private static RelativeEncoder m_rightBackEncoder;
   private static RelativeEncoder m_leftBackEncoder;
+  // motor groups
+  private MotorControllerGroup Left;
+  private MotorControllerGroup Right;
   // variables
   private double ty;
   private double tx;
@@ -70,13 +75,11 @@ public class Vision extends SubsystemBase {
     m_rightBackMotor = RobotContainer.rightBackMotor;
     m_rightBackEncoder = m_rightBackMotor.getEncoder();
     // pov camera
-    camera_0 = new UsbCamera("POV", 0);
-    Server1 = new MjpegServer("Serve_POV", 0);
-    Server1.setSource(camera_0);
-    CameraServer.addServer(Server1);
-    Server1.setFPS(15);
-    Server1.setCompression(30);
-    CameraServer.putVideo("Serve_POV_Camera", 320, 240);
+    camera_0 = CameraServer.startAutomaticCapture();
+
+    // CameraServer.putVideo("Serve_POV", 320, 240);// makes the cameraserver
+    // retrieve the Server1 name and sets
+    // resolution
     System.out.println("See All");
     // starts new DS client, Very important for lime
     inst.startDSClient();
@@ -90,11 +93,13 @@ public class Vision extends SubsystemBase {
     ty = yEntry.getDouble(0.0); // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair to Target (-27.5 degrees to 27.5 degrees)
     tv = vEntry.getDouble(0.0); // Whether the limelight has any valid targets (0 or 1)
+    SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
+
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
+
     SmartDashboard.putNumber("Limelight X", tx);
     SmartDashboard.putNumber("Limelight Y", ty);
     SmartDashboard.putNumber("Limelight V", tv);
@@ -127,11 +132,21 @@ public class Vision extends SubsystemBase {
   }
 
   public void DriveMotorsStop() {
-    m_leftFrontMotor.set(0);
-    m_rightFrontMotor.set(0);
-    m_leftBackMotor.set(0);
-    m_rightBackMotor.set(0);
+    Left.set(0);
+    Right.set(0);
     System.out.println("Stopped");
+  }
+
+  public void driveBack() {
+    Left.set(-.6);
+    Right.set(-.6);
+    System.out.println("Backwards");
+  }
+
+  public void driveForward() {
+    Left.set(.6);
+    Right.set(.6);
+    System.out.println("Forwards");
   }
 
 }
