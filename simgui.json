@@ -28,14 +28,7 @@
         "USB Camera 0": {
           "PropertyInfo": {
             "open": true
-          },
-          "RawProperty": {
-            "open": true
-          },
-          "RawPropertyInfo": {
-            "open": true
-          },
-          "open": true
+          }
         },
         "open": true
       },
@@ -46,6 +39,9 @@
         "open": true
       },
       "SmartDashboard": {
+        "open": true
+      },
+      "USB Camera 0": {
         "open": true
       }
     }

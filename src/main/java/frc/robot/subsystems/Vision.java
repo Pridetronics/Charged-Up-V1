@@ -62,7 +62,7 @@ public class Vision extends SubsystemBase {
   private double distanceInFeet;
   private double roundedDistance;
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
-  NetworkTable table = inst.getTable("Limelight");
+  NetworkTable table = inst.getTable("limelight");
 
   public Vision() {
     // motors
@@ -76,13 +76,16 @@ public class Vision extends SubsystemBase {
     m_rightBackEncoder = m_rightBackMotor.getEncoder();
     // pov camera
     camera_0 = CameraServer.startAutomaticCapture();
-
+    NetworkTableInstance.getDefault().getTable("USB Camera 0").getEntry("mode")
+        .setString("340x240 MJPEG 15 fps");
     // CameraServer.putVideo("Serve_POV", 320, 240);// makes the cameraserver
     // retrieve the Server1 name and sets
     // resolution
     System.out.println("See All");
+    inst.startClient3("3853");
     // starts new DS client, Very important for lime
     inst.startDSClient();
+    inst.getEntry("stream").setDouble(0);
     // network tables
     NetworkTableEntry yEntry = table.getEntry("ty");
     NetworkTableEntry xEntry = table.getEntry("tx");
@@ -147,6 +150,15 @@ public class Vision extends SubsystemBase {
     Left.set(.6);
     Right.set(.6);
     System.out.println("Forwards");
+  }
+
+  public void setPipe1() {// changing pipelines dor apriltags and normal limelight
+    inst.getEntry("pipeline").setDouble(0);
+  }
+
+  public void setPipe2() {// ignore nt index button on limelight interface is to be disabled for this to
+                          // work
+    inst.getEntry("pipeline").setDouble(1);
   }
 
 }

@@ -14,6 +14,8 @@ public class AutoMoveForward extends CommandBase {
   /** Creates a new AutoMoveForward. */
   public AutoMoveForward(Drive drive) {
     m_drive = drive;
+    double TPI = drive.TPI;
+    double TPR = drive.TPR;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
   }
@@ -27,7 +29,7 @@ public class AutoMoveForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.driveBack();
+    m_drive.driveForward();
   }
 
   // Called once the command ends or is interrupted.

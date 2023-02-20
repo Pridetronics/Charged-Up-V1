@@ -61,10 +61,10 @@ public class Drive extends SubsystemBase {
     tankDrive.setExpiration(.1);
     tankDrive.setMaxOutput(1);
     // calculations
-    TPR = m_leftFrontEncoder.getCountsPerRevolution();
+    TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
     SmartDashboard.putNumber("Ticks per revolution", TPR);
     wheelCircumference = 2 * (Math.PI * 3);// circumference of wheel in inches
-    TPI = TPR * wheelCircumference;
+    TPI = TPR * wheelCircumference;// converts ticks per rotation to inches, used as final product of
     desiredDistance = 24;// 2 feet in inches, sujbect to change
     SmartDashboard.putNumber("Ticks per Inch", TPI);
   }
@@ -76,6 +76,11 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Back Left Encoder", m_leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Front Right Encoder", m_rightFrontEncoder.getPosition());
     SmartDashboard.putNumber("Back Right Encoder", m_rightBackEncoder.getPosition());
+  }
+
+  public void calculateDistance() {
+    TPR = m_leftFrontEncoder.getCountsPerRevolution();
+    TPI = TPR * wheelCircumference;
   }
 
   public void zeroEncoders() {
