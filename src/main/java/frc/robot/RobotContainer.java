@@ -19,7 +19,6 @@ import com.kauailabs.navx.frc.AHRS;
 //Hardware imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import frc.robot.commands.AutoBalance;
 //Commands
 import frc.robot.commands.Autos;
