@@ -23,10 +23,14 @@ public final class Constants {
     public static final int kLeftFrontDriveCANID = 2;
     public static final int kLeftBackDriveCANID = 3;
     public static final int kRightBackDriveCANID = 4;
+    public static final int kClawWristCANID = 7;
 
     //Nav-x IDs
     public static final double kOffBalanceAngleThresholdDegrees = 10;
     public static final double kOnBalanceAngleThresholdDegrees  = 5;
+
+    //limit switch IDs
+    public static final int kClawWristLimitSwitchID = 2;
 
     
     //drive Autonomous

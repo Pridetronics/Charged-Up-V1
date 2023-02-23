@@ -44,6 +44,8 @@ public class RobotContainer {
  //subsystems
  public static Drive m_drive;
  public static Vision m_vision;
+ private static LimitSwitches m_limitSwitches = new LimitSwitches();
+ 
   //controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
@@ -53,7 +55,14 @@ public class RobotContainer {
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
-
+  public static CANSparkMax clawWristMotor;
+  public static SparkMaxLimitSwitch m_clawForwardLimit;
+  public static SparkMaxLimitSwitch m_clawReverseLimit;
+  //Solenoids
+  public static DoubleSolenoid clawSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  //Limit switches
+  public static SparkMaxLimitSwitch m_clawForwardLimit;
+  public static SparkMaxLimitSwitch m_clawReverseLimit;
   //Nav-X
   public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
   public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
@@ -68,11 +77,17 @@ public class RobotContainer {
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
+    clawWristMotor = new CANSparkMax(OperatorConstants.kClawWristCANID, MotorType.kBrushless);
     //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
     rightFrontMotor.setInverted(false);
-    rightBackMotor.setInverted(false);    
+    rightBackMotor.setInverted(false);
+    //sets claw
+    clawSolenoid.set(kReverse);
+    //Limit Switches
+    m_clawForwardLimit = clawWristMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
+    m_clawReverseLimit = clawWristMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
     //connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);

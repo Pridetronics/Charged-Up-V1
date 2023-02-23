@@ -11,11 +11,22 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
   public Manipulator() {
+    //Controls the wrist motor, rotating forwards and backwards
+    if (joystickDriver.getRawAxis(5)){
+      clawWristMotor.set(0.5)
+    }
+    else if (joystickDriver.getRawAxis(6)){
+      clawWristMotor.set(-0.5)
+    }
+    else
+    {
+      clawWrist.set(0);
+    }
+    //Claw Solenoid When Pressing Triggers
+    if (joystickDriver.getRawButton(1)){
+      clawSolenoid.toggle();
+    }
   }
-
-
-
-
   
 
   @Override
