@@ -16,10 +16,13 @@ import frc.robot.commands.ManipulatorInput;
 
 //hardware
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxRelativeEncoder;
 
 public class Manipulator extends SubsystemBase {
@@ -36,6 +39,8 @@ public class Manipulator extends SubsystemBase {
   private DigitalInput armLowerLimit = new DigitalInput(OperatorConstants.kArmLimitID);
   private DigitalInput wristLowerLimit = new DigitalInput(OperatorConstants.kClawLimitID);
 
+  private SparkMaxPIDController shoulderPID;
+
 
   /** Creates a new Manipulator. */
   public Manipulator(Joystick joystickManipulator, Manipulator m_manipulator) {
@@ -48,6 +53,8 @@ public class Manipulator extends SubsystemBase {
 
     armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     wristEncoder = wristMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+
+    shoulderPID = RobotContainer.shoulderPID;
   }
 
   @Override
@@ -68,7 +75,7 @@ public class Manipulator extends SubsystemBase {
       Speed = Math.max(Speed, 0);
     }
 
-    armMotor.set(Speed);
+    shoulderPID.setReference(Speed, ControlType.kVelocity);
   }
 
   public void moveWrist(boolean up, boolean down) {
@@ -86,8 +93,10 @@ public class Manipulator extends SubsystemBase {
       downMotion = 0;
     }
 
-    wristMotor.set(upMotion + downMotion);
+    shoulderPID.setReference(upMotion + downMotion, ControlType.kVelocity);
   }
+
+  public void moveTelescopic()
 
   public void controlClaw() {
     boolean clawInput = joystick.getRawButtonPressed(OperatorConstants.clawOpenCloseButtonNumber);

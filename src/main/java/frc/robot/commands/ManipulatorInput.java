@@ -38,15 +38,19 @@ public class ManipulatorInput extends CommandBase {
   public void execute() {
     double armJoystickMovement = joystick.getRawAxis(OperatorConstants.kArmInputAxis);
 
-    boolean btnUp = joystick.getRawButtonPressed(OperatorConstants.kWristInputUp);
-    boolean btnDown = joystick.getRawButtonPressed(OperatorConstants.kWristInputDown);
+    boolean wristBtnUp = joystick.getRawButtonPressed(OperatorConstants.kWristInputUp);
+    boolean wristBtnDown = joystick.getRawButtonPressed(OperatorConstants.kWristInputDown);
 
     boolean clawInputUp = joystick.getRawButtonPressed(OperatorConstants.clawOpenCloseButtonNumber);
     boolean clawInputDown = joystick.getRawButtonPressed(OperatorConstants.clawOpenCloseButtonNumber);
 
+
+    boolean telescopicBtnUp = joystick.getRawButtonPressed(OperatorConstants.kManipulatorInputExtend);
+    boolean telescopicBtnDown = joystick.getRawButtonPressed(OperatorConstants.kManipulatorInputRetract);
+
     manipulator.moveArm(armJoystickMovement);
 
-    manipulator.moveWrist(btnUp, btnDown);
+    manipulator.moveWrist(wristBtnUp, wristBtnDown);
 
     manipulator.controlClaw(clawInputUp, clawInputDown);
   }

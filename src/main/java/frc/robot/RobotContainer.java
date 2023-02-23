@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,6 +20,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 //Hardware imports
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
@@ -69,6 +71,9 @@ public class RobotContainer {
   public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
   public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
 
+
+  //PID Controllers
+  public static SparkMaxPIDController shoulderPID;
  // private final Drive m_drive = new Drive();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -96,6 +101,9 @@ public class RobotContainer {
 
     m_navX = new NavX();
     ahrs = new AHRS();
+
+    //PID Controllers
+    shoulderPID = manipulatorArmMotor.getPIDController();
 
     // Configure the trigger bindings
     m_vision = new Vision();
