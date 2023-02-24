@@ -28,7 +28,7 @@ public class Manipulator extends SubsystemBase {
   private DigitalInput m_ForearmLower = new DigitalInput(OperatorConstants.kForearmLowerLimit);
   private DigitalInput m_Wristlimit = new DigitalInput(OperatorConstants.kWristLimit);
   private CANSparkMax m_johnson = new CANSparkMax(OperatorConstants.kWristMotor, MotorType.kBrushed);
-  private Encoder m_johnsonEncoder = new Encoder(12, 2, false, EncodingType.k1X);
+  private Encoder m_johnsonEncoder = new Encoder(6, 7, false, EncodingType.k1X);
   private DoubleSolenoid m_grippers = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kExtendPist,
       OperatorConstants.kRetractPist);
   private CANSparkMax m_shoulder = new CANSparkMax(OperatorConstants.kShoulderMotorCANID, MotorType.kBrushless);
