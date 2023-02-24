@@ -32,11 +32,22 @@ public final class Constants {
     // drive Autonomous
     public static final double kAutoVolt = -.5;
     // manipulator Motor IDs
-    public static final int kArmMotorCANID = 5;
+    public static final int kShoulderMotorCANID = 5;
     public static final int kTelescopicMotorCANID = 6;
-    public static final int kWristMotor = 7;
+    public static final int kWristMotor = 7;// Johnson motor
+    // manipulator pneumatic ids
+    public static final int kExtendPist = 0;
+    public static final int kRetractPist = 1;
+    // manipulator limit switch IDs
+    public static final int kShoulderUpperLimit = 0;
+    public static final int kShoulderLowerLimit = 1;
+    public static final int kForearmLowerLimit = 2;
+    public static final int kWristLimit = 3;
     // Controller buttons
-    //driver
+    // driver
     public static final int ButtonA = 1;
+    // manipulator
+    //
+
   }
 }
