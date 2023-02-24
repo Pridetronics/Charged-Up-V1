@@ -28,6 +28,7 @@ import frc.robot.subsystems.NavX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -50,6 +51,7 @@ public class RobotContainer {
   public static Manipulator m_manipulator;
   // commands
   public static AutoMoveForward m_forward;
+  public static TargetCenteringVision m_targetCentering;
   // controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
@@ -64,6 +66,8 @@ public class RobotContainer {
   public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
   // Sendable Chooser
   SendableChooser<Command> m_Chooser = new SendableChooser<Command>();// make within 5 days from 2/7
+  // Driver Buttons
+  public JoystickButton robotCentering;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -89,8 +93,12 @@ public class RobotContainer {
     m_vision = new Vision();
     // commands
     m_forward = new AutoMoveForward(m_drive);
+    m_targetCentering = new TargetCenteringVision(m_vision);
+
     // sendable chooser commands
     m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
+    m_Chooser.addOption("auto rotate and forward",
+        new SequentialCommandGroup(new AutoMoveForward(m_drive), new InstantCommand(m_drive::calculateDistance)));
     m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
     // Configure the trigger bindings
     configureBindings();
@@ -117,6 +125,8 @@ public class RobotContainer {
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
 
+    robotCentering = new JoystickButton(joystickDriver, Constants.OperatorConstants.ButtonA);
+    robotCentering.toggleOnTrue(new TargetCenteringVision(m_vision));
     // m_navX.setDefaultCommand(new AutoBalance(m_navX));
     // if (joystickDriver.getRawButtonPressed(0)) {
     // new AutoBalance(m_navX);

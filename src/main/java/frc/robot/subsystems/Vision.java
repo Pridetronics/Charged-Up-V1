@@ -76,6 +76,7 @@ public class Vision extends SubsystemBase {
     m_rightBackEncoder = m_rightBackMotor.getEncoder();
     // pov camera
     camera_0 = CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture();
     NetworkTableInstance.getDefault().getTable("USB Camera 0").getEntry("mode")
         .setString("340x240 MJPEG 15 fps");
     // CameraServer.putVideo("Serve_POV", 320, 240);// makes the cameraserver
@@ -97,13 +98,12 @@ public class Vision extends SubsystemBase {
     tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair to Target (-27.5 degrees to 27.5 degrees)
     tv = vEntry.getDouble(0.0); // Whether the limelight has any valid targets (0 or 1)
     SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
-
   }
 
   @Override
   public void periodic() {
 
-    SmartDashboard.putNumber("Limelight X", tx);
+    SmartDashboard.putNumber("Limelight X", tx);// will be commented out after testing
     SmartDashboard.putNumber("Limelight Y", ty);
     SmartDashboard.putNumber("Limelight V", tv);
 
@@ -125,7 +125,7 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Initial Distance", initialDistance); // Puts all these values on the smartdashboard when
                                                                    // run. This is solely for testing purposes
     SmartDashboard.putNumber("Distance in Inches", distanceInInches);
-    SmartDashboard.putNumber("Distance in Feet", distanceInFeet);
+    SmartDashboard.putNumber("Distance in Feet", distanceInFeet);// all to be commented out after testing
     SmartDashboard.putNumber("Rounded Distance", roundedDistance);
   }
 
@@ -161,4 +161,21 @@ public class Vision extends SubsystemBase {
     inst.getEntry("pipeline").setDouble(1);
   }
 
+  public void centerTarget() {
+    if (tv == 1) {// greater than and less than values need to be adjusted based on position of
+                  // limelight on robot
+      if (tx > 8 && tx < 30) {// (adjust when not centered), currently based on a centered limelight
+        Left.set(50);
+        Right.set(-50);
+      } else if (tx > -8 && tx < -30) {
+        Left.set(-50);
+        Right.set(50);
+      }
+    } 
+    else if (tv == 0) {
+      Left.set(0);
+      Right.set(0);
+    }
+
+  }
 }

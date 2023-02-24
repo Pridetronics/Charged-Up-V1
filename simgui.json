@@ -39,7 +39,10 @@
         "open": true
       },
       "SmartDashboard": {
-        "open": true
+        "open": true,
+        "sendableChooser": {
+          "open": true
+        }
       },
       "USB Camera 0": {
         "open": true
