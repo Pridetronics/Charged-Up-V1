@@ -45,9 +45,13 @@ public final class Constants {
     public static final int kWristLimit = 3;
     // Controller buttons
     // driver
-    public static final int ButtonA = 1;
+    public static final int Centering = 1;
     // manipulator
-    //
-
+    public static final int ForearmExtend = 11;
+    public static final int ForearmRetract = 12;
+    public static final int Yaxis5 = 5;
+    public static final int Gripper = 5;
+    // shoulder gerbox ratio
+    // public static final int ShoulderGearbox
   }
 }

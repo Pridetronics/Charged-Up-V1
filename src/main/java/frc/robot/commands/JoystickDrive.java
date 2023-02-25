@@ -3,20 +3,17 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+
 //joystick
 import edu.wpi.first.wpilibj.Joystick;
 //subsystems
 import frc.robot.subsystems.Drive;
-
-
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class JoystickDrive extends CommandBase {
   private Drive m_drive;
   private Joystick m_joystickdriver;
-
-
 
   /** Creates a new JoystickDrive. */
   public JoystickDrive(Joystick joystickDriver, Drive drive) {
@@ -28,7 +25,9 @@ public class JoystickDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_drive.zeroEncoders();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -40,7 +39,8 @@ public class JoystickDrive extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

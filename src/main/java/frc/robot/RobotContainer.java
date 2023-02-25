@@ -52,6 +52,7 @@ public class RobotContainer {
   // commands
   public static AutoMoveForward m_forward;
   public static TargetCenteringVision m_targetCentering;
+  public static ManipulatorControl m_ManipulatorControl;
   // controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
@@ -92,7 +93,9 @@ public class RobotContainer {
     m_navX = new NavX();
     ahrs = new AHRS();
     m_vision = new Vision();
+    m_manipulator = new Manipulator(joystickManipulator);
     // commands
+    m_ManipulatorControl = new ManipulatorControl(joystickManipulator, m_manipulator);
     m_forward = new AutoMoveForward(m_drive);
     m_targetCentering = new TargetCenteringVision(m_vision);
 
@@ -125,8 +128,9 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
+    m_manipulator.setDefaultCommand(new ManipulatorControl(joystickManipulator, m_manipulator));
 
-    robotCentering = new JoystickButton(joystickDriver, Constants.OperatorConstants.ButtonA);
+    robotCentering = new JoystickButton(joystickDriver, Constants.OperatorConstants.Centering);
     robotCentering.toggleOnTrue(new TargetCenteringVision(m_vision));
     // m_navX.setDefaultCommand(new AutoBalance(m_navX));
     // if (joystickDriver.getRawButtonPressed(0)) {
