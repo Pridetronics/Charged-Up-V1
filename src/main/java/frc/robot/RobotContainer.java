@@ -4,95 +4,142 @@
 
 package frc.robot;
 
-//Joystick Imports
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-//Subsystems
-import frc.robot.subsystems.Drive;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.Vision;
-
 //Nav-X Imports
 import com.kauailabs.navx.frc.AHRS;
-
 //Hardware imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import frc.robot.commands.AutoBalance;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+//Joystick Imports
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj.DigitalInput;
 //Commands
 import frc.robot.commands.Autos;
+import frc.robot.commands.ForearmExtension;
+import frc.robot.commands.ForearmRetraction;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.ManipulatorMovement;
+import frc.robot.commands.AutoBalance;
 
 //Subsystems
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.NavX;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.Vision;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
-
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * 
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  //Subsystems
+  // Subsystems
   public static Drive m_drive;
   public static Vision m_vision;
- 
-  //Controllers
+  public static NavX m_navX;
+  public static Manipulator m_manipulator;
+
+  // Controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
-  
-  //Motors 
+
+  // Drive Motors
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
 
-  //Nav-X
-  public static NavX m_navX;
-  public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
-  public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
-  public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
+  // Manipulator Motors
+  public static CANSparkMax shoulderMotor;
+  public static CANSparkMax forearmMotor;
+  public static CANSparkMax wristMotor;
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  // Wrist Piston
+  public static DoubleSolenoid wristPiston;
+
+  // Manipulator Buttons
+  public static JoystickButton forearmExtendButton;
+  public static JoystickButton forearmRetractButton;
+
+  public static JoystickButton wristPistonButton;
+
+  // Nav-X
+  public static AHRS ahrs; // Attitude and Heading Reference System (motion sensor).
+  public static boolean autoBalanceXMode; // Object Declaration for autoBalanceXmode. True/False output.
+  public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
+
+  // Manipulator Limit Switches
+  public static DigitalInput upperShoulderLimitSwitch;
+  public static DigitalInput lowerShoulderLimitSwitch;
+  public static DigitalInput lowerForearmLimitSwitch;
+  public static DigitalInput lowerWristLimitSwitch;
+
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
-    //Motors
+    // Drive Motors
     rightFrontMotor = new CANSparkMax(OperatorConstants.kRightFrontDriveCANID, MotorType.kBrushless);
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-    
-    //Inverts the left motors and leaves the right motors 
+
+    // Inverts the left motors and leaves the right motors
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
     rightFrontMotor.setInverted(false);
-    rightBackMotor.setInverted(false);    
-    
-    //Connects joystick ids to proper ports
+    rightBackMotor.setInverted(false);
+
+    // Manipulator Motors
+    shoulderMotor = new CANSparkMax(OperatorConstants.kShoulderMotorCANID, MotorType.kBrushless);
+    forearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
+    wristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+
+    // Manipulator Invertions
+    shoulderMotor.setInverted(false);
+    forearmMotor.setInverted(false);
+    wristMotor.setInverted(false);
+
+    // Manipulator Piston
+    wristPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonForwardWristChannel,
+        OperatorConstants.kPistonReverseWristChannel);
+
+    // Manipulator Limit Switches
+    upperShoulderLimitSwitch = new DigitalInput(OperatorConstants.kUpperShoulderLimitSwitchChannel);
+    lowerShoulderLimitSwitch = new DigitalInput(OperatorConstants.kLowerShoulderLimitSwitchChannel);
+    lowerForearmLimitSwitch = new DigitalInput(OperatorConstants.kLowerForearmLimitSwitchChannel);
+    lowerWristLimitSwitch = new DigitalInput(OperatorConstants.kLowerWristLimitSwitchChannel);
+
+    // Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
-    
-    //Drive
+
     m_drive = new Drive(joystickDriver);
-    
+    m_manipulator = new Manipulator(joystickManipulator);
     m_navX = new NavX();
     ahrs = new AHRS();
-
-    //Configure the trigger bindings
     m_vision = new Vision();
-    
-    //Sendable chooser
+
+    // Sendable chooser
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
-    
-    //Configure the trigger bindings
+
+    // Configure the trigger bindings
     configureBindings();
 
     SmartDashboard.putString("Code: ", "Helen's");
@@ -102,22 +149,46 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
-    
+
+    // This will do Shoulder and Wrist movements on Axis 2 (Shoulder) and Axis 5,6
+    // (Wrist)
+    // m_manipulator.setDefaultCommand(new ManipulatorMovement(joystickManipulator,
+    // m_manipulator));
+
+    // forearmExtendButton = new JoystickButton(joystickManipulator,
+    // OperatorConstants.kForearmExtendButtonNumber);
+    // forearmExtendButton.whileTrue(new ForearmExtension(m_manipulator));
+    // forearmRetractButton = new JoystickButton(joystickManipulator,
+    // OperatorConstants.kForearmRetractButtonNumber);
+    // forearmRetractButton.whileTrue(new ForearmRetraction(m_manipulator));
+    // // Extend/Retract Wrist Piston
+    // wristPistonButton = new JoystickButton(joystickManipulator,
+    // OperatorConstants.kWristPistonButtonNumber);
+    // wristPistonButton.toggleOnTrue(new InstantCommand(m_manipulator::extendWrist,
+    // m_manipulator))
+    // .toggleOnFalse(new InstantCommand(m_manipulator::retractWrist,
+    // m_manipulator));
+
     m_navX.setDefaultCommand(new AutoBalance(m_navX));
 
     // if (joystickDriver.getRawButtonPressed(1)) {
-    //    new AutoBalance(m_navX);
-    //  } //Not needed as of 2/2/2023 for now
+    // new AutoBalance(m_navX);
+    // } //Not needed as of 2/2/2023 for now
     // Nav-X Button?????
   }
 

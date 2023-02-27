@@ -36,6 +36,9 @@
         "open": true
       },
       "SmartDashboard": {
+        "BalanceMode": {
+          "open": true
+        },
         "open": true
       }
     }
