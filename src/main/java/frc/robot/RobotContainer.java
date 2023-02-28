@@ -27,6 +27,7 @@ import frc.robot.subsystems.NavX;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OperatorConstants;
@@ -102,7 +103,8 @@ public class RobotContainer {
     // sendable chooser commands
     m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
     m_Chooser.addOption("auto rotate and forward",
-        new SequentialCommandGroup(new AutoMoveForward(m_drive), new InstantCommand(m_drive::calculateDistance)));
+        new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
+            new InstantCommand(m_drive::calculateDistance)));
     m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
     // Configure the trigger bindings
     configureBindings();

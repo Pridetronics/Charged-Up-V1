@@ -50,7 +50,7 @@ public final class Constants {
     public static final int ForearmExtend = 11;
     public static final int ForearmRetract = 12;
     public static final int Yaxis5 = 5;
-    public static final int Gripper = 5;
+    public static final int Gripper = 1;
     // shoulder gerbox ratio
     // public static final int ShoulderGearbox
   }

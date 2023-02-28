@@ -14,9 +14,6 @@ import frc.robot.Constants.OperatorConstants;
 public class ManipulatorControl extends CommandBase {
   private Manipulator manipulator;
   private Joystick Manipulatorjoystick;
-  private double Yaxis = 0;
-  private double YaxisTop = 0;
-  private boolean Trigger = false;
 
   /** Creates a new ManipulatorControl. */
   public ManipulatorControl(Joystick ManipulatorJoystick, Manipulator m_manipulator) {
@@ -37,10 +34,9 @@ public class ManipulatorControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Yaxis = Manipulatorjoystick.getRawAxis(2);
-    YaxisTop = Manipulatorjoystick.getRawAxis(5);
-    Trigger = Manipulatorjoystick.getRawButton(OperatorConstants.Gripper);
-    manipulator.ManipulatorIn(Manipulatorjoystick, Yaxis, YaxisTop, Trigger);
+    double YaxisShoulder = Manipulatorjoystick.getRawAxis(1);
+    double YaxisWrist = Manipulatorjoystick.getRawAxis(5);
+    manipulator.ManipulatorControl(Manipulatorjoystick, YaxisShoulder, YaxisWrist);
 
   }
 

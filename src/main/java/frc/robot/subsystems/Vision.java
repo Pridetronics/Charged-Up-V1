@@ -171,8 +171,7 @@ public class Vision extends SubsystemBase {
         Left.set(-50);
         Right.set(50);
       }
-    } 
-    else if (tv == 0) {
+    } else if (tv == 0) {
       Left.set(0);
       Right.set(0);
     }

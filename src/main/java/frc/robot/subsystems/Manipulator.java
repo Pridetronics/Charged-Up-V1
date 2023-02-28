@@ -5,9 +5,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
-
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 //hardware
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -24,6 +25,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Manipulator extends SubsystemBase {
+  private DifferentialDrive ManipulatorControl;
   // limit switches
   private DigitalInput m_ShoulderUpper = new DigitalInput(OperatorConstants.kShoulderUpperLimit);
   private DigitalInput m_ShoulderLower = new DigitalInput(OperatorConstants.kShoulderLowerLimit);
@@ -43,10 +45,18 @@ public class Manipulator extends SubsystemBase {
   private RelativeEncoder m_ForearmEncoder = m_forearm.getEncoder();
   private Encoder m_wristEncoder = new Encoder(6, 7, false, EncodingType.k1X);
 
+  private boolean forearmRetract;
+  private boolean wristBottom;
+  private boolean shoulderUp;
+  private boolean shoulderDown;
+
   /** Creates a new Manipulator. */
   public Manipulator(Joystick joystickManipulator) {
     joystickManipulator = RobotContainer.joystickManipulator;
-
+    ManipulatorControl = new DifferentialDrive(m_shoulder, m_wrist);
+    ManipulatorControl.setSafetyEnabled(true);
+    ManipulatorControl.setExpiration(.1);
+    ManipulatorControl.setMaxOutput(1);
   }
 
   @Override
@@ -60,14 +70,35 @@ public class Manipulator extends SubsystemBase {
     SmartDashboard.putBoolean("forearm lim", m_ForearmLower.get());
     SmartDashboard.putBoolean("wrist lim", m_Wristlimit.get());
     // This method will be called once per scheduler run
+    shoulderDown = m_ShoulderLower.get();// booleans for limit switches
+    shoulderUp = m_ShoulderUpper.get();
+    wristBottom = m_Wristlimit.get();
+    forearmRetract = m_ForearmLower.get();
   }
 
-  public void zeroJohnson() {
+  public void wristCheck() {
+
+  }
+
+  public void forearmCheck() {
+
+  }
+
+  public void upperShoulderCheck() {
+
+  }
+
+  public void lowerShoulderCheck() {
+
+  }
+
+  public void zeroWrist() {
     m_wristEncoder.reset();
   }
 
   public void zeroForearm() {
     m_ForearmEncoder.setPosition(0);
+
   }
 
   public void zeroShoulder() {
@@ -81,7 +112,15 @@ public class Manipulator extends SubsystemBase {
   }
 
   public void honeForearm() {
-
+    forearmRetract = m_ForearmLower.get();
+    if (forearmRetract == false) {
+      m_forearm.set(-.3);
+    } else if (forearmRetract) {
+      m_forearm.set(0);
+      m_ForearmEncoder.setPosition(0);
+    } else {
+      System.out.println("Forearm Error");
+    }
   }
 
   public void grippersOpen() {
@@ -92,22 +131,27 @@ public class Manipulator extends SubsystemBase {
     m_grippers.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void forearmMaxExtention() {
+  public void forearmExtention() {
+    m_forearm.set(.6);
 
   }
 
-  public void ManipulatorIn(Joystick joystickManipulator, double Yaxis, double YaxisTop, boolean Trigger) {
-    joystickManipulator = RobotContainer.joystickManipulator;
-    Yaxis = joystickManipulator.getRawAxis(2);
-    YaxisTop = joystickManipulator.getRawAxis(5);// hat of joystick
-    Trigger = joystickManipulator.getRawButton(OperatorConstants.Gripper);
-    m_shoulder.setVoltage(Yaxis);
-    m_wrist.setVoltage(YaxisTop);
-
-    if (Trigger) {
-      m_grippers.set(DoubleSolenoid.Value.kForward);
-    } else {
-      m_grippers.set(DoubleSolenoid.Value.kReverse);
+  public void forearmRetract() {
+    forearmRetract = m_ForearmLower.get();
+    m_forearm.set(-.6);
+    new WaitCommand(.15);
+    if (forearmRetract) {
+      m_forearm.set(0);
     }
   }
+
+  public void ManipulatorControl(Joystick joystickManipulator, double YaxisShoulder, double YaxisWrist) {
+    joystickManipulator = RobotContainer.joystickManipulator;
+    YaxisShoulder = joystickManipulator.getRawAxis(1);
+    YaxisWrist = joystickManipulator.getRawAxis(5);
+
+    ManipulatorControl.tankDrive(YaxisShoulder, YaxisWrist, true);
+
+  }
+
 }

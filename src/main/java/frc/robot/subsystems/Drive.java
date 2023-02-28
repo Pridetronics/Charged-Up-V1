@@ -65,7 +65,7 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Ticks per revolution", TPR);
     wheelCircumference = 2 * (Math.PI * 3);// circumference of wheel in inches
     TPI = TPR * wheelCircumference;// converts ticks per rotation to inches, used as final product of
-    desiredDistance = 24;// 2 feet in inches, sujbect to change
+
     SmartDashboard.putNumber("Ticks per Inch", TPI);
   }
 
@@ -81,6 +81,7 @@ public class Drive extends SubsystemBase {
   public void calculateDistance() {
     TPR = m_leftFrontEncoder.getCountsPerRevolution();
     TPI = TPR * wheelCircumference;
+    desiredDistance = TPI * 6; // 24 inches of tick temporary for testing
   }
 
   public void zeroEncoders() {
