@@ -53,6 +53,7 @@ public class RobotContainer {
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
+  public static CANSparkMax shoulderMotor;
 
   //Nav-X
   public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
@@ -68,11 +69,16 @@ public class RobotContainer {
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
+   
     //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
     rightFrontMotor.setInverted(false);
-    rightBackMotor.setInverted(false);    
+    rightBackMotor.setInverted(false);
+
+    shoulderMotor = new CANSparkMax(OperatorConstants.kShoulderMotorCANID, MotorType.kBrushless);
+    shoulderMotor.setInverted(false);
+
     //connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
