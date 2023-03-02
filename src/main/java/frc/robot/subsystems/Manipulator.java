@@ -44,16 +44,20 @@ public class Manipulator extends SubsystemBase {
 
   /** Creates a new Manipulator. */
   public Manipulator(Joystick joystickManipulator, Manipulator m_manipulator) {
+    //Retrieves input devices
     joystick = joystickManipulator;
     manipulator = m_manipulator;
 
+    //Retrives Motors
     armMotor = RobotContainer.manipulatorArmMotor;
     wristMotor = RobotContainer.manipulatorWristMotor;
     claw = RobotContainer.clawSolenoid;
 
+    //Retrieves Encoders
     armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     wristEncoder = wristMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
+    //Retrieves PIDs
     shoulderPID = RobotContainer.shoulderPID;
   }
 
@@ -62,37 +66,49 @@ public class Manipulator extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  //Method called by ManipulatorInput to update shoulder
   public void moveArm(double Speed) {
 
+    //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
     double curArmPos = armEncoder.getPosition()/armEncoder.getCountsPerRevolution();
 
+    //Checks if motor is out of limits
     boolean upperLimit = curArmPos > 0.125f;
     boolean lowerLimit = !armLimitSwitch.get();
 
+    //Updates the motor speed based on limits
     if (upperLimit) {
       Speed = Math.min(Speed, 0);
     } else if (lowerLimit) {
       Speed = Math.max(Speed, 0);
     }
 
+    //Updates PID/Motor with new speed, ensures velocity is the same
     shoulderPID.setReference(Speed, ControlType.kVelocity);
   }
 
+  //Method called by ManipulatorInput to update wrist
   public void moveWrist(boolean up, boolean down) {
+    
+    //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
     double curWristPos = wristEncoder.getPosition()/wristEncoder.getCountsPerRevolution();
 
+    //Checks if motor is out of limits
     boolean upperLimit = curWristPos > 0.25f;
     boolean lowerLimit = !wristLimitSwitch.get();
 
+    //Sets speed based on what buttons are pressed
     int upMotion = up ? 1 : 0;
     int downMotion = down ? -1 : 0;
 
+    //Updates the motor speed based on limits
     if (upperLimit) {
       upMotion = 0;
     } else if (lowerLimit) {
       downMotion = 0;
     }
 
+    //Updates PID/Motor with new speed, ensures velocity is the same
     shoulderPID.setReference(upMotion + downMotion, ControlType.kVelocity);
   }
 
