@@ -9,19 +9,25 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavX extends SubsystemBase {
-  private static AHRS m_ahrs = RobotContainer.ahrs;
-  private boolean m_autoBalanceXMode = RobotContainer.autoBalanceXMode;
-  private boolean m_autoBalanceYMode = RobotContainer.autoBalanceYMode;
-  public double xAxisRate = RobotContainer.joystickDriver.getX();
-  public double yAxisRate = RobotContainer.joystickDriver.getY();
+  private static AHRS m_ahrs;
+  private boolean m_autoBalanceXMode;
+  private boolean m_autoBalanceYMode;
+  public double xAxisRate;
+  public double yAxisRate;
 
   /** Creates a new NavX. */
   public NavX() {
+    m_ahrs = RobotContainer.ahrs;
+    m_autoBalanceXMode = RobotContainer.autoBalanceXMode;
+    m_autoBalanceYMode = RobotContainer.autoBalanceYMode;
+    xAxisRate = RobotContainer.joystickDriver.getX();
+    yAxisRate = RobotContainer.joystickDriver.getY();
     // try method tests a block of code to execute
     try {
       m_ahrs = new AHRS(SPI.Port.kMXP);
