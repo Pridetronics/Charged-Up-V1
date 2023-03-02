@@ -25,10 +25,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Manipulator extends SubsystemBase {
-  private CANSparkMax m_shoulderMotor = RobotContainer.shoulderMotor;
-  private CANSparkMax m_forearmMotor = RobotContainer.forearmMotor;
-  private CANSparkMax m_wristMotor = RobotContainer.wristMotor;
-  private static DoubleSolenoid m_wristPiston = RobotContainer.wristPiston;
+  private CANSparkMax m_shoulderMotor;
+  private CANSparkMax m_forearmMotor;
+  private CANSparkMax m_wristMotor;
+  private static DoubleSolenoid m_wristPiston;
 
   public RelativeEncoder m_shoulderEncoder;
   public RelativeEncoder m_forearmEncoder;
@@ -43,6 +43,10 @@ public class Manipulator extends SubsystemBase {
 
   /** Creates a new Manipulator. */
   public Manipulator(Joystick m_joystickManipulator) {
+    m_shoulderMotor = RobotContainer.shoulderMotor;
+    m_forearmMotor = RobotContainer.forearmMotor;
+    m_wristMotor = RobotContainer.wristMotor;
+    m_wristPiston = RobotContainer.wristPiston;
     m_joystickManipulator = RobotContainer.joystickManipulator;
     m_shoulderEncoder = m_shoulderMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     m_forearmEncoder = m_forearmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
