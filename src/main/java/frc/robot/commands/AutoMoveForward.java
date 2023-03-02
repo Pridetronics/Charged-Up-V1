@@ -4,47 +4,51 @@
 
 package frc.robot.commands;
 
-//joystick
-import edu.wpi.first.wpilibj.Joystick;
-//subsystems
 import frc.robot.subsystems.Drive;
-
+import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class JoystickDrive extends CommandBase {
+public class AutoMoveForward extends CommandBase {
   private Drive m_drive;
-  private Joystick m_joystickdriver;
+  private Double desiredDistance;
 
-  /** Creates a new JoystickDrive. */
-  public JoystickDrive(Joystick joystickDriver, Drive drive) {
-    m_joystickdriver = joystickDriver;
+  /** Creates a new AutoMoveForward. */
+  public AutoMoveForward(Drive drive) {
     m_drive = drive;
-    addRequirements(m_drive);
+    double TPI = drive.TPI;
+    double TPR = drive.TPR;
+    double desiredDistance = drive.desiredDistance;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     m_drive.zeroEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double Yval1 = m_joystickdriver.getRawAxis(1);
-    double Yval2 = m_joystickdriver.getRawAxis(5);
-    m_drive.Tankinput(m_joystickdriver, Yval1, Yval2);
+    m_drive.driveForward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) < desiredDistance)
+      m_drive.driveForward();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= desiredDistance) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

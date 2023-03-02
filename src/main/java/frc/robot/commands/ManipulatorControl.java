@@ -4,37 +4,40 @@
 
 package frc.robot.commands;
 
-//joystick
 import edu.wpi.first.wpilibj.Joystick;
-//subsystems
-import frc.robot.subsystems.Drive;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Manipulator;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.OperatorConstants;
 
-public class JoystickDrive extends CommandBase {
-  private Drive m_drive;
-  private Joystick m_joystickdriver;
+public class ManipulatorControl extends CommandBase {
+  private Manipulator manipulator;
+  private Joystick Manipulatorjoystick;
 
-  /** Creates a new JoystickDrive. */
-  public JoystickDrive(Joystick joystickDriver, Drive drive) {
-    m_joystickdriver = joystickDriver;
-    m_drive = drive;
-    addRequirements(m_drive);
+  /** Creates a new ManipulatorControl. */
+  public ManipulatorControl(Joystick ManipulatorJoystick, Manipulator m_manipulator) {
+    Manipulatorjoystick = ManipulatorJoystick;
+    manipulator = m_manipulator;
+    addRequirements(m_manipulator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drive.zeroEncoders();
+    manipulator.zeroAll();
+    manipulator.grippersClose();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double Yval1 = m_joystickdriver.getRawAxis(1);
-    double Yval2 = m_joystickdriver.getRawAxis(5);
-    m_drive.Tankinput(m_joystickdriver, Yval1, Yval2);
+    double YaxisShoulder = Manipulatorjoystick.getRawAxis(1);
+    double YaxisWrist = Manipulatorjoystick.getRawAxis(5);
+    manipulator.ManipulatorControl(Manipulatorjoystick, YaxisShoulder, YaxisWrist);
+
   }
 
   // Called once the command ends or is interrupted.

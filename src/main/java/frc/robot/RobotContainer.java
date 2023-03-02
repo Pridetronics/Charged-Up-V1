@@ -4,6 +4,15 @@
 
 package frc.robot;
 
+//Joystick Imports
+import edu.wpi.first.wpilibj.Joystick;
+//subsystems
+import frc.robot.subsystems.Drive;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Vision;
+
 //Nav-X Imports
 import com.kauailabs.navx.frc.AHRS;
 //Hardware imports
@@ -25,18 +34,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 //Commands
-import frc.robot.commands.Autos;
-import frc.robot.commands.ForearmExtension;
-import frc.robot.commands.ForearmRetraction;
-import frc.robot.commands.JoystickDrive;
-import frc.robot.commands.ManipulatorMovement;
-import frc.robot.commands.AutoBalance;
-
+import frc.robot.commands.*;
 //Subsystems
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Vision;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.OperatorConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -56,6 +62,9 @@ public class RobotContainer {
   public static Manipulator m_manipulator;
 
   // Controllers
+  // commands
+  public static AutoMoveForward m_forward;
+  public static TargetCenteringVision m_targetCentering;
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
 
@@ -64,6 +73,14 @@ public class RobotContainer {
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
+  // Nav-X
+  public static AHRS ahrs; // Attitude and Heading Reference System (motion sensor).
+  public static boolean autoBalanceXMode; // Object Declaration for autoBalanceXmode. True/False output.
+  public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
+  // Sendable Chooser
+  SendableChooser<Command> m_Chooser = new SendableChooser<Command>();// make within 5 days from 2/7
+  // Driver Buttons
+  public JoystickButton robotCentering;
 
   // Manipulator Motors
   public static CANSparkMax shoulderMotor;
@@ -129,20 +146,25 @@ public class RobotContainer {
     // Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
-
+    // Subsystems
     m_drive = new Drive(joystickDriver);
     m_manipulator = new Manipulator(joystickManipulator);
     m_navX = new NavX();
     ahrs = new AHRS();
     m_vision = new Vision();
+    // commands
+    m_forward = new AutoMoveForward(m_drive);
+    m_targetCentering = new TargetCenteringVision(m_vision);
 
-    // Sendable chooser
-    SendableChooser<Command> m_Chooser = new SendableChooser<>();
-
+    // sendable chooser commands
+    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
+    m_Chooser.addOption("auto rotate and forward",
+        new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
+            new InstantCommand(m_drive::calculateDistance)));
+    m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
     // Configure the trigger bindings
     configureBindings();
-
-    SmartDashboard.putString("Code: ", "Helen's");
+    SmartDashboard.putData("sendableChooser", m_Chooser);
     SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
     SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
     SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
@@ -188,6 +210,8 @@ public class RobotContainer {
 
     // if (joystickDriver.getRawButtonPressed(1)) {
     // new AutoBalance(m_navX);
+    robotCentering = new JoystickButton(joystickDriver, Constants.OperatorConstants.Centering);
+    robotCentering.toggleOnTrue(new TargetCenteringVision(m_vision));
     // } //Not needed as of 2/2/2023 for now
     // Nav-X Button?????
   }
@@ -199,6 +223,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto();
+    return m_Chooser.getSelected();
   }
+
 }

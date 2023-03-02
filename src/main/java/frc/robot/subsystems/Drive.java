@@ -62,16 +62,16 @@ public class Drive extends SubsystemBase {
     Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
     tankDrive = new DifferentialDrive(Left, Right);
 
-    tankDrive.setSafetyEnabled(true);
+    tankDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
     tankDrive.setExpiration(.1);
     tankDrive.setMaxOutput(1);
-
     // calculations
-    TPR = m_leftFrontEncoder.getCountsPerRevolution();
+    TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
     SmartDashboard.putNumber("Ticks per revolution", TPR);
     wheelCircumference = 2 * (Math.PI * 3);// circumference of wheel in inches
-    TPI = TPR * wheelCircumference;
-    desiredDistance = 24;// 2 feet in inches, sujbect to change
+    TPI = TPR * wheelCircumference;// converts ticks per rotation to inches, used as final product of
+
+    SmartDashboard.putNumber("Ticks per Inch", TPI);
   }
 
   @Override
@@ -81,6 +81,12 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Back Left Encoder", m_leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Front Right Encoder", m_rightFrontEncoder.getPosition());
     SmartDashboard.putNumber("Back Right Encoder", m_rightBackEncoder.getPosition());
+  }
+
+  public void calculateDistance() {
+    TPR = m_leftFrontEncoder.getCountsPerRevolution();
+    TPI = TPR * wheelCircumference;
+    desiredDistance = TPI * 6; // 24 inches of tick temporary for testing
   }
 
   public void zeroEncoders() {
@@ -96,7 +102,7 @@ public class Drive extends SubsystemBase {
     // reduces speed so field is not torn apart
     Yval1 = Yval1 * .61; // .61
     Yval2 = Yval2 * .6; // .6
-    tankDrive.tankDrive(Yval1, Yval2, true);
+    tankDrive.tankDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
   public void driveStop() {
@@ -104,6 +110,16 @@ public class Drive extends SubsystemBase {
     m_leftBackMotor.set(0);
     m_rightFrontMotor.set(0);
     m_rightBackMotor.set(0);
+  }
+
+  public void driveBack() {
+    Left.set(-.6);
+    Right.set(-.6);
+  }
+
+  public void driveForward() {
+    Left.set(.6);
+    Right.set(.6);
   }
 
 }

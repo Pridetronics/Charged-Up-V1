@@ -66,5 +66,7 @@ public final class Constants {
 
     public static final double encoderForearmDistance = 145;
     public static final double encoderWristDistance = 100;
+    // driver
+    public static final int Centering = 1;
   }
 }

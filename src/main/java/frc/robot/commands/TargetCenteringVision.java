@@ -4,22 +4,18 @@
 
 package frc.robot.commands;
 
-//joystick
-import edu.wpi.first.wpilibj.Joystick;
-//subsystems
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Drive;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class JoystickDrive extends CommandBase {
+public class TargetCenteringVision extends CommandBase {
+  private Vision m_vision;
   private Drive m_drive;
-  private Joystick m_joystickdriver;
 
-  /** Creates a new JoystickDrive. */
-  public JoystickDrive(Joystick joystickDriver, Drive drive) {
-    m_joystickdriver = joystickDriver;
-    m_drive = drive;
-    addRequirements(m_drive);
+  /** Creates a new TargetCenteringVision. */
+  public TargetCenteringVision(Vision vision) {
+    m_vision = vision;
+    addRequirements(m_vision);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,14 +28,13 @@ public class JoystickDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double Yval1 = m_joystickdriver.getRawAxis(1);
-    double Yval2 = m_joystickdriver.getRawAxis(5);
-    m_drive.Tankinput(m_joystickdriver, Yval1, Yval2);
+    m_vision.centerTarget();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
   }
 
   // Returns true when the command should end.

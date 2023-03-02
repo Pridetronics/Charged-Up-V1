@@ -5,24 +5,24 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
-
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 //hardware
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxRelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Manipulator extends SubsystemBase {
   private CANSparkMax m_shoulderMotor;
@@ -256,4 +256,63 @@ public class Manipulator extends SubsystemBase {
     SmartDashboard.putBoolean("Lower Forearm Limit Switch", RobotContainer.lowerForearmLimitSwitch.get());
     SmartDashboard.putBoolean("Lower Wrist Limit Switch", RobotContainer.lowerWristLimitSwitch.get());
   }
+
+  public void zeroForearm() {
+    m_ForearmEncoder.setPosition(0);
+
+  }
+
+  public void zeroShoulder() {
+    m_ShoulderEncoder.setPosition(0);
+  }
+
+  public void zeroAll() {
+    m_ForearmEncoder.setPosition(0);
+    m_ShoulderEncoder.setPosition(0);
+    m_wristEncoder.reset();
+  }
+
+  public void honeForearm() {
+    forearmRetract = m_ForearmLower.get();
+    if (forearmRetract == false) {
+      m_forearm.set(-.3);
+    } else if (forearmRetract) {
+      m_forearm.set(0);
+      m_ForearmEncoder.setPosition(0);
+    } else {
+      System.out.println("Forearm Error");
+    }
+  }
+
+  public void grippersOpen() {
+    m_grippers.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void grippersClose() {
+    m_grippers.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void forearmExtention() {
+    m_forearm.set(.6);
+
+  }
+
+  public void forearmRetract() {
+    forearmRetract = m_ForearmLower.get();
+    m_forearm.set(-.6);
+    new WaitCommand(.15);
+    if (forearmRetract) {
+      m_forearm.set(0);
+    }
+  }
+
+  public void ManipulatorControl(Joystick joystickManipulator, double YaxisShoulder, double YaxisWrist) {
+    joystickManipulator = RobotContainer.joystickManipulator;
+    YaxisShoulder = joystickManipulator.getRawAxis(1);
+    YaxisWrist = joystickManipulator.getRawAxis(5);
+
+    ManipulatorControl.tankDrive(YaxisShoulder, YaxisWrist, true);
+
+  }
+
 }
