@@ -36,9 +36,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     SmartDashboard.putString("WpilibVer", "2023.2.1");
-    // allows tester to know if correct code is uploaded
-    SmartDashboard.putString("Code", "Gerald");
-
     // CameraServer.startAutomaticCapture(0);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
