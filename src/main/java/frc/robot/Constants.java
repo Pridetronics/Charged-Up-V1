@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -21,37 +23,50 @@ public final class Constants {
     // Controller IDs
     public static final int kJoystickDriverID = 0;
     public static final int kJoystickManipulatorID = 1;
-    // drive CANIDs
+
+    // Drive CANIDs
     public static final int kRightFrontDriveCANID = 1;
     public static final int kLeftFrontDriveCANID = 2;
     public static final int kLeftBackDriveCANID = 3;
     public static final int kRightBackDriveCANID = 4;
+
     // Nav-x IDs
     public static final double kOffBalanceAngleThresholdDegrees = 10;
     public static final double kOnBalanceAngleThresholdDegrees = 5;
-    // drive Autonomous
+
+    // Drive Autonomous
     public static final double kAutoVolt = -.5;
-    // manipulator Motor IDs
+
+    // Manipulator Motor IDs
     public static final int kShoulderMotorCANID = 5;
-    public static final int kTelescopicMotorCANID = 6;
-    public static final int kWristMotor = 7;// Johnson motor
-    // manipulator pneumatic ids
-    public static final int kExtendPist = 0;
-    public static final int kRetractPist = 1;
-    // manipulator limit switch IDs
-    public static final int kShoulderUpperLimit = 0;
-    public static final int kShoulderLowerLimit = 1;
-    public static final int kForearmLowerLimit = 2;
-    public static final int kWristLimit = 3;
-    // Controller buttons
+    public static final int kForearmMotorCANID = 6;
+    public static final int kWristMotorCANID = 7;
+    public static final int kWristMotorDIOID1 = 6;
+    public static final int kWristMotorDIOID2 = 7;
+
+    public static final int kPistonForwardWristChannel = 0;
+    public static final int kPistonReverseWristChannel = 1;
+
+    public static final int kShoulderAxisNumber = 2;
+
+    public static final int kForearmExtendButtonNumber = 11;
+    public static final int kForearmRetractButtonNumber = 12;
+
+    public static final int kWristRotationAxisNumber = 5;
+    public static final int kWristPistonButtonNumber = 1;
+
+    public static final int kUpperShoulderLimitSwitchChannel = 0;
+    public static final int kLowerShoulderLimitSwitchChannel = 1;
+    public static final int kLowerForearmLimitSwitchChannel = 2;
+    public static final int kLowerWristLimitSwitchChannel = 3;
+
+    // PID here
+    public static final double MANIPULATOR_MIN_OUTPUT = -6000.0;
+    public static final double MANIPULATOR_MAx_OUTPUT = 6000.0;
+
+    public static final double encoderForearmDistance = 145;
+    public static final double encoderWristDistance = 100;
     // driver
     public static final int Centering = 1;
-    // manipulator
-    public static final int ForearmExtend = 11;
-    public static final int ForearmRetract = 12;
-    public static final int Yaxis5 = 5;
-    public static final int Gripper = 1;
-    // shoulder gerbox ratio
-    // public static final int ShoulderGearbox
   }
 }

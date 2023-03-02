@@ -4,35 +4,39 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-//Joystick Imports
-import edu.wpi.first.wpilibj.Joystick;
-//subsystems
-import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.Vision;
-
 //Nav-X Imports
 import com.kauailabs.navx.frc.AHRS;
-
 //Hardware imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-//Commands
-import frc.robot.commands.*;
-//Subsystems
-import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.NavX;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+//Joystick Imports
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.DigitalInput;
+//Commands
+import frc.robot.commands.Autos;
+import frc.robot.commands.ForearmExtension;
+import frc.robot.commands.ForearmRetraction;
+import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.ManipulatorMovement;
+import frc.robot.commands.AutoBalance;
+
+//Subsystems
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -45,70 +49,100 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // subsystems
+  // Subsystems
   public static Drive m_drive;
   public static Vision m_vision;
   public static NavX m_navX;
   public static Manipulator m_manipulator;
-  // commands
-  public static AutoMoveForward m_forward;
-  public static TargetCenteringVision m_targetCentering;
-  public static ManipulatorControl m_ManipulatorControl;
-  // controllers
+
+  // Controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
-  // motors
+
+  // Drive Motors
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
+
+  // Manipulator Motors
+  public static CANSparkMax shoulderMotor;
+  public static CANSparkMax forearmMotor;
+  public static CANSparkMax wristMotor;
+
+  // Wrist Piston
+  public static DoubleSolenoid wristPiston;
+
+  // Manipulator Buttons
+  public static JoystickButton forearmExtendButton;
+  public static JoystickButton forearmRetractButton;
+
+  public static JoystickButton wristPistonButton;
+
   // Nav-X
   public static AHRS ahrs; // Attitude and Heading Reference System (motion sensor).
   public static boolean autoBalanceXMode; // Object Declaration for autoBalanceXmode. True/False output.
   public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
-  // Sendable Chooser
-  SendableChooser<Command> m_Chooser = new SendableChooser<Command>();// make within 5 days from 2/7
-  // Driver Buttons
-  public JoystickButton robotCentering;
+
+  // Manipulator Limit Switches
+  public static DigitalInput upperShoulderLimitSwitch;
+  public static DigitalInput lowerShoulderLimitSwitch;
+  public static DigitalInput lowerForearmLimitSwitch;
+  public static DigitalInput lowerWristLimitSwitch;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
-    // Drive motors
+    // Drive Motors
     rightFrontMotor = new CANSparkMax(OperatorConstants.kRightFrontDriveCANID, MotorType.kBrushless);
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-    // inverts the left motors and leaves the right motors
+
+    // Inverts the left motors and leaves the right motors
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
     rightFrontMotor.setInverted(false);
     rightBackMotor.setInverted(false);
-    // connects joystick ids to proper ports
+
+    // Manipulator Motors
+    shoulderMotor = new CANSparkMax(OperatorConstants.kShoulderMotorCANID, MotorType.kBrushless);
+    forearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
+    wristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+
+    // Manipulator Invertions
+    shoulderMotor.setInverted(false);
+    forearmMotor.setInverted(false);
+    wristMotor.setInverted(false);
+
+    // Manipulator Piston
+    wristPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonForwardWristChannel,
+        OperatorConstants.kPistonReverseWristChannel);
+
+    // Manipulator Limit Switches
+    upperShoulderLimitSwitch = new DigitalInput(OperatorConstants.kUpperShoulderLimitSwitchChannel);
+    lowerShoulderLimitSwitch = new DigitalInput(OperatorConstants.kLowerShoulderLimitSwitchChannel);
+    lowerForearmLimitSwitch = new DigitalInput(OperatorConstants.kLowerForearmLimitSwitchChannel);
+    lowerWristLimitSwitch = new DigitalInput(OperatorConstants.kLowerWristLimitSwitchChannel);
+
+    // Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
-    // Subsystems
+
     m_drive = new Drive(joystickDriver);
+    m_manipulator = new Manipulator(joystickManipulator);
     m_navX = new NavX();
     ahrs = new AHRS();
     m_vision = new Vision();
-    m_manipulator = new Manipulator(joystickManipulator);
-    // commands
-    m_ManipulatorControl = new ManipulatorControl(joystickManipulator, m_manipulator);
-    m_forward = new AutoMoveForward(m_drive);
-    m_targetCentering = new TargetCenteringVision(m_vision);
 
-    // sendable chooser commands
-    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
-    m_Chooser.addOption("auto rotate and forward",
-        new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
-            new InstantCommand(m_drive::calculateDistance)));
-    m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
+    // Sendable chooser
+    SendableChooser<Command> m_Chooser = new SendableChooser<>();
+
     // Configure the trigger bindings
     configureBindings();
-    SmartDashboard.putData("sendableChooser", m_Chooser);
+
+    SmartDashboard.putString("Code: ", "Helen's");
     SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
     SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
     SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
@@ -130,17 +164,32 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
-    m_manipulator.setDefaultCommand(new ManipulatorControl(joystickManipulator, m_manipulator));
 
-    robotCentering = new JoystickButton(joystickDriver, Constants.OperatorConstants.Centering);
-    robotCentering.toggleOnTrue(new TargetCenteringVision(m_vision));
+    // This will do Shoulder and Wrist movements on Axis 2 (Shoulder) and Axis 5,6
+    // (Wrist)
+    // m_manipulator.setDefaultCommand(new ManipulatorMovement(joystickManipulator,
+    // m_manipulator));
+
+    // forearmExtendButton = new JoystickButton(joystickManipulator,
+    // OperatorConstants.kForearmExtendButtonNumber);
+    // forearmExtendButton.whileTrue(new ForearmExtension(m_manipulator));
+    // forearmRetractButton = new JoystickButton(joystickManipulator,
+    // OperatorConstants.kForearmRetractButtonNumber);
+    // forearmRetractButton.whileTrue(new ForearmRetraction(m_manipulator));
+    // // Extend/Retract Wrist Piston
+    // wristPistonButton = new JoystickButton(joystickManipulator,
+    // OperatorConstants.kWristPistonButtonNumber);
+    // wristPistonButton.toggleOnTrue(new InstantCommand(m_manipulator::extendWrist,
+    // m_manipulator))
+    // .toggleOnFalse(new InstantCommand(m_manipulator::retractWrist,
+    // m_manipulator));
+
     // m_navX.setDefaultCommand(new AutoBalance(m_navX));
-    // if (joystickDriver.getRawButtonPressed(0)) {
-    // new AutoBalance(m_navX);
-    // }
-    // if (joystickDriver.getRawButton(1)) {
+
+    // if (joystickDriver.getRawButtonPressed(1)) {
     // new AutoBalance(m_navX);
     // } //Not needed as of 2/2/2023 for now
+    // Nav-X Button?????
   }
 
   /**
@@ -150,7 +199,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return m_Chooser.getSelected();
+    return Autos.exampleAuto();
   }
-
 }

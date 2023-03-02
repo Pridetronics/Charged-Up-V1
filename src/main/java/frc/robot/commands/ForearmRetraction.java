@@ -7,36 +7,40 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Manipulator;
 
-public class ForearmExtend extends CommandBase {
+public class ForearmRetraction extends CommandBase {
   private Manipulator m_manipulator;
 
-  /** Creates a new ForearmExtend. */
-  public ForearmExtend(Manipulator manipulator) {
+  /** Creates a new ForearmRetraction. */
+  public ForearmRetraction(Manipulator manipulator) {
     m_manipulator = manipulator;
-    addRequirements(m_manipulator);
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_manipulator);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_manipulator.forearmExtention();
+    m_manipulator.forearmRetraction();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_manipulator.zeroForearmEncoder();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_manipulator.isForearmAtBottom() == true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

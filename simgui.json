@@ -1,4 +1,13 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "navX-Sensor[0]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -39,12 +48,9 @@
         "open": true
       },
       "SmartDashboard": {
-        "open": true,
-        "sendableChooser": {
+        "BalanceMode": {
           "open": true
-        }
-      },
-      "USB Camera 0": {
+        },
         "open": true
       }
     }

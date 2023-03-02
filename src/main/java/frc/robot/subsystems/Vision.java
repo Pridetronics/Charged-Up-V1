@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-//camera imports
+//Camera imports
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -19,12 +19,14 @@ import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
-//networktable imports to organize limelight and camera
+
+//Networktable imports to organize limelight and camera
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-//hardware imports for automatic actions
+
+//Hardware imports for automatic actions
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
@@ -35,12 +37,14 @@ public class Vision extends SubsystemBase {
   public CvSource outputStream;
   // Hardware
   UsbCamera camera_0;
-  // motors
+  
+  //Motors
   private CANSparkMax m_rightFrontMotor;
   private CANSparkMax m_leftFrontMotor;
   private CANSparkMax m_rightBackMotor;
   private CANSparkMax m_leftBackMotor;
-  // Encoders
+  
+  //Encoders
   private static RelativeEncoder m_rightFrontEncoder;
   private static RelativeEncoder m_leftFrontEncoder;
   private static RelativeEncoder m_rightBackEncoder;
@@ -48,7 +52,7 @@ public class Vision extends SubsystemBase {
   // motor groups
   private MotorControllerGroup Left;
   private MotorControllerGroup Right;
-  // variables
+  //Variables
   private double ty;
   private double tx;
   private double tv;
@@ -61,9 +65,9 @@ public class Vision extends SubsystemBase {
   private double distanceInInches;
   private double distanceInFeet;
   private double roundedDistance;
+
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable table = inst.getTable("limelight");
-
   public Vision() {
     // motors
     m_leftFrontMotor = RobotContainer.leftFrontMotor;

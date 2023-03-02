@@ -23,11 +23,13 @@ public class Drive extends SubsystemBase {
   private CANSparkMax m_leftFrontMotor;
   private CANSparkMax m_rightBackMotor;
   private CANSparkMax m_leftBackMotor;
+
   // Encoders
   public static RelativeEncoder m_rightFrontEncoder;
   public static RelativeEncoder m_leftFrontEncoder;
   public static RelativeEncoder m_rightBackEncoder;
   public static RelativeEncoder m_leftBackEncoder;
+
   // Makes differential drive and motorcontroller groups
   public static DifferentialDrive tankDrive;
   public MotorControllerGroup Left;
@@ -40,16 +42,19 @@ public class Drive extends SubsystemBase {
 
   /** Creates a new Drive. */
   public Drive(Joystick joystickDriver) {
+
     // Motors are now set to same as robotcontainer
     m_rightFrontMotor = RobotContainer.rightFrontMotor;
     m_leftFrontMotor = RobotContainer.leftFrontMotor;
     m_rightBackMotor = RobotContainer.rightBackMotor;
     m_leftBackMotor = RobotContainer.leftBackMotor;
+
     // Detects and sets encoder values
     m_rightFrontEncoder = m_rightFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     m_leftFrontEncoder = m_leftFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     m_rightBackEncoder = m_rightBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     m_leftBackEncoder = m_leftBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+
     // Zeroes encoders
     zeroEncoders();
     // Two motorcontroller groups that will act as left and right in tank drive
@@ -92,11 +97,11 @@ public class Drive extends SubsystemBase {
   }
 
   public void Tankinput(Joystick joystickDriver, double Yval1, double Yval2) {
-    Yval1 = joystickDriver.getRawAxis(1);// left
-    Yval2 = joystickDriver.getRawAxis(5);// right
+    Yval1 = joystickDriver.getRawAxis(1); // Left side of the robot
+    Yval2 = joystickDriver.getRawAxis(5); // Right side of the robot
     // reduces speed so field is not torn apart
-    Yval1 = Yval1 * .85;// left side is a bit slower in speed
-    Yval2 = Yval2 * .8;
+    Yval1 = Yval1 * .61; // .61
+    Yval2 = Yval2 * .6; // .6
     tankDrive.tankDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
