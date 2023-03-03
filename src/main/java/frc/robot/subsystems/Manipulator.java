@@ -28,18 +28,22 @@ import com.revrobotics.SparkMaxRelativeEncoder;
 public class Manipulator extends SubsystemBase {
   private Joystick joystick;
   private Manipulator manipulator;
-  private DigitalInput armLimitSwitch = new DigitalInput(OperatorConstants.kArmLimitID);
-  private DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kClawLimitID);
+  private DigitalInput armLimitSwitch = new DigitalInput(OperatorConstants.kShoulderLowerLimitID);
+  private DigitalInput upperArmLimitSwitch = new DigitalInput(OperatorConstants.kShoulderUpperLimitID);
+  private DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kWristLimitID);
 
   private CANSparkMax armMotor;
   private CANSparkMax wristMotor;
+  private CANSparkMax foreArmMotor;
+
   private DoubleSolenoid claw;
+
   private RelativeEncoder armEncoder;
   private RelativeEncoder wristEncoder;
-  private DigitalInput armLowerLimit = new DigitalInput(OperatorConstants.kArmLimitID);
-  private DigitalInput wristLowerLimit = new DigitalInput(OperatorConstants.kClawLimitID);
+  private RelativeEncoder forearmEncoder;
 
   private SparkMaxPIDController shoulderPID;
+  private SparkMaxPIDController forearmPID;
 
 
   /** Creates a new Manipulator. */
@@ -51,14 +55,17 @@ public class Manipulator extends SubsystemBase {
     //Retrives Motors
     armMotor = RobotContainer.manipulatorArmMotor;
     wristMotor = RobotContainer.manipulatorWristMotor;
+    foreArmMotor = RobotContainer.manipulatorForearmMotor;
     claw = RobotContainer.clawSolenoid;
 
     //Retrieves Encoders
     armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     wristEncoder = wristMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+    forearmEncoder = foreArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
     //Retrieves PIDs
     shoulderPID = RobotContainer.shoulderPID;
+    forearmPID = RobotContainer.forearmPID;
   }
 
   @Override
@@ -73,7 +80,7 @@ public class Manipulator extends SubsystemBase {
     double curArmPos = armEncoder.getPosition()/armEncoder.getCountsPerRevolution();
 
     //Checks if motor is out of limits
-    boolean upperLimit = curArmPos > 0.125f;
+    boolean upperLimit = !armLimitSwitch.get();
     boolean lowerLimit = !armLimitSwitch.get();
 
     //Updates the motor speed based on limits
@@ -112,16 +119,16 @@ public class Manipulator extends SubsystemBase {
     shoulderPID.setReference(upMotion + downMotion, ControlType.kVelocity);
   }
 
-  //Forearm code
-  public void moveTelescopic(double distance) {
-    
+  public void moveForearm(boolean forwards) {
+    int direction = forwards ? 1 : -1;
 
+    double rotationsToMake = OperatorConstants.kForearmIncrement/OperatorConstants.kForearmCircum;
 
-  }
-    
+    double increment = rotationsToMake*forearmEncoder.getCountsPerRevolution()*direction;
+    double currentPos = forearmEncoder.getPosition();
 
-
-
+    forearmPID.setReference(currentPos+increment, ControlType.kPosition);
+  };
 
   public void controlClaw() {
     boolean clawInput = joystick.getRawButtonPressed(OperatorConstants.clawOpenCloseButtonNumber);
