@@ -31,6 +31,7 @@ public class Manipulator extends SubsystemBase {
   private DigitalInput armLimitSwitch = new DigitalInput(OperatorConstants.kShoulderLowerLimitID);
   private DigitalInput upperArmLimitSwitch = new DigitalInput(OperatorConstants.kShoulderUpperLimitID);
   private DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kWristLimitID);
+  private DigitalInput forearmLimitSwitch = new DigitalInput(OperatorConstants.kForearmLimitID);
 
   private CANSparkMax armMotor;
   private CANSparkMax wristMotor;
@@ -80,7 +81,7 @@ public class Manipulator extends SubsystemBase {
     double curArmPos = armEncoder.getPosition()/armEncoder.getCountsPerRevolution();
 
     //Checks if motor is out of limits
-    boolean upperLimit = !armLimitSwitch.get();
+    boolean upperLimit = !upperArmLimitSwitch.get();
     boolean lowerLimit = !armLimitSwitch.get();
 
     //Updates the motor speed based on limits
@@ -126,8 +127,20 @@ public class Manipulator extends SubsystemBase {
 
     double increment = rotationsToMake*forearmEncoder.getCountsPerRevolution()*direction;
     double currentPos = forearmEncoder.getPosition();
+    double moveTo = increment+currentPos;
 
-    forearmPID.setReference(currentPos+increment, ControlType.kPosition);
+    double distanceMade = currentPos/forearmEncoder.getCountsPerRevolution()*OperatorConstants.kForearmCircum;
+
+    boolean lowerLimit = !forearmLimitSwitch.get();
+    boolean upperLimit = distanceMade+increment > OperatorConstants.forearmExtendLimit;
+
+    if (lowerLimit && !forwards) {
+      moveTo = Math.max(moveTo, currentPos);
+    } else if (upperLimit && forwards) {
+      moveTo = Math.min(moveTo, currentPos);
+    }
+
+    forearmPID.setReference(moveTo, ControlType.kPosition);
   };
 
   public void controlClaw() {

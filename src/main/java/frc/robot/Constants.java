@@ -57,5 +57,7 @@ public final class Constants {
 
     public static final double kForearmCircum = 0.75*Math.PI;
     public static final double kForearmIncrement = 2;
+    //value is in Inches
+    public static final double forearmExtendLimit = 20;
   }
 }
