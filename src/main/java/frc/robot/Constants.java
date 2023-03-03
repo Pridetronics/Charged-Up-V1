@@ -34,7 +34,7 @@ public final class Constants {
    
     //manipulator Motor IDs 
     public static final int kArmMotorCANID = 5;
-    public static final int kExtentionMotorCANID = 6;
+    public static final int kForearmMotorCANID = 6;
     public static final int kWristMotorCANID = 7;
     
     public static final int kArmInputAxis = 2;
@@ -43,13 +43,19 @@ public final class Constants {
     public static final int kWristInputUp = 5;
     public static final int kWristInputDown = 6;
 
-    public static final int kArmLimitID = 0;
-    public static final int kExtendLimitID = 1;
-    public static final int kClawLimitID = 2;
+    //Limit Switches
+    public static final int kShoulderLowerLimitID = 0;
+    public static final int kShoulderUpperLimitID = 1;
+    public static final int kForearmLimitID = 2;
+    public static final int kWristLimitID = 3;   
+    public static final int kWristEncoderAID = 4;
+    public static final int kWristEncoderBID = 5;
 
     //Solenoids
     public static final int kClawExtend = 0;
     public static final int kClawRetract = 1;
 
+    public static final double kForearmCircum = 0.75*Math.PI;
+    public static final double kForearmIncrement = 2;
   }
 }

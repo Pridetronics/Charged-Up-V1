@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
 //subsystems
@@ -29,6 +31,7 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Autos;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.ManipulatorInput;
+import frc.robot.commands.forearmInput;
 
 //Subsystems
 import frc.robot.subsystems.Drive;
@@ -61,7 +64,7 @@ public class RobotContainer {
   public static CANSparkMax leftBackMotor;
   
   public static CANSparkMax manipulatorArmMotor;
-  public static CANSparkMax manipulatorEntentionMotor;
+  public static CANSparkMax manipulatorForearmMotor;
   public static CANSparkMax manipulatorWristMotor;
   public static CANSparkMax manipulatorClawMotor;
   //Solenoids
@@ -74,6 +77,7 @@ public class RobotContainer {
 
   //PID Controllers
   public static SparkMaxPIDController shoulderPID;
+  public static SparkMaxPIDController forearmPID;
  // private final Drive m_drive = new Drive();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -85,7 +89,7 @@ public class RobotContainer {
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
     
     manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
-    manipulatorEntentionMotor = new CANSparkMax(OperatorConstants.kExtentionMotorCANID, MotorType.kBrushless);
+    manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
     manipulatorWristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushless);
     //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
@@ -104,6 +108,7 @@ public class RobotContainer {
 
     //PID Controllers
     shoulderPID = manipulatorArmMotor.getPIDController();
+    forearmPID = manipulatorForearmMotor.getPIDController();
 
     // Configure the trigger bindings
     m_vision = new Vision();
@@ -133,6 +138,11 @@ public class RobotContainer {
     m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
     m_navX.setDefaultCommand(new AutoBalance(m_navX));
 
+    JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputExtend);
+    JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputRetract);
+
+    forearmButtonExtend.onTrue(new forearmInput(m_manipulator, true));
+    forearmButtonRetract.onTrue(new forearmInput(m_manipulator, false));
     // if (joystickDriver.getRawButtonPressed(0)) {
     //   new AutoBalance(m_navX);
     // }
