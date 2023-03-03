@@ -69,7 +69,7 @@ public class Manipulator extends SubsystemBase {
     zeroEncoders();
   }
 
-  public void ManipulatorMovement(Joystick m_joystickManipulator, double YaxisShoulder, double YaxisWrist) {
+  public void ManipulatorInput(Joystick m_joystickManipulator, double YaxisShoulder, double YaxisWrist) {
     m_joystickManipulator = RobotContainer.joystickManipulator;
     YaxisShoulder = m_joystickManipulator.getRawAxis(OperatorConstants.kShoulderAxisNumber);
     YaxisWrist = m_joystickManipulator.getRawAxis(OperatorConstants.kWristRotationAxisNumber);
