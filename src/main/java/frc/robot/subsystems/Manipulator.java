@@ -112,7 +112,16 @@ public class Manipulator extends SubsystemBase {
     shoulderPID.setReference(upMotion + downMotion, ControlType.kVelocity);
   }
 
-  public void moveTelescopic()
+  //Forearm code
+  public void moveTelescopic(double distance) {
+    
+
+
+  }
+    
+
+
+
 
   public void controlClaw() {
     boolean clawInput = joystick.getRawButtonPressed(OperatorConstants.clawOpenCloseButtonNumber);
