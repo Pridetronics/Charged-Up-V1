@@ -123,23 +123,33 @@ public class Manipulator extends SubsystemBase {
   public void moveForearm(boolean forwards) {
     int direction = forwards ? 1 : -1;
 
+    //Gets the number of rotations to make in a decimal percent form (1 full rotation == 1)
     double rotationsToMake = OperatorConstants.kForearmIncrement/OperatorConstants.kForearmCircum;
 
+    //Converts the rotations into a form that works with the encoders, while also setting the direction it needs to go in
     double increment = rotationsToMake*forearmEncoder.getCountsPerRevolution()*direction;
+    //Gets the current position
     double currentPos = forearmEncoder.getPosition();
+    //Find where the rotational goal is, set into the encoders countsPerRevlolutions form
     double moveTo = increment+currentPos;
 
-    double distanceMade = currentPos/forearmEncoder.getCountsPerRevolution()*OperatorConstants.kForearmCircum;
+    //Converts the encoder positioning to a decimal percent of rotations (1 full rotation == 1)
+    double rotationsMade = currentPos/forearmEncoder.getCountsPerRevolution();
+    //Converts the total rotation positioning into a distance of inches moved
+    double distanceMade = rotationsMade*OperatorConstants.kForearmCircum;
 
+    //Checks if any limit bounds have been reached
     boolean lowerLimit = !forearmLimitSwitch.get();
     boolean upperLimit = distanceMade+increment > OperatorConstants.forearmExtendLimit;
 
+    //Updates the goal position based on limits
     if (lowerLimit && !forwards) {
       moveTo = Math.max(moveTo, currentPos);
     } else if (upperLimit && forwards) {
       moveTo = Math.min(moveTo, currentPos);
     }
 
+    //Tells motor to move to the new position
     forearmPID.setReference(moveTo, ControlType.kPosition);
   };
 

@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+
+
 import java.lang.management.OperatingSystemMXBean;
 
 //joystick
@@ -14,8 +16,9 @@ import frc.robot.subsystems.Manipulator;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class forearmInput extends CommandBase {
+public class forearmInput extends InstantCommand {
     private Manipulator manipulator;
     private boolean moveForward;
   /** Creates a new JoystickDrive. */
