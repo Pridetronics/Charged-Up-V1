@@ -28,6 +28,11 @@ public final class Constants {
     public static final double kOffBalanceAngleThresholdDegrees = 10;
     public static final double kOnBalanceAngleThresholdDegrees  = 5;
 
+
+    //piston channels
+    public static final int kPistonExtendClawChannel = 0;
+    public static final int kPistonRetractClawChannel = 1;
+
     
     //drive Autonomous
     public static final double kAutoVolt = -.5;
@@ -52,9 +57,8 @@ public final class Constants {
     public static final int kWristEncoderBID = 5;
 
     //Solenoids
-    public static final int kClawExtend = 0;
-    public static final int kClawRetract = 1;
-
+    public static final int kClawToggle = 1;
+    
     public static final double kForearmCircum = 0.75*Math.PI;
     public static final double kForearmIncrement = 2;
     //value is in Inches

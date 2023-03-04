@@ -25,6 +25,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 
 //Commands
 import frc.robot.commands.AutoBalance;
@@ -32,6 +34,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.ManipulatorInput;
 import frc.robot.commands.forearmInput;
+import frc.robot.commands.clawInput;
 
 //Subsystems
 import frc.robot.subsystems.Drive;
@@ -68,7 +71,7 @@ public class RobotContainer {
   public static CANSparkMax manipulatorWristMotor;
   public static CANSparkMax manipulatorClawMotor;
   //Solenoids
-  public static DoubleSolenoid claw;
+  public static DoubleSolenoid clawPiston;
   //Nav-X
   public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
   public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
@@ -101,7 +104,11 @@ public class RobotContainer {
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
     //drive
     m_drive = new Drive(joystickDriver);
-    m_manipulator = new Manipulator(joystickManipulator);    
+    m_manipulator = new Manipulator(joystickManipulator); 
+    
+    //pistons
+    clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonExtendClawChannel, OperatorConstants.kPistonRetractClawChannel);
+
 
     m_navX = new NavX();
     ahrs = new AHRS();
@@ -141,8 +148,13 @@ public class RobotContainer {
     JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputExtend);
     JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputRetract);
 
+    JoystickButton clawButton = new JoystickButton(joystickManipulator, OperatorConstants.kClawToggle);
+
     forearmButtonExtend.onTrue(new forearmInput(m_manipulator, true));
     forearmButtonRetract.onTrue(new forearmInput(m_manipulator, false));
+    clawButton.onTrue(new clawInput(m_manipulator));
+
+    
     // if (joystickDriver.getRawButtonPressed(0)) {
     //   new AutoBalance(m_navX);
     // }

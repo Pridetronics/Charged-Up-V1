@@ -15,17 +15,14 @@ import frc.robot.subsystems.Manipulator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ManipulatorInput extends CommandBase {
-    private Joystick joystick;
+public class clawInput extends CommandBase {
     private Manipulator manipulator;
-
+    private boolean moveForward;
   /** Creates a new JoystickDrive. */
-  public ManipulatorInput(Joystick joystickManipulator, Manipulator m_manipulator) {
-    joystick = joystickManipulator;
+  public clawInput(Manipulator m_manipulator) {
     manipulator = m_manipulator;
+    
 
-
-    addRequirements(manipulator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -33,22 +30,11 @@ public class ManipulatorInput extends CommandBase {
   @Override
   public void initialize() {}
 
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double armJoystickMovement = joystick.getRawAxis(OperatorConstants.kArmInputAxis);
-
-    boolean wristBtnUp = joystick.getRawButtonPressed(OperatorConstants.kWristInputUp);
-    boolean wristBtnDown = joystick.getRawButtonPressed(OperatorConstants.kWristInputDown);
-
-
-    boolean telescopicBtnUp = joystick.getRawButtonPressed(OperatorConstants.kManipulatorInputExtend);
-    boolean telescopicBtnDown = joystick.getRawButtonPressed(OperatorConstants.kManipulatorInputRetract);
-
-    manipulator.moveArm(armJoystickMovement);
-
-    manipulator.moveWrist(wristBtnUp, wristBtnDown);
-
+    manipulator.toggleClaw();
   }
 
   // Called once the command ends or is interrupted.
