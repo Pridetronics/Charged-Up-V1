@@ -37,14 +37,14 @@ public class Vision extends SubsystemBase {
   public CvSource outputStream;
   // Hardware
   UsbCamera camera_0;
-  
-  //Motors
+
+  // Motors
   private CANSparkMax m_rightFrontMotor;
   private CANSparkMax m_leftFrontMotor;
   private CANSparkMax m_rightBackMotor;
   private CANSparkMax m_leftBackMotor;
-  
-  //Encoders
+
+  // Encoders
   private static RelativeEncoder m_rightFrontEncoder;
   private static RelativeEncoder m_leftFrontEncoder;
   private static RelativeEncoder m_rightBackEncoder;
@@ -52,7 +52,7 @@ public class Vision extends SubsystemBase {
   // motor groups
   private MotorControllerGroup Left;
   private MotorControllerGroup Right;
-  //Variables
+  // Variables
   private double ty;
   private double tx;
   private double tv;
@@ -68,6 +68,7 @@ public class Vision extends SubsystemBase {
 
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable table = inst.getTable("limelight");
+
   public Vision() {
     // motors
     m_leftFrontMotor = RobotContainer.leftFrontMotor;
@@ -169,6 +170,7 @@ public class Vision extends SubsystemBase {
     if (tv == 1) {// greater than and less than values need to be adjusted based on position of
                   // limelight on robot
       if (tx > 8 && tx < 30) {// (adjust when not centered), currently based on a centered limelight
+        // original values are >8 and <30
         Left.set(50);
         Right.set(-50);
       } else if (tx > -8 && tx < -30) {
@@ -178,7 +180,9 @@ public class Vision extends SubsystemBase {
     } else if (tv == 0) {
       Left.set(0);
       Right.set(0);
+      System.out.println("Target not Found");
     }
 
   }
+  
 }
