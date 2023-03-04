@@ -92,7 +92,7 @@ public class Manipulator extends SubsystemBase {
     }
 
     //Updates PID/Motor with new speed, ensures velocity is the same
-    shoulderPID.setReference(Speed, ControlType.kVelocity);
+    shoulderPID.setReference(Speed*OperatorConstants.shoulderSpeed, ControlType.kVelocity);
   }
 
   //Method called by ManipulatorInput to update wrist
@@ -117,7 +117,7 @@ public class Manipulator extends SubsystemBase {
     }
 
     //Updates PID/Motor with new speed, ensures velocity is the same
-    shoulderPID.setReference(upMotion + downMotion, ControlType.kVelocity);
+    shoulderPID.setReference((upMotion + downMotion)*OperatorConstants.wristSpeed, ControlType.kVelocity);
   }
 
   public void moveForearm(boolean forwards) {

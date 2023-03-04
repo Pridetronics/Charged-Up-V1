@@ -63,5 +63,9 @@ public final class Constants {
     public static final double kForearmIncrement = 2;
     //value is in Inches
     public static final double forearmExtendLimit = 20;
+
+    //Motor speeds
+    public static final double shoulderSpeed = 0.2;
+    public static final double wristSpeed = 0.2;
   }
 }
