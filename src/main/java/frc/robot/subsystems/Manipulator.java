@@ -27,7 +27,6 @@ import com.revrobotics.SparkMaxRelativeEncoder;
 
 public class Manipulator extends SubsystemBase {
   private Joystick joystick;
-  private Manipulator manipulator;
   private DigitalInput armLimitSwitch = new DigitalInput(OperatorConstants.kShoulderLowerLimitID);
   private DigitalInput upperArmLimitSwitch = new DigitalInput(OperatorConstants.kShoulderUpperLimitID);
   private DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kWristLimitID);
@@ -48,10 +47,7 @@ public class Manipulator extends SubsystemBase {
 
 
   /** Creates a new Manipulator. */
-  public Manipulator(Joystick joystickManipulator, Manipulator m_manipulator) {
-    //Retrieves input devices
-    joystick = joystickManipulator;
-    manipulator = m_manipulator;
+  public Manipulator() {
 
     //Retrives Motors
     armMotor = RobotContainer.manipulatorArmMotor;
@@ -61,12 +57,14 @@ public class Manipulator extends SubsystemBase {
 
     //Retrieves Encoders
     armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    wristEncoder = wristMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+    wristEncoder = wristMotor.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 42);
     forearmEncoder = foreArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
     //Retrieves PIDs
     shoulderPID = RobotContainer.shoulderPID;
     forearmPID = RobotContainer.forearmPID;
+
+    claw.set(DoubleSolenoid.Value.kReverse);
   }
 
   @Override
@@ -90,7 +88,9 @@ public class Manipulator extends SubsystemBase {
     } else if (lowerLimit) {
       Speed = Math.max(Speed, 0);
     }
-
+    if (Speed < 0) {
+      Speed *= 0.2;
+    }
     //Updates PID/Motor with new speed, ensures velocity is the same
     shoulderPID.setReference(Speed*OperatorConstants.shoulderSpeed, ControlType.kVelocity);
   }

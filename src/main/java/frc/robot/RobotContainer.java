@@ -90,10 +90,9 @@ public class RobotContainer {
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-    
     manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
     manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
-    manipulatorWristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushless);
+    manipulatorWristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
     //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
@@ -104,7 +103,6 @@ public class RobotContainer {
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
     //drive
     m_drive = new Drive(joystickDriver);
-    m_manipulator = new Manipulator(joystickManipulator); 
     
     //pistons
     clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonExtendClawChannel, OperatorConstants.kPistonRetractClawChannel);
@@ -116,6 +114,8 @@ public class RobotContainer {
     //PID Controllers
     shoulderPID = manipulatorArmMotor.getPIDController();
     forearmPID = manipulatorForearmMotor.getPIDController();
+
+    m_manipulator = new Manipulator(); 
 
     // Configure the trigger bindings
     m_vision = new Vision();
@@ -143,7 +143,7 @@ public class RobotContainer {
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
     m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
-    m_navX.setDefaultCommand(new AutoBalance(m_navX));
+    //m_navX.setDefaultCommand(new AutoBalance(m_navX));
 
     JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputExtend);
     JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputRetract);

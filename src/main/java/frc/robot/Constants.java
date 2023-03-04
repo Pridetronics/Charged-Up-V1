@@ -43,10 +43,9 @@ public final class Constants {
     public static final int kWristMotorCANID = 7;
     
     public static final int kArmInputAxis = 2;
-    public static final int kManipulatorInputExtend = 11;
-    public static final int kManipulatorInputRetract = 12;
-    public static final int kWristInputUp = 5;
-    public static final int kWristInputDown = 6;
+    public static final int kManipulatorInputExtend = 12;
+    public static final int kManipulatorInputRetract = 11;
+    public static final int kWristInput = 5;
 
     //Limit Switches
     public static final int kShoulderLowerLimitID = 0;

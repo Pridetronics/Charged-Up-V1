@@ -7,7 +7,7 @@ import java.lang.management.OperatingSystemMXBean;
 
 //joystick
 import edu.wpi.first.wpilibj.Joystick;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
 //subsystems
 import frc.robot.subsystems.Manipulator;
@@ -38,16 +38,15 @@ public class ManipulatorInput extends CommandBase {
   public void execute() {
     double armJoystickMovement = joystick.getRawAxis(OperatorConstants.kArmInputAxis);
 
-    boolean wristBtnUp = joystick.getRawButtonPressed(OperatorConstants.kWristInputUp);
-    boolean wristBtnDown = joystick.getRawButtonPressed(OperatorConstants.kWristInputDown);
-
-
-    boolean telescopicBtnUp = joystick.getRawButtonPressed(OperatorConstants.kManipulatorInputExtend);
-    boolean telescopicBtnDown = joystick.getRawButtonPressed(OperatorConstants.kManipulatorInputRetract);
-
+    double wristStick = joystick.getPOV();
     manipulator.moveArm(armJoystickMovement);
 
-    manipulator.moveWrist(wristBtnUp, wristBtnDown);
+    boolean forwardOne = wristStick < 90 && wristStick > 0;
+    boolean forwardTwo = wristStick > 270;
+
+    boolean backwardsOne = wristStick > 90 && wristStick < 270;
+    SmartDashboard.putBoolean("WRIST THING", forwardOne)
+    manipulator.moveWrist(forwardOne || forwardTwo, backwardsOne);
 
   }
 

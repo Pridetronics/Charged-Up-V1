@@ -14,8 +14,9 @@ import frc.robot.subsystems.Manipulator;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class clawInput extends CommandBase {
+public class clawInput extends InstantCommand {
     private Manipulator manipulator;
     private boolean moveForward;
   /** Creates a new JoystickDrive. */
@@ -44,6 +45,6 @@ public class clawInput extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
