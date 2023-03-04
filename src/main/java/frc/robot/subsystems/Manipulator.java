@@ -69,7 +69,7 @@ public class Manipulator extends SubsystemBase {
     zeroEncoders();
   }
 
-  public void ManipulatorMovement(Joystick m_joystickManipulator, double YaxisShoulder, double YaxisWrist) {
+  public void ManipulatorInput(Joystick m_joystickManipulator, double YaxisShoulder, double YaxisWrist) {
     m_joystickManipulator = RobotContainer.joystickManipulator;
     YaxisShoulder = m_joystickManipulator.getRawAxis(OperatorConstants.kShoulderAxisNumber);
     YaxisWrist = m_joystickManipulator.getRawAxis(OperatorConstants.kWristRotationAxisNumber);
@@ -79,11 +79,11 @@ public class Manipulator extends SubsystemBase {
   }
 
   public void forearmExtension() {
-    m_forearmMotor.set(.6);
+    m_forearmMotor.set(.5);
   }
 
   public void forearmRetraction() {
-    m_forearmMotor.set(-.6);
+    m_forearmMotor.set(-.5);
   }
 
   public void extendWrist() {
@@ -136,7 +136,7 @@ public class Manipulator extends SubsystemBase {
 
   public boolean isShoulderAtBottom() {
     boolean isShoulderAtBottom;
-    if (m_lowerForearmLimitSwitch.get() == true) {
+    if (m_lowerShoulderLimitSwitch.get() == true) {
       isShoulderAtBottom = true;
     } else {
       isShoulderAtBottom = false;
@@ -159,7 +159,7 @@ public class Manipulator extends SubsystemBase {
   public boolean isForearmAtTop() {
     boolean isForearmAtTop;
     m_forearmEncoder.getPosition();
-    if (m_forearmEncoder.getPosition() >= OperatorConstants.MANIPULATOR_MAx_OUTPUT) {
+    if (m_forearmEncoder.getPosition() >= OperatorConstants.encoderForearmDistance) {
       isForearmAtTop = true;
     } else {
       isForearmAtTop = false;
@@ -180,7 +180,7 @@ public class Manipulator extends SubsystemBase {
   public boolean isWristAtTop() {
     boolean isWristAtTop;
     m_wristEncoder.getDistance();
-    if (m_wristEncoder.getDistance() >= OperatorConstants.MANIPULATOR_MAx_OUTPUT) {
+    if (m_wristEncoder.getDistance() >= OperatorConstants.encoderWristDistance) {
       isWristAtTop = true;
     } else {
       isWristAtTop = false;

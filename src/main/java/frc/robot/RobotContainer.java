@@ -6,37 +6,34 @@ package frc.robot;
 
 //Nav-X Imports
 import com.kauailabs.navx.frc.AHRS;
+
 //Hardware imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
-import edu.wpi.first.wpilibj.DigitalInput;
+
 //Commands
-import frc.robot.commands.Autos;
-import frc.robot.commands.ForearmExtension;
-import frc.robot.commands.ForearmRetraction;
-import frc.robot.commands.JoystickDrive;
-import frc.robot.commands.ManipulatorMovement;
-import frc.robot.commands.AutoBalance;
+import frc.robot.commands.*; //This gives all the command imports
 
 //Subsystems
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Vision;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
