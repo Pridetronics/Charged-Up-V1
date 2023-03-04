@@ -57,7 +57,7 @@ public class Manipulator extends SubsystemBase {
     armMotor = RobotContainer.manipulatorArmMotor;
     wristMotor = RobotContainer.manipulatorWristMotor;
     foreArmMotor = RobotContainer.manipulatorForearmMotor;
-    claw = RobotContainer.clawSolenoid;
+    claw = RobotContainer.clawPiston;
 
     //Retrieves Encoders
     armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
@@ -143,12 +143,16 @@ public class Manipulator extends SubsystemBase {
     forearmPID.setReference(moveTo, ControlType.kPosition);
   };
 
-  public void controlClaw() {
-    boolean clawInput = joystick.getRawButtonPressed(OperatorConstants.clawOpenCloseButtonNumber);
-    if(clawInput){
-      claw.toggle(); //Please don't hate me for this code
+  public void toggleClaw() {
+    
+    DoubleSolenoid.Value clawEnabled = claw.get();
+    if (clawEnabled == DoubleSolenoid.Value.kForward) {
+      clawEnabled = DoubleSolenoid.Value.kReverse;
+    } else {
+      clawEnabled = DoubleSolenoid.Value.kForward;
     }
-  }
 
+    claw.set(clawEnabled);
+  }
 
 }
