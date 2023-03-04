@@ -41,20 +41,27 @@ public final class Constants {
     public static final int kShoulderMotorCANID = 5;
     public static final int kForearmMotorCANID = 6;
     public static final int kWristMotorCANID = 7;
-    public static final int kWristMotorDIOID1 = 6;
-    public static final int kWristMotorDIOID2 = 7;
 
+    // Wrist Encoder IDs
+    public static final int kWristMotorDIOID1 = 4;
+    public static final int kWristMotorDIOID2 = 5;
+
+    // Pistion Channels
     public static final int kPistonForwardWristChannel = 0;
     public static final int kPistonReverseWristChannel = 1;
 
+    // Shoulder Button
     public static final int kShoulderAxisNumber = 2;
 
+    // Forearm Buttons
     public static final int kForearmExtendButtonNumber = 11;
     public static final int kForearmRetractButtonNumber = 12;
 
+    // Wrist Buttons
     public static final int kWristRotationAxisNumber = 5;
     public static final int kWristPistonButtonNumber = 1;
 
+    // Limit Switches
     public static final int kUpperShoulderLimitSwitchChannel = 0;
     public static final int kLowerShoulderLimitSwitchChannel = 1;
     public static final int kLowerForearmLimitSwitchChannel = 2;
@@ -64,9 +71,11 @@ public final class Constants {
     public static final double MANIPULATOR_MIN_OUTPUT = -6000.0;
     public static final double MANIPULATOR_MAx_OUTPUT = 6000.0;
 
+    // Upper Limit For Forearm + Wrist
     public static final double encoderForearmDistance = 145;
     public static final double encoderWristDistance = 100;
-    // driver
+
+    // Driver
     public static final int Centering = 1;
   }
 }
