@@ -81,6 +81,7 @@ public class RobotContainer {
   //PID Controllers
   public static SparkMaxPIDController shoulderPID;
   public static SparkMaxPIDController forearmPID;
+  public static SparkMaxPIDController wristPID;
  // private final Drive m_drive = new Drive();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -114,6 +115,7 @@ public class RobotContainer {
     //PID Controllers
     shoulderPID = manipulatorArmMotor.getPIDController();
     forearmPID = manipulatorForearmMotor.getPIDController();
+    wristPID = manipulatorWristMotor.getPIDController();
 
     m_manipulator = new Manipulator(); 
 

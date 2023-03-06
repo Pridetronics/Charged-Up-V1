@@ -38,15 +38,15 @@ public class ManipulatorInput extends CommandBase {
   public void execute() {
     double armJoystickMovement = joystick.getRawAxis(OperatorConstants.kArmInputAxis);
 
-    double wristStick = joystick.getPOV();
+    int wristStick = joystick.getPOV();
     manipulator.moveArm(armJoystickMovement);
+    SmartDashboard.putNumber("Hat Movement", wristStick);
+    boolean forwardOne = wristStick == 315 || wristStick == 0 || wristStick == 45;
 
-    boolean forwardOne = wristStick < 90 && wristStick > 0;
-    boolean forwardTwo = wristStick > 270;
-
-    boolean backwardsOne = wristStick > 90 && wristStick < 270;
-    SmartDashboard.putBoolean("WRIST THING", forwardOne)
-    manipulator.moveWrist(forwardOne || forwardTwo, backwardsOne);
+    boolean backwardsOne = wristStick == 225 || wristStick == 180 || wristStick == 135;
+    SmartDashboard.putBoolean("WRIST FORWARD", forwardOne);
+    SmartDashboard.putBoolean("WRIST BACKWARDS", backwardsOne);
+    manipulator.moveWrist(forwardOne, backwardsOne);
 
   }
 

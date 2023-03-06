@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ManipulatorInput;
@@ -43,6 +44,7 @@ public class Manipulator extends SubsystemBase {
   private RelativeEncoder forearmEncoder;
 
   private SparkMaxPIDController shoulderPID;
+  private SparkMaxPIDController wristPID;
   private SparkMaxPIDController forearmPID;
 
 
@@ -63,6 +65,7 @@ public class Manipulator extends SubsystemBase {
     //Retrieves PIDs
     shoulderPID = RobotContainer.shoulderPID;
     forearmPID = RobotContainer.forearmPID;
+    wristPID = RobotContainer.wristPID;
 
     claw.set(DoubleSolenoid.Value.kReverse);
   }
@@ -74,7 +77,7 @@ public class Manipulator extends SubsystemBase {
 
   //Method called by ManipulatorInput to update shoulder
   public void moveArm(double Speed) {
-
+    SmartDashboard.putNumber("Joystick thign", Speed);
     //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
     double curArmPos = armEncoder.getPosition()/armEncoder.getCountsPerRevolution();
 
@@ -91,6 +94,7 @@ public class Manipulator extends SubsystemBase {
     if (Speed < 0) {
       Speed *= 0.2;
     }
+    SmartDashboard.putNumber("Final shoulder speed", Speed*OperatorConstants.shoulderSpeed);
     //Updates PID/Motor with new speed, ensures velocity is the same
     shoulderPID.setReference(Speed*OperatorConstants.shoulderSpeed, ControlType.kVelocity);
   }
@@ -100,11 +104,12 @@ public class Manipulator extends SubsystemBase {
     
     //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
     double curWristPos = wristEncoder.getPosition()/wristEncoder.getCountsPerRevolution();
-
+    SmartDashboard.putNumber("Cur pos", wristEncoder.getPosition());
+    SmartDashboard.putNumber("relative pos", curWristPos);
     //Checks if motor is out of limits
     boolean upperLimit = curWristPos > 0.25f;
     boolean lowerLimit = !wristLimitSwitch.get();
-
+    
     //Sets speed based on what buttons are pressed
     int upMotion = up ? 1 : 0;
     int downMotion = down ? -1 : 0;
@@ -115,9 +120,9 @@ public class Manipulator extends SubsystemBase {
     } else if (lowerLimit) {
       downMotion = 0;
     }
-
+    SmartDashboard.putNumber("Wrist Motion", (upMotion + downMotion)*OperatorConstants.wristSpeed);
     //Updates PID/Motor with new speed, ensures velocity is the same
-    shoulderPID.setReference((upMotion + downMotion)*OperatorConstants.wristSpeed, ControlType.kVelocity);
+    wristPID.setReference((upMotion + downMotion)*OperatorConstants.wristSpeed, ControlType.kVelocity);
   }
 
   public void moveForearm(boolean forwards) {
