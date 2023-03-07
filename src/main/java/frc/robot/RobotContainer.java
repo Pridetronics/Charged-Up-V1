@@ -81,7 +81,7 @@ public class RobotContainer {
   //PID Controllers
   public static SparkMaxPIDController shoulderPID;
   public static SparkMaxPIDController forearmPID;
-  public static SparkMaxPIDController wristPID;
+  public static PIDController wristPID;
  // private final Drive m_drive = new Drive();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -115,10 +115,10 @@ public class RobotContainer {
     //PID Controllers
     shoulderPID = manipulatorArmMotor.getPIDController();
     forearmPID = manipulatorForearmMotor.getPIDController();
-    wristPID = manipulatorWristMotor.getPIDController();
+    wristPID = new PIDController(0.1,  0, 0);
 
     m_manipulator = new Manipulator(); 
-
+    m_manipulator.zeroEncoder();
     // Configure the trigger bindings
     m_vision = new Vision();
     //sendable chooser

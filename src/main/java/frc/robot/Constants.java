@@ -65,6 +65,6 @@ public final class Constants {
 
     //Motor speeds
     public static final double shoulderSpeed = 0.2;
-    public static final double wristSpeed = 0.2;
+    public static final double wristRange = 0.25;
   }
 }

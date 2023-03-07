@@ -18,8 +18,10 @@ import frc.robot.commands.ManipulatorInput;
 //hardware
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
+import edu.wpi.first.wpilibj.Encoder;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.RelativeEncoder;
@@ -40,12 +42,14 @@ public class Manipulator extends SubsystemBase {
   private DoubleSolenoid claw;
 
   private RelativeEncoder armEncoder;
-  private RelativeEncoder wristEncoder;
+  private Encoder wristEncoder;
   private RelativeEncoder forearmEncoder;
 
   private SparkMaxPIDController shoulderPID;
-  private SparkMaxPIDController wristPID;
+  private PIDController wristPID;
   private SparkMaxPIDController forearmPID;
+
+  private double lastSetPoint = 0;
 
 
   /** Creates a new Manipulator. */
@@ -59,7 +63,7 @@ public class Manipulator extends SubsystemBase {
 
     //Retrieves Encoders
     armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    wristEncoder = wristMotor.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 42);
+    wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
     forearmEncoder = foreArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
     //Retrieves PIDs
@@ -73,6 +77,12 @@ public class Manipulator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void zeroEncoder() {
+    armEncoder.setPosition(0);
+    wristEncoder.setPosition(0);
+    armEncoder.setPosition(0);
   }
 
   //Method called by ManipulatorInput to update shoulder
@@ -104,8 +114,6 @@ public class Manipulator extends SubsystemBase {
     
     //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
     double curWristPos = wristEncoder.getPosition()/wristEncoder.getCountsPerRevolution();
-    SmartDashboard.putNumber("Cur pos", wristEncoder.getPosition());
-    SmartDashboard.putNumber("relative pos", curWristPos);
     //Checks if motor is out of limits
     boolean upperLimit = curWristPos > 0.25f;
     boolean lowerLimit = !wristLimitSwitch.get();
@@ -120,9 +128,16 @@ public class Manipulator extends SubsystemBase {
     } else if (lowerLimit) {
       downMotion = 0;
     }
-    SmartDashboard.putNumber("Wrist Motion", (upMotion + downMotion)*OperatorConstants.wristSpeed);
     //Updates PID/Motor with new speed, ensures velocity is the same
-    wristPID.setReference((upMotion + downMotion)*OperatorConstants.wristSpeed, ControlType.kVelocity);
+    //wristMotor.set((upMotion+downMotion)*OperatorConstants.wristSpeed);
+    double wristRange = OperatorConstants.wristRange*wristEncoder.getCountsPerRevolution();
+    lastSetPoint = 0;
+    wristMotor.set(
+      wristPID.calculate(
+        wristEncoder.getPosition(), 
+        wristEncoder.getPosition()+(upMotion+downMotion)*wristRange
+      )
+    );
   }
 
   public void moveForearm(boolean forwards) {
