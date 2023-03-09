@@ -37,9 +37,9 @@ public class ManipulatorInput extends CommandBase {
   @Override
   public void execute() {
     double armJoystickMovement = joystick.getRawAxis(OperatorConstants.kArmInputAxis);
-
-    int wristStick = joystick.getPOV();
     manipulator.moveArm(armJoystickMovement);
+    
+    int wristStick = joystick.getPOV();
     SmartDashboard.putNumber("Hat Movement", wristStick);
     boolean forwardOne = wristStick == 315 || wristStick == 0 || wristStick == 45;
 

@@ -49,7 +49,8 @@ public class Manipulator extends SubsystemBase {
   private PIDController wristPID;
   private SparkMaxPIDController forearmPID;
 
-  private double lastSetPoint = 0;
+  private double lastWristSetpoint = 0;
+  private double lastShoulderSetpoint = 0;
 
 
   /** Creates a new Manipulator. */
@@ -64,6 +65,9 @@ public class Manipulator extends SubsystemBase {
     //Retrieves Encoders
     armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
+
+    //Returns a distance of one for every 256 pulses, or one distance for every rotation
+//    wristEncoder.setDistancePerPulse(1/256);
     forearmEncoder = foreArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
     //Retrieves PIDs
@@ -81,7 +85,7 @@ public class Manipulator extends SubsystemBase {
 
   public void zeroEncoder() {
     armEncoder.setPosition(0);
-    wristEncoder.setPosition(0);
+    wristEncoder.reset();
     armEncoder.setPosition(0);
   }
 
@@ -89,7 +93,7 @@ public class Manipulator extends SubsystemBase {
   public void moveArm(double Speed) {
     SmartDashboard.putNumber("Joystick thign", Speed);
     //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
-    double curArmPos = armEncoder.getPosition()/armEncoder.getCountsPerRevolution();
+    double curArmPos = armEncoder.getPosition();
 
     //Checks if motor is out of limits
     boolean upperLimit = !upperArmLimitSwitch.get();
@@ -104,16 +108,20 @@ public class Manipulator extends SubsystemBase {
     if (Speed < 0) {
       Speed *= 0.2;
     }
+    if (Math.abs(Speed) > 0.1) {
+      lastShoulderSetpoint = Speed;
+    }
     SmartDashboard.putNumber("Final shoulder speed", Speed*OperatorConstants.shoulderSpeed);
     //Updates PID/Motor with new speed, ensures velocity is the same
-    shoulderPID.setReference(Speed*OperatorConstants.shoulderSpeed, ControlType.kVelocity);
+    shoulderPID.setReference(lastShoulderSetpoint+Speed*OperatorConstants.shoulderSpeed, ControlType.kPosition);
   }
 
   //Method called by ManipulatorInput to update wrist
   public void moveWrist(boolean up, boolean down) {
     
     //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
-    double curWristPos = wristEncoder.getPosition()/wristEncoder.getCountsPerRevolution();
+    double curWristPos = wristEncoder.getDistance();
+    SmartDashboard.putNumber("thing3", wristEncoder.getRaw());
     //Checks if motor is out of limits
     boolean upperLimit = curWristPos > 0.25f;
     boolean lowerLimit = !wristLimitSwitch.get();
@@ -128,16 +136,29 @@ public class Manipulator extends SubsystemBase {
     } else if (lowerLimit) {
       downMotion = 0;
     }
+    SmartDashboard.putNumber("Wrist pulse thing", wristEncoder.getDistancePerPulse());
+    SmartDashboard.putNumber("Wrist Position", curWristPos);
+    SmartDashboard.putNumber("Wrist SetTo", lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristRange);
     //Updates PID/Motor with new speed, ensures velocity is the same
-    //wristMotor.set((upMotion+downMotion)*OperatorConstants.wristSpeed);
-    double wristRange = OperatorConstants.wristRange*wristEncoder.getCountsPerRevolution();
-    lastSetPoint = 0;
-    wristMotor.set(
-      wristPID.calculate(
-        wristEncoder.getPosition(), 
-        wristEncoder.getPosition()+(upMotion+downMotion)*wristRange
-      )
-    );
+    SmartDashboard.putNumber("PID GOTO", wristPID.calculate(
+      wristEncoder.getDistance(), 
+      wristEncoder.getDistance()+(upMotion+downMotion)*OperatorConstants.wristRange
+    ));
+    //wristMotor.set(0.2);
+    
+    // if (upMotion+downMotion == 0) {
+    //   wristMotor.set(
+    //     wristPID.calculate(
+    //       wristEncoder.getDistance(), 
+    //       lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristRange
+    //     )
+    //   );
+    // } else {
+    //   lastWristSetpoint = wristEncoder.getDistance();
+
+
+    // }
+
   }
 
   public void moveForearm(boolean forwards) {
