@@ -49,58 +49,57 @@ public class NavX extends SubsystemBase {
   }
 
   public void autoBalance() {
-    // double pitchAngleDegrees = m_ahrs.getPitch(); //NavX's Rotation around the X
+    double pitchAngleDegrees = m_ahrs.getPitch(); // NavX's Rotation around the X
     // axis (left + right)
-    double rollAngleDegrees = m_ahrs.getRoll(); // NavX's Rotation around the Y axis (forward + backward)
+    // double rollAngleDegrees = m_ahrs.getRoll(); // NavX's Rotation around the Y
+    // axis (forward + backward)
 
-    // if (!m_autoBalanceXMode &&
-    // (Math.abs(pitchAngleDegrees) >=
-    // Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
-    // m_autoBalanceXMode = true; //If m_autoBalanceXMode AND absolute value of
-    // pitchAngleDegrees is
-    // //greater/equal than the absolute value of the
-    // kOffBalanceAngleThresholdDegree, then m_autoBalanceXMode
-    // //will equal true.
-    // }
-    // else if (m_autoBalanceXMode &&
-    // (Math.abs(pitchAngleDegrees) <=
-    // Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
-    // m_autoBalanceXMode = false; //If m_autoBalanceXMode AND absolute value of
-    // pitchAngleDegrees is
-    // //less/equal than the absolute value of the kOnBalanceAngleThresholdDegree,
-    // then m_autoBalanceXMode
-    // //will equal false.
-    // }
-
-    if (!m_autoBalanceYMode &&
-        (Math.abs(rollAngleDegrees) >= Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
-      m_autoBalanceYMode = true; // If m_autoBalanceXMode AND absolute value of rollingAngleDegree is
-      // greater/equal than the absolute value of the kOffBalanceAngleThresholdDegree,
-      // then m_autoBalanceYMode
-      // will equal true.
-    } else if (m_autoBalanceYMode &&
-        (Math.abs(rollAngleDegrees) <= Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
-      m_autoBalanceYMode = false; // If m_autoBalanceYMode AND absolute value of rollingAngleDegree is
+    if (!m_autoBalanceXMode &&
+        (Math.abs(pitchAngleDegrees) >= Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
+      m_autoBalanceXMode = true; // If m_autoBalanceXMode AND absolute value of
+      // pitchAngleDegrees is greater/equal than the absolute value of the
+      // kOffBalanceAngleThresholdDegree, then m_autoBalanceXMode will equal true.
+    } else if (m_autoBalanceXMode &&
+        (Math.abs(pitchAngleDegrees) <= Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
+      m_autoBalanceXMode = false; // If m_autoBalanceXMode AND absolute value of pitchAngleDegrees is
       // less/equal than the absolute value of the kOnBalanceAngleThresholdDegree,
-      // then m_autoBalanceYMode
-      // will equal false.
+      // then m_autoBalanceXMode will equal false.
     }
+
+    // if (!m_autoBalanceYMode &&
+    // (Math.abs(rollAngleDegrees) >=
+    // Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
+    // m_autoBalanceYMode = true; // If m_autoBalanceXMode AND absolute value of
+    // rollingAngleDegree is
+    // // greater/equal than the absolute value of the
+    // kOffBalanceAngleThresholdDegree,
+    // // then m_autoBalanceYMode
+    // // will equal true.
+    // } else if (m_autoBalanceYMode &&
+    // (Math.abs(rollAngleDegrees) <=
+    // Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
+    // m_autoBalanceYMode = false; // If m_autoBalanceYMode AND absolute value of
+    // rollingAngleDegree is
+    // // less/equal than the absolute value of the kOnBalanceAngleThresholdDegree,
+    // // then m_autoBalanceYMode
+    // // will equal false.
+    // }
 
     // Control drive system automatically,
     // driving in reverse direction of pitch/roll angle,
     // with a magnitude based upon the angle
 
-    // if (m_autoBalanceXMode) {
-    // double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
-    // xAxisRate = Math.sin(pitchAngleRadians) * -1;
-    // }
-    if (m_autoBalanceYMode) {
-      double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
-      yAxisRate = Math.sin(rollAngleRadians) * -1;
+    if (m_autoBalanceXMode) {
+      double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
+      xAxisRate = Math.sin(pitchAngleRadians) * -1;
     }
+    // if (m_autoBalanceYMode) {
+    // double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
+    // yAxisRate = Math.sin(rollAngleRadians) * -1;
+    // }
 
     try {
-      Drive.tankDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceYMode);
+      Drive.tankDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
     } catch (RuntimeException ex) {
       String err_string = "Drive system error: " + ex.getMessage();
       DriverStation.reportError(err_string, true);

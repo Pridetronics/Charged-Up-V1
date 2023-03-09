@@ -140,7 +140,7 @@ public class RobotContainer {
     configureBindings();
 
     SmartDashboard.putString("Code: ", "Helen's");
-    SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
+    SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX, m_drive));
     SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
     SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
   }
@@ -181,7 +181,7 @@ public class RobotContainer {
     // .toggleOnFalse(new InstantCommand(m_manipulator::retractWrist,
     // m_manipulator));
 
-    // m_navX.setDefaultCommand(new AutoBalance(m_navX));
+    m_navX.setDefaultCommand(new AutoBalance(m_navX, m_drive));
 
     // if (joystickDriver.getRawButtonPressed(1)) {
     // new AutoBalance(m_navX);

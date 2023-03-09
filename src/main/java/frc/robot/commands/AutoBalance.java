@@ -6,16 +6,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.NavX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoBalance extends CommandBase {
   private NavX m_navX;
+  private Drive m_drive;
 
   /** Creates a new AutoBalance. */
-  public AutoBalance(NavX navX) {
+  public AutoBalance(NavX navX, Drive drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_navX = navX;
+    m_drive = drive;
     addRequirements(m_navX);
   }
 
@@ -39,7 +42,7 @@ public class AutoBalance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (RobotContainer.autoBalanceYMode == true) {
+    if (RobotContainer.autoBalanceXMode == true) {
       return true;
     } else {
       return false;
