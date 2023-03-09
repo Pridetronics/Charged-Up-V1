@@ -65,7 +65,8 @@ public class Vision extends SubsystemBase {
   private double distanceInInches;
   private double distanceInFeet;
   private double roundedDistance;
-
+  // Confirmation variables
+  public double TargetisCentered;
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable table = inst.getTable("limelight");
 
@@ -80,8 +81,7 @@ public class Vision extends SubsystemBase {
     m_rightBackMotor = RobotContainer.rightBackMotor;
     m_rightBackEncoder = m_rightBackMotor.getEncoder();
     // pov camera
-    camera_0 = CameraServer.startAutomaticCapture();
-    CameraServer.startAutomaticCapture();
+    camera_0 = CameraServer.startAutomaticCapture(0);
     NetworkTableInstance.getDefault().getTable("USB Camera 0").getEntry("mode")
         .setString("340x240 MJPEG 15 fps");
     // CameraServer.putVideo("Serve_POV", 320, 240);// makes the cameraserver
@@ -93,6 +93,12 @@ public class Vision extends SubsystemBase {
     inst.startDSClient();
     inst.getEntry("stream").setDouble(0);
     // network tables
+
+    SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
+  }
+
+  @Override
+  public void periodic() {
     NetworkTableEntry yEntry = table.getEntry("ty");
     NetworkTableEntry xEntry = table.getEntry("tx");
     NetworkTableEntry aEntry = table.getEntry("ta");
@@ -101,13 +107,7 @@ public class Vision extends SubsystemBase {
     ta = aEntry.getDouble(0.0); // Target Area (0% of image to 100% of image)
     ty = yEntry.getDouble(0.0); // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair to Target (-27.5 degrees to 27.5 degrees)
-    tv = vEntry.getDouble(0.0); // Whether the limelight has any valid targets (0 or 1)
-    SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
-  }
-
-  @Override
-  public void periodic() {
-
+    tv = vEntry.getDouble(0.0);
     SmartDashboard.putNumber("Limelight X", tx);// will be commented out after testing
     SmartDashboard.putNumber("Limelight Y", ty);
     SmartDashboard.putNumber("Limelight V", tv);
@@ -169,13 +169,20 @@ public class Vision extends SubsystemBase {
   public void centerTarget() {
     if (tv == 1) {// greater than and less than values need to be adjusted based on position of
                   // limelight on robot
-      if (tx > 8 && tx < 30) {// (adjust when not centered), currently based on a centered limelight
+      if (tx > 8 && tx < 30) {// (adjust when not centered), currently based on a centered limelight, adjusts
+                              // to the right
         // original values are >8 and <30
         Left.set(50);
         Right.set(-50);
-      } else if (tx > -8 && tx < -30) {
+        TargetisCentered = 0;
+      } else if (tx > -8 && tx < -30) {// adjust to the left
         Left.set(-50);
         Right.set(50);
+        TargetisCentered = 0;
+      } else {
+        Left.set(0);
+        Right.set(0);
+        TargetisCentered = 1;
       }
     } else if (tv == 0) {
       Left.set(0);
@@ -184,5 +191,5 @@ public class Vision extends SubsystemBase {
     }
 
   }
-  
+
 }

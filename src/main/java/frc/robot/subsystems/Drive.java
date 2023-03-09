@@ -31,7 +31,7 @@ public class Drive extends SubsystemBase {
   public static RelativeEncoder m_leftBackEncoder;
 
   // Makes differential drive and motorcontroller groups
-  public static DifferentialDrive tankDrive;
+  public static DifferentialDrive tankarcadeDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
   // Variables
@@ -60,11 +60,11 @@ public class Drive extends SubsystemBase {
     // Two motorcontroller groups that will act as left and right in tank drive
     Left = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
     Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
-    tankDrive = new DifferentialDrive(Left, Right);
+    tankarcadeDrive = new DifferentialDrive(Left, Right);
 
-    tankDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
-    tankDrive.setExpiration(.1);
-    tankDrive.setMaxOutput(1);
+    tankarcadeDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
+    tankarcadeDrive.setExpiration(.1);
+    tankarcadeDrive.setMaxOutput(1);
     // calculations
     TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
     SmartDashboard.putNumber("Ticks per revolution", TPR);
@@ -96,13 +96,13 @@ public class Drive extends SubsystemBase {
     m_leftBackEncoder.setPosition(0);
   }
 
-  public void Tankinput(Joystick joystickDriver, double Yval1, double Yval2) {
+  public void Tankarcadeinput(Joystick joystickDriver, double Yval1, double Yval2) {
     Yval1 = joystickDriver.getRawAxis(1); // Left side of the robot
-    Yval2 = joystickDriver.getRawAxis(5); // Right side of the robot
+    Yval2 = joystickDriver.getRawAxis(4); // Right side of the robot
     // reduces speed so field is not torn apart
-    Yval1 = Yval1 * .61; // .61
-    Yval2 = Yval2 * .6; // .6
-    tankDrive.tankDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
+    // Yval1 = Yval1 * .61; // .61
+    // Yval2 = Yval2 * .6; // .6
+    tankarcadeDrive.arcadeDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
   public void driveStop() {

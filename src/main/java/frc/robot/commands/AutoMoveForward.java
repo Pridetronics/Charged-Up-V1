@@ -11,13 +11,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AutoMoveForward extends CommandBase {
   private Drive m_drive;
   private Double desiredDistance;
+  private Double TPI;
+  private Double TPR;
 
   /** Creates a new AutoMoveForward. */
   public AutoMoveForward(Drive drive) {
     m_drive = drive;
-    double TPI = drive.TPI;
-    double TPR = drive.TPR;
-    double desiredDistance = drive.desiredDistance;
+    TPI = drive.TPI;
+    TPR = drive.TPR;
+    desiredDistance = drive.desiredDistance;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
   }
@@ -32,6 +34,7 @@ public class AutoMoveForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_drive.calculateDistance();
     m_drive.driveForward();
   }
 

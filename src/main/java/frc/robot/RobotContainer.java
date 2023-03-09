@@ -30,6 +30,8 @@ import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Vision;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
@@ -55,6 +57,8 @@ public class RobotContainer {
   // Controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
+  // controller buttons
+  public static JoystickButton targetCenteringButton;
 
   // Drive Motors
   public static CANSparkMax rightFrontMotor;
@@ -135,11 +139,15 @@ public class RobotContainer {
 
     // Sendable chooser
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
-
+    // sendable chooser options
+    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
+    m_Chooser.addOption("auto rotate and forward",
+        new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
+            new InstantCommand(m_drive::calculateDistance)));
+    m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
     // Configure the trigger bindings
     configureBindings();
 
-    SmartDashboard.putString("Code: ", "Helen's");
     SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
     SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
     SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
@@ -167,6 +175,8 @@ public class RobotContainer {
     // m_manipulator.setDefaultCommand(new ManipulatorMovement(joystickManipulator,
     // m_manipulator));
 
+    targetCenteringButton = new JoystickButton(joystickDriver, OperatorConstants.kAimCentering);
+    targetCenteringButton.onTrue(new TargetCenteringVision(m_vision));
     // forearmExtendButton = new JoystickButton(joystickManipulator,
     // OperatorConstants.kForearmExtendButtonNumber);
     // forearmExtendButton.whileTrue(new ForearmExtension(m_manipulator));

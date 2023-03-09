@@ -50,6 +50,7 @@ public final class Constants {
     public static final int kPistonForwardWristChannel = 0;
     public static final int kPistonReverseWristChannel = 1;
 
+    // manipulator controller buttons
     // Shoulder Button
     public static final int kShoulderAxisNumber = 2;
 
@@ -75,7 +76,7 @@ public final class Constants {
     public static final double encoderForearmDistance = 145;
     public static final double encoderWristDistance = 100;
 
-    // Driver
-    public static final int Centering = 1;
+    // Driver buttons
+    public static final int kAimCentering = 1;
   }
 }
