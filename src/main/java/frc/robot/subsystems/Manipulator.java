@@ -91,37 +91,39 @@ public class Manipulator extends SubsystemBase {
 
   //Method called by ManipulatorInput to update shoulder
   public void moveArm(double Speed) {
-    SmartDashboard.putNumber("Joystick thign", Speed);
+    double conversionFactor = armEncoder.getCountsPerRevolution()/100;
     //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
     double curArmPos = armEncoder.getPosition();
-
     //Checks if motor is out of limits
-    boolean upperLimit = !upperArmLimitSwitch.get();
-    boolean lowerLimit = !armLimitSwitch.get();
-
+    boolean upperLimit = upperArmLimitSwitch.get();
+    boolean lowerLimit = armLimitSwitch.get();
     //Updates the motor speed based on limits
     if (upperLimit) {
-      Speed = Math.min(Speed, 0);
-    } else if (lowerLimit) {
       Speed = Math.max(Speed, 0);
+    } else if (lowerLimit) {
+      Speed = Math.min(Speed, 0);
     }
     if (Speed < 0) {
       Speed *= 0.2;
     }
     if (Math.abs(Speed) > 0.1) {
-      lastShoulderSetpoint = Speed;
+      lastShoulderSetpoint = curArmPos;
     }
-    SmartDashboard.putNumber("Final shoulder speed", Speed*OperatorConstants.shoulderSpeed);
+    SmartDashboard.putBoolean("Upper Limit", upperLimit);
+    SmartDashboard.putBoolean("Lower Limit", lowerLimit);
+    double incrementSpeed = conversionFactor*Speed*OperatorConstants.shoulderSpeed;
+    SmartDashboard.putNumber("SPEEEED3", incrementSpeed);
     //Updates PID/Motor with new speed, ensures velocity is the same
-    shoulderPID.setReference(lastShoulderSetpoint+Speed*OperatorConstants.shoulderSpeed, ControlType.kPosition);
+
+    shoulderPID.setReference(lastShoulderSetpoint+incrementSpeed, ControlType.kPosition);
+    //armMotor.set(0.2);
   }
 
   //Method called by ManipulatorInput to update wrist
   public void moveWrist(boolean up, boolean down) {
     
     //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
-    double curWristPos = wristEncoder.getDistance();
-    SmartDashboard.putNumber("thing3", wristEncoder.getRaw());
+    double curWristPos = wristEncoder.getDistance()/OperatorConstants.wristEncoderCountsPerRev;
     //Checks if motor is out of limits
     boolean upperLimit = curWristPos > 0.25f;
     boolean lowerLimit = !wristLimitSwitch.get();
@@ -136,16 +138,18 @@ public class Manipulator extends SubsystemBase {
     } else if (lowerLimit) {
       downMotion = 0;
     }
-    SmartDashboard.putNumber("Wrist pulse thing", wristEncoder.getDistancePerPulse());
-    SmartDashboard.putNumber("Wrist Position", curWristPos);
-    SmartDashboard.putNumber("Wrist SetTo", lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristRange);
     //Updates PID/Motor with new speed, ensures velocity is the same
-    SmartDashboard.putNumber("PID GOTO", wristPID.calculate(
+    double newPos = wristPID.calculate(
       wristEncoder.getDistance(), 
-      wristEncoder.getDistance()+(upMotion+downMotion)*OperatorConstants.wristRange
-    ));
+      lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristRange
+    );
+
+    wristMotor.set(newPos);
+    if (upMotion+downMotion != 0) {
+      lastWristSetpoint = wristEncoder.getDistance();
+    }
     //wristMotor.set(0.2);
-    
+     
     // if (upMotion+downMotion == 0) {
     //   wristMotor.set(
     //     wristPID.calculate(

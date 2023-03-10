@@ -42,14 +42,14 @@ public final class Constants {
     public static final int kForearmMotorCANID = 6;
     public static final int kWristMotorCANID = 7;
     
-    public static final int kArmInputAxis = 2;
+    public static final int kArmInputAxis = 1;
     public static final int kManipulatorInputExtend = 12;
     public static final int kManipulatorInputRetract = 11;
     public static final int kWristInput = 5;
 
     //Limit Switches
-    public static final int kShoulderLowerLimitID = 0;
-    public static final int kShoulderUpperLimitID = 1;
+    public static final int kShoulderLowerLimitID = 1;
+    public static final int kShoulderUpperLimitID = 0;
     public static final int kForearmLimitID = 2;
     public static final int kWristLimitID = 3;   
     public static final int kWristEncoderAID = 4;
