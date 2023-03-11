@@ -109,8 +109,7 @@ public class Manipulator extends SubsystemBase {
     if (Math.abs(Speed) > 0.1) {
       lastShoulderSetpoint = curArmPos;
     }
-    SmartDashboard.putBoolean("Upper Limit", upperLimit);
-    SmartDashboard.putBoolean("Lower Limit", lowerLimit);
+
     double incrementSpeed = conversionFactor*Speed*OperatorConstants.shoulderSpeed;
     SmartDashboard.putNumber("SPEEEED3", incrementSpeed);
     //Updates PID/Motor with new speed, ensures velocity is the same
@@ -148,44 +147,38 @@ public class Manipulator extends SubsystemBase {
     if (upMotion+downMotion != 0) {
       lastWristSetpoint = wristEncoder.getDistance();
     }
-    //wristMotor.set(0.2);
-     
-    // if (upMotion+downMotion == 0) {
-    //   wristMotor.set(
-    //     wristPID.calculate(
-    //       wristEncoder.getDistance(), 
-    //       lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristRange
-    //     )
-    //   );
-    // } else {
-    //   lastWristSetpoint = wristEncoder.getDistance();
-
-
-    // }
 
   }
 
   public void moveForearm(boolean forwards) {
     int direction = forwards ? 1 : -1;
+    double conversionFactor = forearmEncoder.getCountsPerRevolution()/100;
 
     //Gets the number of rotations to make in a decimal percent form (1 full rotation == 1)
     double rotationsToMake = OperatorConstants.kForearmIncrement/OperatorConstants.kForearmCircum;
 
     //Converts the rotations into a form that works with the encoders, while also setting the direction it needs to go in
-    double increment = rotationsToMake*forearmEncoder.getCountsPerRevolution()*direction;
+    double increment = rotationsToMake*conversionFactor*direction;
     //Gets the current position
     double currentPos = forearmEncoder.getPosition();
+    SmartDashboard.putNumber("SHOULDER POS", currentPos);
     //Find where the rotational goal is, set into the encoders countsPerRevlolutions form
     double moveTo = increment+currentPos;
-
+    SmartDashboard.putNumber("increment", increment);
+    SmartDashboard.putNumber("rotations", rotationsToMake);
+    SmartDashboard.putNumber("moveTo", moveTo);
     //Converts the encoder positioning to a decimal percent of rotations (1 full rotation == 1)
-    double rotationsMade = currentPos/forearmEncoder.getCountsPerRevolution();
+    double rotationsMade = currentPos/conversionFactor;
     //Converts the total rotation positioning into a distance of inches moved
     double distanceMade = rotationsMade*OperatorConstants.kForearmCircum;
-
+    SmartDashboard.putNumber("rotations made", rotationsMade);
+    SmartDashboard.putNumber("distance", distanceMade);
     //Checks if any limit bounds have been reached
     boolean lowerLimit = !forearmLimitSwitch.get();
-    boolean upperLimit = distanceMade+increment > OperatorConstants.forearmExtendLimit;
+    boolean upperLimit = (distanceMade+increment)/OperatorConstants.kForearmCircum > OperatorConstants.forearmExtendLimit;
+    SmartDashboard.putNumber("distance TO", (distanceMade+increment)/OperatorConstants.kForearmCircum);
+    SmartDashboard.putBoolean("Upper Limit", upperLimit);
+    SmartDashboard.putBoolean("Lower Limit", lowerLimit);
 
     //Updates the goal position based on limits
     if (lowerLimit && !forwards) {
@@ -196,6 +189,7 @@ public class Manipulator extends SubsystemBase {
 
     //Tells motor to move to the new position
     forearmPID.setReference(moveTo, ControlType.kPosition);
+    SmartDashboard.putNumber("AFTER POS", moveTo);
   };
 
   public void toggleClaw() {
