@@ -104,9 +104,9 @@ public class Manipulator extends SubsystemBase {
       Speed = Math.min(Speed, 0);
     }
     if (Speed < 0) {
-      Speed *= 0.2;
+      Speed *= 0.1;
     }
-    if (Math.abs(Speed) > 0.1) {
+    if (Math.abs(Speed) > 0.05) {
       lastShoulderSetpoint = curArmPos;
     }
 
