@@ -161,22 +161,15 @@ public class Manipulator extends SubsystemBase {
     double increment = rotationsToMake*conversionFactor*direction;
     //Gets the current position
     double currentPos = forearmEncoder.getPosition();
-    SmartDashboard.putNumber("SHOULDER POS", currentPos);
     //Find where the rotational goal is, set into the encoders countsPerRevlolutions form
     double moveTo = increment+currentPos;
-    SmartDashboard.putNumber("increment", increment);
-    SmartDashboard.putNumber("rotations", rotationsToMake);
-    SmartDashboard.putNumber("moveTo", moveTo);
-    //Converts the encoder positioning to a decimal percent of rotations (1 full rotation == 1)
-    double rotationsMade = currentPos/conversionFactor;
-    //Converts the total rotation positioning into a distance of inches moved
-    double distanceMade = rotationsMade*OperatorConstants.kForearmCircum;
-    SmartDashboard.putNumber("rotations made", rotationsMade);
-    SmartDashboard.putNumber("distance", distanceMade);
+
+
     //Checks if any limit bounds have been reached
     boolean lowerLimit = !forearmLimitSwitch.get();
-    boolean upperLimit = (distanceMade+increment)/OperatorConstants.kForearmCircum > OperatorConstants.forearmExtendLimit;
-    SmartDashboard.putNumber("distance TO", (distanceMade+increment)/OperatorConstants.kForearmCircum);
+    boolean upperLimit = moveTo/conversionFactor*OperatorConstants.kForearmCircum > OperatorConstants.forearmExtendLimit;
+    SmartDashboard.putNumber("current position", currentPos );
+    SmartDashboard.putNumber("distance TO", moveTo/conversionFactor*OperatorConstants.kForearmCircum);
     SmartDashboard.putBoolean("Upper Limit", upperLimit);
     SmartDashboard.putBoolean("Lower Limit", lowerLimit);
 

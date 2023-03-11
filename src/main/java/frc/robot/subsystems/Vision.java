@@ -79,11 +79,7 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
 
   @Override
   public void periodic() {
-   
-    SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
-    SmartDashboard.putNumber("Limelight X", tx);
-    SmartDashboard.putNumber("Limelight Y", ty);
-    SmartDashboard.putNumber("Limelight V", tv);
+  
    
     // This method will be called once per scheduler run
   }
@@ -98,12 +94,6 @@ m_rightBackEncoder = m_rightBackMotor.getEncoder();
     distanceInInches = initialDistance * 13.6; // Converts distance into inches.
     distanceInFeet = distanceInInches / 12; // Converts distance in inches to feet
     roundedDistance = Math.round(distanceInFeet); // Rounds distance in feet
-
-    SmartDashboard.putNumber("Initial Distance", initialDistance); // Puts all these values on the smartdashboard when
-                                                                   // run. This is solely for testing purposes
-    SmartDashboard.putNumber("Distance in Inches", distanceInInches);
-    SmartDashboard.putNumber("Distance in Feet", distanceInFeet);
-    SmartDashboard.putNumber("Rounded Distance", roundedDistance);
   }
   public void lightsOut() {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);

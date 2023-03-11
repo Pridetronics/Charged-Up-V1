@@ -28,7 +28,6 @@ public class NavX extends SubsystemBase {
       catch (RuntimeException ex ) {
         DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
       }
-      SmartDashboard.putString("NavX:", "Test");
     }
 
   @Override
@@ -82,7 +81,6 @@ public class NavX extends SubsystemBase {
       String err_string = "Drive system error: " + ex.getMessage();
       DriverStation.reportError(err_string, true);
     }  
-    SmartDashboard.putString("NavX:", "Periodic Test");
   }
 }
 

@@ -89,8 +89,8 @@ public class Drive extends SubsystemBase {
     Yval1 = joystickDriver.getRawAxis(1);
     Yval2 = joystickDriver.getRawAxis(5);
     //reduces speed so field is not torn apart
-    Yval1 = Yval1 * .8;
-    Yval2 = Yval2 * .8;
+    Yval1 = Yval1 * .71;
+    Yval2 = Yval2 * .7;
     tankDrive.tankDrive(Yval1, Yval2);
   }
   public void driveStop(){
