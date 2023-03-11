@@ -46,6 +46,7 @@ public final class Constants {
     public static final int kManipulatorInputExtend = 12;
     public static final int kManipulatorInputRetract = 11;
     public static final int kWristInput = 5;
+    public static final int kManipulatorHomingInput = 8;
 
     //Limit Switches
     public static final int kShoulderLowerLimitID = 1;
@@ -58,10 +59,10 @@ public final class Constants {
     //Solenoids
     public static final int kClawToggle = 1;
     
-    public static final double kForearmCircum = 0.75*Math.PI;
+    public static final double kForearmCircum = (0.75+0.25)*Math.PI;
     public static final double kForearmIncrement = 2;
     //value is in Inches
-    public static final double forearmExtendLimit = 25;
+    public static final double forearmExtendLimit = 20;
 
     //Motor speeds
     public static final double shoulderSpeed = 0.1;

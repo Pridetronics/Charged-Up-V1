@@ -48,6 +48,8 @@ public class ManipulatorInput extends CommandBase {
     SmartDashboard.putBoolean("WRIST BACKWARDS", backwardsOne);
     manipulator.moveWrist(forwardOne, backwardsOne);
 
+
+    manipulator.forarmUpdate();
   }
 
   // Called once the command ends or is interrupted.

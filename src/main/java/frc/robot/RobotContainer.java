@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 //Commands
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Autos;
+import frc.robot.commands.HomingCommand;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.ManipulatorInput;
 import frc.robot.commands.forearmInput;
@@ -44,6 +45,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.DigitalInput;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -82,6 +84,9 @@ public class RobotContainer {
   public static SparkMaxPIDController shoulderPID;
   public static SparkMaxPIDController forearmPID;
   public static PIDController wristPID;
+
+  public static DigitalInput forearmLimitSwitch = new DigitalInput(OperatorConstants.kForearmLimitID);
+
  // private final Drive m_drive = new Drive();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -118,6 +123,9 @@ public class RobotContainer {
     shoulderPID.setI(0);
     shoulderPID.setD(0);
     forearmPID = manipulatorForearmMotor.getPIDController();
+    forearmPID.setP(0.5);
+    forearmPID.setI(0);
+    forearmPID.setD(0);
     wristPID = new PIDController(0.4,  0, 0);
 
     m_manipulator = new Manipulator(); 
@@ -150,8 +158,8 @@ public class RobotContainer {
     m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
     //m_navX.setDefaultCommand(new AutoBalance(m_navX));
 
-    JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputExtend);
-    JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputRetract);
+    JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputRetract);
+    JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputExtend);
 
     JoystickButton clawButton = new JoystickButton(joystickManipulator, OperatorConstants.kClawToggle);
 
@@ -159,7 +167,9 @@ public class RobotContainer {
     forearmButtonRetract.onTrue(new forearmInput(m_manipulator, false));
     clawButton.onTrue(new clawInput(m_manipulator));
 
-    
+    JoystickButton homingButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
+    homingButton.onTrue(new HomingCommand(m_manipulator));
+
     // if (joystickDriver.getRawButtonPressed(0)) {
     //   new AutoBalance(m_navX);
     // }
