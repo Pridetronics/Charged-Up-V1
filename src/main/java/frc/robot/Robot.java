@@ -7,8 +7,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.util.WPILibVersion;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,7 +29,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   WPILibVersion Ver = new WPILibVersion();
   private RobotContainer m_robotContainer;
-  // private MjpegServer Server1;
+  private SendableChooser m_chooser;
+  private Drive m_drive;
 
   // Hardware
 
@@ -37,7 +44,13 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putString("WpilibVer", "2023.2.1");
     // CameraServer.startAutomaticCapture(0);
-
+    SendableChooser<Command> m_Chooser = new SendableChooser<>();
+    // sendable chooser options
+    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
+    m_Chooser.addOption("auto rotate and forward",
+        new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
+            new InstantCommand(m_drive::calculateDistance)));
+    m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -82,10 +95,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = (Command) m_chooser.getSelected();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    if (m_chooser.getSelected() != null) {
+
       m_autonomousCommand.schedule();
     }
   }
