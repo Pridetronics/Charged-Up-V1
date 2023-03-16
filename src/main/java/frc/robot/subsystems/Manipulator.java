@@ -53,6 +53,7 @@ public class Manipulator extends SubsystemBase {
   private double lastShoulderSetpoint = 0;
   private double forarmSetpoint = 0;
   public boolean currentlyHoming = true;
+  private boolean wristMovingLast = false;
 
   /** Creates a new Manipulator. */
   public Manipulator() {
@@ -110,7 +111,6 @@ public class Manipulator extends SubsystemBase {
     }
 
     double incrementSpeed = conversionFactor*Speed*OperatorConstants.shoulderSpeed;
-    SmartDashboard.putNumber("SPEEEED3", incrementSpeed);
     //Updates PID/Motor with new speed, ensures velocity is the same
 
     shoulderPID.setReference(lastShoulderSetpoint+incrementSpeed, ControlType.kPosition);
@@ -122,6 +122,9 @@ public class Manipulator extends SubsystemBase {
     
     //Degrees the wrist has rotated
     double curWristPos = wristEncoder.getDistance()/OperatorConstants.wristEncoderCountsPerRev*360;
+
+    SmartDashboard.putNumber("Current Wrist Position", curWristPos);
+
     //Checks if motor is out of limits
     boolean upperLimit = curWristPos >= 90;
     boolean lowerLimit = !wristLimitSwitch.get();
@@ -145,6 +148,12 @@ public class Manipulator extends SubsystemBase {
     wristMotor.set(newPos);
     if (upMotion+downMotion != 0) {
       lastWristSetpoint = wristEncoder.getDistance();
+      wristMovingLast = true;
+    } else {
+      if (wristMovingLast == true) {
+        lastWristSetpoint = wristEncoder.getDistance();
+      }
+      wristMovingLast = false;
     }
 
   }
@@ -165,8 +174,6 @@ public class Manipulator extends SubsystemBase {
     //Checks if any limit bounds have been reached
     boolean lowerLimit = (!forearmLimitSwitch.get());
     boolean upperLimit = moveTo > OperatorConstants.forearmExtendLimit;
-    
-    SmartDashboard.putBoolean("Upper Limit", upperLimit);
 
     //Updates the goal position based on limits
   if (upperLimit && forwards) {
@@ -177,19 +184,15 @@ public class Manipulator extends SubsystemBase {
     }
 
     forarmSetpoint = moveTo;
-    SmartDashboard.putNumber("AFTER POS", moveTo);
   };
 
   public void forarmUpdate() {
     
-    SmartDashboard.putBoolean("homing finished", !forearmLimitSwitch.get());
     if (!currentlyHoming) {
       double moveTo = forarmSetpoint;
       boolean lowerLimit = !forearmLimitSwitch.get();
 
       double currentPos = forearmEncoder.getPosition();
-      SmartDashboard.putNumber("current position", forearmEncoder.getPosition());
-
       if (lowerLimit) {
         moveTo = Math.max(moveTo, currentPos);
       }
