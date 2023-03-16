@@ -120,10 +120,10 @@ public class Manipulator extends SubsystemBase {
   //Method called by ManipulatorInput to update wrist
   public void moveWrist(boolean up, boolean down) {
     
-    //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
-    double curWristPos = wristEncoder.getDistance()/OperatorConstants.wristEncoderCountsPerRev;
+    //Degrees the wrist has rotated
+    double curWristPos = wristEncoder.getDistance()/OperatorConstants.wristEncoderCountsPerRev*360;
     //Checks if motor is out of limits
-    boolean upperLimit = curWristPos > 0.25f;
+    boolean upperLimit = curWristPos >= 90;
     boolean lowerLimit = !wristLimitSwitch.get();
     
     //Sets speed based on what buttons are pressed
@@ -139,7 +139,7 @@ public class Manipulator extends SubsystemBase {
     //Updates PID/Motor with new speed, ensures velocity is the same
     double newPos = wristPID.calculate(
       wristEncoder.getDistance(), 
-      lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristRange
+      lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristSpeed
     );
 
     wristMotor.set(newPos);
@@ -173,16 +173,9 @@ public class Manipulator extends SubsystemBase {
       moveTo = Math.min(moveTo, OperatorConstants.forearmExtendLimit);
     }
     if (lowerLimit) {
-      moveTo = Math.max(moveTo, currentPos);
+      moveTo = Math.max(moveTo, 0);
     }
 
-    //Tells motor to move to the new position
-//  //   forarmSetpoint = moveTo;
-//     boolean setToLower = lowerLimit && !forwards;
-//     boolean setToUpper = upperLimit && forwards;
-//     if (!setToLower && !setToUpper) {
-//       forarmSetpoint = moveTo;
-//     }
     forarmSetpoint = moveTo;
     SmartDashboard.putNumber("AFTER POS", moveTo);
   };
