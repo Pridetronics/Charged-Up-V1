@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   WPILibVersion Ver = new WPILibVersion();
   private RobotContainer m_robotContainer;
-  private SendableChooser m_chooser;
+  private SendableChooser Chooser;
   private Drive m_drive;
 
   // Hardware
@@ -49,13 +49,7 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    SendableChooser<Command> m_Chooser = new SendableChooser<>();
-    // sendable chooser options
-    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
-    m_Chooser.addOption("auto rotate and forward",
-        new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
-            new InstantCommand(m_drive::calculateDistance)));
-    m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
+
   }
 
   /**
@@ -96,10 +90,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = (Command) m_chooser.getSelected();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_chooser.getSelected() != null) {
+    if (m_autonomousCommand != null) {
 
       m_autonomousCommand.schedule();
     }

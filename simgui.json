@@ -20,6 +20,7 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/BalanceMode": "Command",
+      "/SmartDashboard/Chooser": "String Chooser",
       "/SmartDashboard/sendableChooser": "String Chooser"
     },
     "windows": {
@@ -31,7 +32,7 @@
     }
   },
   "NetworkTables": {
-    "Retained Values": {
+    "Persistent Values": {
       "open": false
     },
     "transitory": {
@@ -57,6 +58,9 @@
       },
       "SmartDashboard": {
         "BalanceMode": {
+          "open": true
+        },
+        "Chooser": {
           "open": true
         },
         "open": true

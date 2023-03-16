@@ -32,6 +32,7 @@ import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -89,6 +90,8 @@ public class RobotContainer {
   public static DigitalInput lowerShoulderLimitSwitch;
   public static DigitalInput lowerForearmLimitSwitch;
   public static DigitalInput lowerWristLimitSwitch;
+  // sendablechooser
+  public static SendableChooser<Command> m_Chooser;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -136,9 +139,16 @@ public class RobotContainer {
     ahrs = new AHRS();
     m_vision = new Vision();
 
+    m_Chooser = new SendableChooser<Command>();
+    // sendable chooser options
+    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
+    m_Chooser.addOption("auto rotate and forward",
+        new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
+            new InstantCommand(m_drive::calculateDistance)));
+    m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
     // Configure the trigger bindings
     configureBindings();
-
+    SmartDashboard.putData("Chooser", m_Chooser);
     SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
     SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
     SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
@@ -195,5 +205,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-
+  public Command getAutonomousCommand() {
+    return m_Chooser.getSelected();
+  }
 }
