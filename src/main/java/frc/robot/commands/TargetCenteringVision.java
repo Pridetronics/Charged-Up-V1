@@ -38,7 +38,7 @@ public class TargetCenteringVision extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Target = 1;
-    System.out.println("Command Interrrupted");
+    System.out.println("Centering Command Interrrupted");
   }
 
   // Returns true when the command should end.

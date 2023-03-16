@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AutoMoveForward extends CommandBase {
   private Drive m_drive;
   private Double desiredDistance;
-  private Double TPI;
-  private Double TPR;
+  private Double ticksPerInch;
+  private Double ticksPerRotation;
 
   /** Creates a new AutoMoveForward. */
   public AutoMoveForward(Drive drive) {
     m_drive = drive;
-    TPI = drive.TPI;
-    TPR = drive.TPR;
+    ticksPerInch = drive.TPI;
+    ticksPerRotation = drive.TPR;
     desiredDistance = drive.desiredDistance;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);

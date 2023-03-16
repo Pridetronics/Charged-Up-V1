@@ -91,7 +91,7 @@ public class Vision extends SubsystemBase {
     inst.startClient3("3853");
     // starts new DS client, Very important for lime
     inst.startDSClient();
-    inst.getEntry("stream").setDouble(0);
+    inst.getEntry("stream").setDouble(0);// when usb camera is plugged into limelight, shows isde by side video feeds
     // network tables
 
     SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
@@ -130,7 +130,7 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Initial Distance", initialDistance); // Puts all these values on the smartdashboard when
                                                                    // run. This is solely for testing purposes
     SmartDashboard.putNumber("Distance in Inches", distanceInInches);
-    SmartDashboard.putNumber("Distance in Feet", distanceInFeet);// all to be commented out after testing
+    SmartDashboard.putNumber("Distance in Feet", distanceInFeet);
     SmartDashboard.putNumber("Rounded Distance", roundedDistance);
   }
 
@@ -157,7 +157,7 @@ public class Vision extends SubsystemBase {
     System.out.println("Forwards");
   }
 
-  public void setPipe1() {// changing pipelines dor apriltags and normal limelight
+  public void setPipe1() {// changing pipelines for apriltags and normal limelight
     inst.getEntry("pipeline").setDouble(0);
   }
 
@@ -169,13 +169,13 @@ public class Vision extends SubsystemBase {
   public void centerTarget() {
     if (tv == 1) {// greater than and less than values need to be adjusted based on position of
                   // limelight on robot
-      if (tx > 8 && tx < 30) {// (adjust when not centered), currently based on a centered limelight, adjusts
-                              // to the right
+      if (tx > -4 && tx < 18) {// (adjust when not centered), currently based on a centered limelight, adjusts
+                               // to the right
         // original values are >8 and <30
         Left.set(50);
         Right.set(-50);
         TargetisCentered = 0;
-      } else if (tx > -8 && tx < -30) {// adjust to the left
+      } else if (tx > -20 && tx < -42) {// adjust to the left
         Left.set(-50);
         Right.set(50);
         TargetisCentered = 0;

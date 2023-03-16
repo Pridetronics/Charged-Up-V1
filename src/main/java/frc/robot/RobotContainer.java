@@ -167,7 +167,7 @@ public class RobotContainer {
     // m_manipulator));
 
     targetCenteringButton = new JoystickButton(joystickDriver, OperatorConstants.kAimCentering);
-    targetCenteringButton.onTrue(new TargetCenteringVision(m_vision));
+    targetCenteringButton.toggleOnTrue(new TargetCenteringVision(m_vision));
     // forearmExtendButton = new JoystickButton(joystickManipulator,
     // OperatorConstants.kForearmExtendButtonNumber);
     // forearmExtendButton.whileTrue(new ForearmExtension(m_manipulator));

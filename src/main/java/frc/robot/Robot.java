@@ -44,6 +44,11 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putString("WpilibVer", "2023.2.1");
     // CameraServer.startAutomaticCapture(0);
+
+    // Instantiate our RobotContainer. This will perform all our button bindings,
+    // and put our
+    // autonomous chooser on the dashboard.
+    m_robotContainer = new RobotContainer();
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
     // sendable chooser options
     m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
@@ -51,10 +56,6 @@ public class Robot extends TimedRobot {
         new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
             new InstantCommand(m_drive::calculateDistance)));
     m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
-    // Instantiate our RobotContainer. This will perform all our button bindings,
-    // and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
   }
 
   /**
