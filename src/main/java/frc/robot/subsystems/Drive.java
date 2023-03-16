@@ -100,8 +100,8 @@ public class Drive extends SubsystemBase {
     Yval1 = joystickDriver.getRawAxis(1); // Left side of the robot
     Yval2 = joystickDriver.getRawAxis(4); // Right side of the robot
     // reduces speed so field is not torn apart
-    // Yval1 = Yval1 * .61; // .61
-    // Yval2 = Yval2 * .6; // .6
+    Yval1 = Yval1 * .71; // .61
+    Yval2 = Yval2 * .7; // .6
     tankarcadeDrive.arcadeDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
