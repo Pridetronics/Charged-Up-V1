@@ -34,8 +34,8 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void execute() {
     double Yval1 = m_joystickdriver.getRawAxis(1);
-    double Yval2 = m_joystickdriver.getRawAxis(5);
-    m_drive.Tankinput(m_joystickdriver, Yval1, Yval2);
+    double Yval2 = m_joystickdriver.getRawAxis(4);
+    m_drive.TankArcadeinput(m_joystickdriver, Yval1, Yval2);
   }
 
   // Called once the command ends or is interrupted.

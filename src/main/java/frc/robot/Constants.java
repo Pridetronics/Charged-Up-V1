@@ -62,7 +62,7 @@ public final class Constants {
     public static final double kForearmCircum = (0.75+0.25)*Math.PI;
     public static final double kForearmIncrement = 2;
     //value is in Inches
-    public static final double forearmExtendLimit = 20;
+    public static final double forearmExtendLimit = 25;
 
     //Motor speeds
     public static final double shoulderSpeed = 0.1;

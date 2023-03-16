@@ -30,7 +30,7 @@ public class Drive extends SubsystemBase {
   public static RelativeEncoder m_leftBackEncoder;
 
   //Makes differential drive and motorcontroller groups
-  public static DifferentialDrive tankDrive;
+  public static DifferentialDrive tankArcadeDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
   //Variables
@@ -57,11 +57,11 @@ public class Drive extends SubsystemBase {
       //Two motorcontroller groups that will act as left and right in tank drive 
       Left = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
       Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
-      tankDrive = new DifferentialDrive(Left, Right);
+      tankArcadeDrive = new DifferentialDrive(Left, Right);
         
-        tankDrive.setSafetyEnabled(true);
-        tankDrive.setExpiration(.1);
-        tankDrive.setMaxOutput(1);
+        tankArcadeDrive.setSafetyEnabled(true);
+        tankArcadeDrive.setExpiration(.1);
+        tankArcadeDrive.setMaxOutput(1);
       
       //calculations
       TPR = m_leftFrontEncoder.getCountsPerRevolution();
@@ -85,13 +85,13 @@ public class Drive extends SubsystemBase {
     m_rightBackEncoder.setPosition(0);
     m_leftBackEncoder.setPosition(0);
   }
-  public void Tankinput(Joystick joystickDriver,double Yval1, double Yval2){
+  public void TankArcadeinput(Joystick joystickDriver,double Yval1, double Yval2){
     Yval1 = joystickDriver.getRawAxis(1);
-    Yval2 = joystickDriver.getRawAxis(5);
+    Yval2 = joystickDriver.getRawAxis(4);
     //reduces speed so field is not torn apart
     Yval1 = Yval1 * .71;
     Yval2 = Yval2 * .7;
-    tankDrive.tankDrive(Yval1, Yval2);
+    tankArcadeDrive.arcadeDrive(Yval1, Yval2,true);
   }
   public void driveStop(){
     m_leftFrontMotor.set(0);

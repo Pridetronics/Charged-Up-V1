@@ -34,8 +34,8 @@ public class HomingCommand extends CommandBase {
     m_manipulator = manipulator;
 
     forearmMotor = RobotContainer.manipulatorForearmMotor;
-    forearmEncoder = forearmMotor.getEncoder();
     forearmPID = RobotContainer.forearmPID;
+
 
     addRequirements(m_manipulator);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -51,22 +51,24 @@ public class HomingCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("ForearmPos", forearmEncoder.getPosition());
-    forearmPID.setReference(-0.1, ControlType.kVelocity);
+    forearmMotor.set(-0.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    forearmPID.setReference(0, ControlType.kVelocity);
+
+    forearmEncoder = forearmMotor.getEncoder();
     forearmEncoder.setPosition(0);
+
+    forearmPID.setReference(0, ControlType.kPosition);
+
     m_manipulator.currentlyHoming = false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putBoolean("homing finished", !forearmLimitSwitch.get());
     return !forearmLimitSwitch.get();
   }
 }

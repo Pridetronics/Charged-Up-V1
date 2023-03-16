@@ -75,7 +75,7 @@ public class NavX extends SubsystemBase {
   }
 
     try {
-      Drive.tankDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
+      Drive.tankArcadeDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
     } 
     catch(RuntimeException ex) {
       String err_string = "Drive system error: " + ex.getMessage();
