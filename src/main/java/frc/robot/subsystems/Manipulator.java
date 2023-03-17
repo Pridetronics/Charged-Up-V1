@@ -32,7 +32,7 @@ public class Manipulator extends SubsystemBase {
   private Joystick joystick;
   private DigitalInput armLimitSwitch = new DigitalInput(OperatorConstants.kShoulderLowerLimitID);
   private DigitalInput upperArmLimitSwitch = new DigitalInput(OperatorConstants.kShoulderUpperLimitID);
-  private DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kWristLimitID);
+  private DigitalInput wristLimitSwitch = RobotContainer.wristLimitSwitch;
   private DigitalInput forearmLimitSwitch = RobotContainer.forearmLimitSwitch;
 
   private CANSparkMax armMotor;
@@ -66,7 +66,7 @@ public class Manipulator extends SubsystemBase {
 
     //Retrieves Encoders
     armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
+    wristEncoder = RobotContainer.wristEncoder;
 
     forearmEncoder = foreArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     forearmEncoder.setPositionConversionFactor(OperatorConstants.kForearmCircum/12);
@@ -119,41 +119,46 @@ public class Manipulator extends SubsystemBase {
 
   //Method called by ManipulatorInput to update wrist
   public void moveWrist(boolean up, boolean down) {
-    
-    //Degrees the wrist has rotated
-    double curWristPos = wristEncoder.getDistance()/OperatorConstants.wristEncoderCountsPerRev*360;
+    SmartDashboard.putBoolean("Wrist Limit", wristLimitSwitch.get());
+    if (!currentlyHoming) {
+      //Degrees the wrist has rotated
+      double curWristPos = wristEncoder.getDistance()*4.33;
+      SmartDashboard.putNumber("Current Wrist Position", curWristPos);
+            //Checks if motor is out of limits
+      boolean lowerLimit = curWristPos >= 95;
+      boolean upperLimit = wristLimitSwitch.get();
+      
+      //Sets speed based on what buttons are pressed
+      int upMotion = up ? -1 : 0;
+      int downMotion = down ? 1 : 0;
 
-    SmartDashboard.putNumber("Current Wrist Position", curWristPos);
-
-    //Checks if motor is out of limits
-    boolean upperLimit = curWristPos >= 90;
-    boolean lowerLimit = !wristLimitSwitch.get();
-    
-    //Sets speed based on what buttons are pressed
-    int upMotion = up ? 1 : 0;
-    int downMotion = down ? -1 : 0;
-
-    //Updates the motor speed based on limits
-    if (upperLimit) {
-      upMotion = 0;
-    } else if (lowerLimit) {
-      downMotion = 0;
-    }
-    //Updates PID/Motor with new speed, ensures velocity is the same
-    double newPos = wristPID.calculate(
-      wristEncoder.getDistance(), 
-      lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristSpeed
-    );
-
-    wristMotor.set(newPos);
-    if (upMotion+downMotion != 0) {
-      lastWristSetpoint = wristEncoder.getDistance();
-      wristMovingLast = true;
-    } else {
-      if (wristMovingLast == true) {
-        lastWristSetpoint = wristEncoder.getDistance();
+      //Updates the motor speed based on limits
+      if (upperLimit) {
+        upMotion = 0;
+      } else if (lowerLimit) {
+        downMotion = 0;
       }
-      wristMovingLast = false;
+      //Updates PID/Motor with new speed, ensures velocity is the same
+      double newPos = wristPID.calculate(
+        wristEncoder.getDistance(), 
+        lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristSpeed
+      );
+      SmartDashboard.putNumber("Wrist PID output", newPos);
+      SmartDashboard.putNumber("Goal speed", lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristSpeed);
+      SmartDashboard.putNumber("Wrist set point", lastWristSetpoint);
+      SmartDashboard.putNumber("Wrist Encoder", wristEncoder.getDistance());
+
+      wristMotor.set(newPos);
+      
+      if (upMotion+downMotion != 0) {
+        lastWristSetpoint = wristEncoder.getDistance();
+        wristMovingLast = true;
+      } else {
+        if (wristMovingLast == true) {
+          lastWristSetpoint = wristEncoder.getDistance();
+        }
+        wristMovingLast = false;
+      }
     }
 
   }

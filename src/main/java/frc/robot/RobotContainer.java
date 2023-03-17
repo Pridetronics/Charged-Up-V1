@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 //Joystick Imports
@@ -86,7 +87,10 @@ public class RobotContainer {
   public static PIDController wristPID;
 
   public static DigitalInput forearmLimitSwitch = new DigitalInput(OperatorConstants.kForearmLimitID);
+  public static DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kWristLimitID);
 
+  public static Encoder wristEncoder;
+  
  // private final Drive m_drive = new Drive();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -113,6 +117,7 @@ public class RobotContainer {
     //pistons
     clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonExtendClawChannel, OperatorConstants.kPistonRetractClawChannel);
 
+    wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
 
     m_navX = new NavX();
     ahrs = new AHRS();
@@ -126,7 +131,7 @@ public class RobotContainer {
     forearmPID.setP(0.1);
     forearmPID.setI(0);
     forearmPID.setD(0);
-    wristPID = new PIDController(0.4,  0, 0);
+    wristPID = new PIDController(0.52,  0, 0);
 
     m_manipulator = new Manipulator(); 
     m_manipulator.zeroEncoder();

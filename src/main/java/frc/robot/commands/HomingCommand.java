@@ -17,6 +17,7 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -26,7 +27,16 @@ public class HomingCommand extends CommandBase {
   private SparkMaxPIDController forearmPID;
   private RelativeEncoder forearmEncoder;
 
+  private CANSparkMax wristMotor;
+  private Encoder wristEncoder;
+
   private DigitalInput forearmLimitSwitch = RobotContainer.forearmLimitSwitch;
+  private DigitalInput wristLimitSwitch = RobotContainer.wristLimitSwitch;
+
+
+  private boolean wristEnded = false;
+  private boolean forearmEnded = false;
+
 
   
   /** Creates a new HoningCommand. */
@@ -36,6 +46,7 @@ public class HomingCommand extends CommandBase {
     forearmMotor = RobotContainer.manipulatorForearmMotor;
     forearmPID = RobotContainer.forearmPID;
 
+    wristMotor = RobotContainer.manipulatorWristMotor;
 
     addRequirements(m_manipulator);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -51,17 +62,38 @@ public class HomingCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    forearmMotor.set(-0.1);
+    if (!forearmEnded && !forearmLimitSwitch.get()) {
+      endForearm();
+    } else {
+      forearmPID.setReference(-0.1, ControlType.kDutyCycle);
+    }
+
+    if (!wristEnded && wristLimitSwitch.get()) {
+      endWrist();
+
+    } else {
+      wristMotor.set(-0.38);
+    }
+  }
+
+  private void endWrist() {
+    wristEnded = true;
+    wristMotor.set(0);
+    wristEncoder = RobotContainer.wristEncoder;
+    wristEncoder.reset();
+  }
+
+  private void endForearm() {
+    forearmEnded = true;
+    forearmEncoder = forearmMotor.getEncoder();
+    forearmEncoder.setPosition(0);
+    
+    forearmPID.setReference(0, ControlType.kPosition);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-
-    forearmEncoder = forearmMotor.getEncoder();
-    forearmEncoder.setPosition(0);
-
-    forearmPID.setReference(0, ControlType.kPosition);
+  public void end(boolean interrupted) {    
 
     m_manipulator.currentlyHoming = false;
   }
@@ -69,6 +101,7 @@ public class HomingCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !forearmLimitSwitch.get();
+    SmartDashboard.putBoolean("homing finished", wristEnded && forearmEnded);
+    return wristEnded && forearmEnded;
   }
 }
