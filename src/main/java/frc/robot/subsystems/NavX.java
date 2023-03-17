@@ -14,7 +14,7 @@ import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavX extends SubsystemBase {
-  private static AHRS m_ahrs = RobotContainer.ahrs; 
+  private static AHRS m_ahrs = RobotContainer.ahrs;
   private boolean m_autoBalanceXMode = RobotContainer.autoBalanceXMode;
   private boolean m_autoBalanceYMode = RobotContainer.autoBalanceYMode;
   public double xAxisRate = RobotContainer.joystickDriver.getX();
@@ -23,64 +23,54 @@ public class NavX extends SubsystemBase {
   /** Creates a new NavX. */
   public NavX() {
     try {
-      m_ahrs = new AHRS(SPI.Port.kMXP); 
-        } 
-      catch (RuntimeException ex ) {
-        DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-      }
+      m_ahrs = new AHRS(SPI.Port.kMXP);
+    } catch (RuntimeException ex) {
+      DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
     }
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  
-  
+
   public void autoBalance() {
     double pitchAngleDegrees = m_ahrs.getPitch();
     double rollAngleDegrees = m_ahrs.getRoll();
-    if (!m_autoBalanceXMode && 
-      (Math.abs(pitchAngleDegrees) >= 
-      Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
+    if (!m_autoBalanceXMode &&
+        (Math.abs(pitchAngleDegrees) >= Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
       m_autoBalanceXMode = true;
-  }
-    else if (m_autoBalanceXMode && 
-         (Math.abs(pitchAngleDegrees) <= 
-          Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
+    } else if (m_autoBalanceXMode &&
+        (Math.abs(pitchAngleDegrees) <= Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
       m_autoBalanceXMode = false;
-  }
+    }
 
-    if (!m_autoBalanceYMode && 
-        (Math.abs(pitchAngleDegrees) >= 
-        Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
+    if (!m_autoBalanceYMode &&
+        (Math.abs(pitchAngleDegrees) >= Math.abs(OperatorConstants.kOffBalanceAngleThresholdDegrees))) {
       m_autoBalanceYMode = true;
-  }
-    else if (m_autoBalanceYMode && 
-         (Math.abs(pitchAngleDegrees) <= 
-          Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
+    } else if (m_autoBalanceYMode &&
+        (Math.abs(pitchAngleDegrees) <= Math.abs(OperatorConstants.kOnBalanceAngleThresholdDegrees))) {
       m_autoBalanceYMode = false;
-  }
+    }
 
-// Control drive system automatically, 
-// driving in reverse direction of pitch/roll angle,
-// with a magnitude based upon the angle
+    // Control drive system automatically,
+    // driving in reverse direction of pitch/roll angle,
+    // with a magnitude based upon the angle
 
     if (m_autoBalanceXMode) {
       double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
       xAxisRate = Math.sin(pitchAngleRadians) * -1;
-  }
+    }
     if (m_autoBalanceYMode) {
       double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
       yAxisRate = Math.sin(rollAngleRadians) * -1;
-  }
+    }
 
     try {
       Drive.tankArcadeDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
-    } 
-    catch(RuntimeException ex) {
+    } catch (RuntimeException ex) {
       String err_string = "Drive system error: " + ex.getMessage();
       DriverStation.reportError(err_string, true);
-    }  
+    }
   }
 }
-
