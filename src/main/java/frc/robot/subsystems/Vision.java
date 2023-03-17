@@ -109,6 +109,7 @@ public class Vision extends SubsystemBase {
     tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair to Target (-27.5 degrees to 27.5 degrees)
     tv = vEntry.getDouble(0.0);
     SmartDashboard.putNumber("Limelight X", tx);// will be commented out after testing
+
     SmartDashboard.putNumber("Limelight Y", ty);
     SmartDashboard.putNumber("Limelight V", tv);
 

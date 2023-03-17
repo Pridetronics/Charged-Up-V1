@@ -53,13 +53,18 @@ public class Drive extends SubsystemBase {
     m_leftBackMotor = RobotContainer.leftBackMotor;
 
     // Detects and sets encoder values
-    m_rightFrontEncoder = m_rightFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    m_leftFrontEncoder = m_leftFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    m_rightBackEncoder = m_rightBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    m_leftBackEncoder = m_leftBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+    m_rightFrontEncoder = m_rightFrontMotor.getEncoder();
+    m_leftFrontEncoder = m_leftFrontMotor.getEncoder();
+    m_rightBackEncoder = m_rightBackMotor.getEncoder();
+    m_leftBackEncoder = m_leftBackMotor.getEncoder();
+
+    m_leftBackEncoder.setPositionConversionFactor(2.57);
+    m_leftFrontEncoder.setPositionConversionFactor(2.57);
+    m_rightFrontEncoder.setPositionConversionFactor(2.57);
+    m_leftBackEncoder.setPositionConversionFactor(2.57);
 
     // Zeroes encoders
-    zeroEncoders();
+
     // Two motorcontroller groups that will act as left and right in tank drive
     Left = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
     Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
@@ -69,12 +74,13 @@ public class Drive extends SubsystemBase {
     tankarcadeDrive.setExpiration(.1);
     tankarcadeDrive.setMaxOutput(1);
     // calculations
-    TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
+    // TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
     SmartDashboard.putNumber("Ticks per revolution", TPR);
     wheelCircumference = 2 * (Math.PI * 3);// circumference of wheel in inches
     TPI = TPR * wheelCircumference;// converts ticks per rotation to inches, used as final product of
-    turn90Degrees = TPR * ((2 * Math.PI * 3) / 4);
-    turn180Degrees = TPR * ((2 * Math.PI * 3) / 2);
+    // turn90Degrees = TPR * ((2 * Math.PI * 3) / 4);
+    // turn180Degrees = TPR * ((2 * Math.PI * 3) / 2);
+    desiredDistance = 18.81;// one full rotation of wheel
     SmartDashboard.putNumber("Ticks per Inch", TPI);
   }
 
@@ -85,11 +91,6 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Back Left Encoder", m_leftBackEncoder.getPosition());
     SmartDashboard.putNumber("Front Right Encoder", m_rightFrontEncoder.getPosition());
     SmartDashboard.putNumber("Back Right Encoder", m_rightBackEncoder.getPosition());
-  }
-
-  public void calculateDistance() {
-
-    desiredDistance = 6 / 2.23; // 6 inches temporary for testing
   }
 
   public void zeroEncoders() {
@@ -116,13 +117,13 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveBack() {
-    Left.set(-.6);
-    Right.set(-.6);
+    Left.set(.6);
+    Right.set(.6);
   }
 
   public void driveForward() {
-    Left.set(-.3);
-    Right.set(-.3);
+    Left.set(-.05);
+    Right.set(-.05);
   }
 
   public void driveLeft() {

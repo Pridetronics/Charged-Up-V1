@@ -34,15 +34,14 @@ public class AutoMoveForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.calculateDistance();
+
     m_drive.driveForward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // if (Math.abs(Drive.m_leftBackEncoder.getPosition()) < desiredDistance)
-    // m_drive.driveForward();
+    m_drive.driveStop();
   }
 
   // Returns true when the command should end.
