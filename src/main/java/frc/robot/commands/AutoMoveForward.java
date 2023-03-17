@@ -41,8 +41,8 @@ public class AutoMoveForward extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) < desiredDistance)
-      m_drive.driveForward();
+    // if (Math.abs(Drive.m_leftBackEncoder.getPosition()) < desiredDistance)
+    // m_drive.driveForward();
   }
 
   // Returns true when the command should end.

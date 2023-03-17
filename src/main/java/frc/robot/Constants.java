@@ -78,5 +78,9 @@ public final class Constants {
 
     // Driver buttons
     public static final int kAimCentering = 1;
+
+    // autonoous distances in inches
+    public static final int kAutoDistanceOne = 12;// placeholder values
+    public static final int kAutoDistanceTwo = 14;
   }
 }

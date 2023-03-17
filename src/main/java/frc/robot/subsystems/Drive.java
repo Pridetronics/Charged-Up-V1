@@ -39,6 +39,9 @@ public class Drive extends SubsystemBase {
   public double TPI;// Ticks per inch
   public double wheelCircumference;
   public double desiredDistance;
+  public double turn90Degrees;
+  public double shortDistance;
+  public double turn180Degrees;
 
   /** Creates a new Drive. */
   public Drive(Joystick joystickDriver) {
@@ -70,7 +73,8 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Ticks per revolution", TPR);
     wheelCircumference = 2 * (Math.PI * 3);// circumference of wheel in inches
     TPI = TPR * wheelCircumference;// converts ticks per rotation to inches, used as final product of
-
+    turn90Degrees = TPR * ((2 * Math.PI * 3) / 4);
+    turn180Degrees = TPR * ((2 * Math.PI * 3) / 2);
     SmartDashboard.putNumber("Ticks per Inch", TPI);
   }
 
@@ -84,9 +88,8 @@ public class Drive extends SubsystemBase {
   }
 
   public void calculateDistance() {
-    TPR = m_leftFrontEncoder.getCountsPerRevolution();
-    TPI = TPR * wheelCircumference;
-    desiredDistance = TPI * 6; // 24 inches of tick temporary for testing
+
+    desiredDistance = 6 / 2.23; // 6 inches temporary for testing
   }
 
   public void zeroEncoders() {
@@ -118,8 +121,17 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveForward() {
-    Left.set(.6);
+    Left.set(-.3);
+    Right.set(-.3);
+  }
+
+  public void driveLeft() {
+    Left.set(-.6);
     Right.set(.6);
   }
 
+  public void driveRight() {
+    Left.set(.6);
+    Right.set(-.6);
+  }
 }

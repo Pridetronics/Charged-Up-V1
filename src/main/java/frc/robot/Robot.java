@@ -29,8 +29,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   WPILibVersion Ver = new WPILibVersion();
   private RobotContainer m_robotContainer;
-  private SendableChooser Chooser;
-  private Drive m_drive;
 
   // Hardware
 
