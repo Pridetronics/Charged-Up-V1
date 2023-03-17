@@ -65,7 +65,7 @@ public final class Constants {
     public static final double forearmExtendLimit = 25;
 
     //Motor speeds
-    public static final double shoulderSpeed = 0.6;
+    public static final double shoulderSpeed = 0.7;
     public static final double wristSpeed = 0.75;
     public static final int wristEncoderCountsPerRev = 44; //Counts per revolution for erist encoder (APPROXIMATE)
   }
