@@ -91,12 +91,16 @@ public class Manipulator extends SubsystemBase {
 
   //Method called by ManipulatorInput to update shoulder
   public void moveArm(double Speed) {
+    SmartDashboard.putNumber("First Speed", Speed);
     double conversionFactor = 42;
     //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
     double curArmPos = armEncoder.getPosition();
     //Checks if motor is out of limits
     boolean upperLimit = upperArmLimitSwitch.get();
     boolean lowerLimit = armLimitSwitch.get();
+    SmartDashboard.putBoolean("UpperLimit Shoulder", upperLimit);
+    SmartDashboard.putBoolean("lowerLimit Shoudldrr", lowerLimit);
+
     //Updates the motor speed based on limits
     if (upperLimit) {
       Speed = Math.max(Speed, 0);
@@ -109,8 +113,9 @@ public class Manipulator extends SubsystemBase {
     if (Math.abs(Speed) > 0.05) {
       lastShoulderSetpoint = curArmPos;
     }
-
-    double incrementSpeed = conversionFactor*Speed*OperatorConstants.shoulderSpeed;
+    SmartDashboard.putNumber("Speed Shoulder", Speed);
+    SmartDashboard.putNumber("lastShoulderSetpoint", lastShoulderSetpoint);
+    double incrementSpeed = Speed*OperatorConstants.shoulderSpeed;
     //Updates PID/Motor with new speed, ensures velocity is the same
 
     shoulderPID.setReference(lastShoulderSetpoint+incrementSpeed, ControlType.kPosition);
