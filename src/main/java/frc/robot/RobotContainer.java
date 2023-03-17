@@ -141,9 +141,11 @@ public class RobotContainer {
 
     m_Chooser = new SendableChooser<Command>();
     // sendable chooser options
-    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
-
     m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
+    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
+    m_Chooser.addOption("turn around", new SequentialCommandGroup(new AutoMoveForward(m_drive),
+        new AutoTurnAround(m_drive), new AutoMoveForward(m_drive)));
+
     // Configure the trigger bindings
     configureBindings();
     SmartDashboard.putData("Chooser", m_Chooser);

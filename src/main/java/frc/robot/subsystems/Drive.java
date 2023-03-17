@@ -34,14 +34,6 @@ public class Drive extends SubsystemBase {
   public static DifferentialDrive tankarcadeDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
-  // Variables
-  public double TPR;// ticks per revolution
-  public double TPI;// Ticks per inch
-  public double wheelCircumference;
-  public double desiredDistance;
-  public double turn90Degrees;
-  public double shortDistance;
-  public double turn180Degrees;
 
   /** Creates a new Drive. */
   public Drive(Joystick joystickDriver) {
@@ -75,13 +67,7 @@ public class Drive extends SubsystemBase {
     tankarcadeDrive.setMaxOutput(1);
     // calculations
     // TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
-    SmartDashboard.putNumber("Ticks per revolution", TPR);
-    wheelCircumference = 2 * (Math.PI * 3);// circumference of wheel in inches
-    TPI = TPR * wheelCircumference;// converts ticks per rotation to inches, used as final product of
-    // turn90Degrees = TPR * ((2 * Math.PI * 3) / 4);
-    // turn180Degrees = TPR * ((2 * Math.PI * 3) / 2);
-    desiredDistance = 18.81;// one full rotation of wheel
-    SmartDashboard.putNumber("Ticks per Inch", TPI);
+
   }
 
   @Override
@@ -117,22 +103,22 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveBack() {
-    Left.set(.6);
-    Right.set(.6);
+    Left.set(.1);
+    Right.set(.1);
   }
 
   public void driveForward() {
-    Left.set(-.05);
-    Right.set(-.05);
+    Left.set(-.1);
+    Right.set(-.1);
   }
 
   public void driveLeft() {
-    Left.set(-.6);
-    Right.set(.6);
+    Left.set(-.1);
+    Right.set(.1);
   }
 
   public void driveRight() {
-    Left.set(.6);
-    Right.set(-.6);
+    Left.set(.1);
+    Right.set(-.1);
   }
 }

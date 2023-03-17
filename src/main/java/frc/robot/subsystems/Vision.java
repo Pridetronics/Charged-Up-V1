@@ -173,12 +173,12 @@ public class Vision extends SubsystemBase {
       if (tx > -4 && tx < 18) {// (adjust when not centered), currently based on a centered limelight, adjusts
                                // to the right
         // original values are >8 and <30
-        Left.set(50);
-        Right.set(-50);
+        Left.set(.2);
+        Right.set(-.2);
         TargetisCentered = 0;
       } else if (tx > -20 && tx < -42) {// adjust to the left
-        Left.set(-50);
-        Right.set(50);
+        Left.set(-.2);
+        Right.set(.2);
         TargetisCentered = 0;
       } else {
         Left.set(0);

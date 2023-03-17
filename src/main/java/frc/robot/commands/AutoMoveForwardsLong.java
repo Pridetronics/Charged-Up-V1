@@ -4,36 +4,29 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Vision;
-import frc.robot.Constants;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoMoveForward extends CommandBase {
+public class AutoMoveForwardsLong extends CommandBase {
   private Drive m_drive;
-  private Double desiredDistance;
-  private Double ticksPerInch;
-  private Double ticksPerRotation;
 
-  /** Creates a new AutoMoveForward. */
-  public AutoMoveForward(Drive drive) {
+  /** Creates a new AutoMoveForwardsLong. */
+  public AutoMoveForwardsLong(Drive drive) {
     m_drive = drive;
-
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
     m_drive.zeroEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     m_drive.driveForward();
   }
 
@@ -46,7 +39,7 @@ public class AutoMoveForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= Constants.OperatorConstants.desiredDistance) {
+    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= OperatorConstants.longDistance) {
       return true;
     } else {
       return false;

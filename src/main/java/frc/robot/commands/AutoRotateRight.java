@@ -4,17 +4,18 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoRotateRight extends CommandBase {
   private Drive m_Drive;
-  private double ninetydegrees;
 
   /** Creates a new AutoRotateLeft. */
   public AutoRotateRight(Drive drive) {
     m_Drive = drive;
-    ninetydegrees = drive.turn90Degrees;
+
     addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -41,7 +42,7 @@ public class AutoRotateRight extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= ninetydegrees) {
+    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= Constants.OperatorConstants.turn90Degrees) {
       return true;
     } else {
       return false;
