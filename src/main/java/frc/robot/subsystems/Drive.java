@@ -93,8 +93,8 @@ public class Drive extends SubsystemBase {
     Yval1 = joystickDriver.getRawAxis(1);
     Yval2 = joystickDriver.getRawAxis(4);
     // reduces speed so field is not torn apart
-    // Yval1 = Yval1 * .71;
-    // Yval2 = Yval2 * .7;
+    Yval1 *= .9;
+    Yval2 *= .9;
     tankArcadeDrive.arcadeDrive(Yval1, Yval2, true);
   }
 
