@@ -34,7 +34,7 @@ public class Drive extends SubsystemBase {
   public static RelativeEncoder m_leftBackEncoder;
 
   // Makes differential drive and motorcontroller groups
-  public static DifferentialDrive tankarcadeDrive;
+  public static DifferentialDrive tankArcadeDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
 
@@ -67,11 +67,11 @@ public class Drive extends SubsystemBase {
     // Two motorcontroller groups that will act as left and right in tank drive
     Left = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
     Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
-    tankarcadeDrive = new DifferentialDrive(Left, Right);
+    tankArcadeDrive = new DifferentialDrive(Left, Right);
 
-    tankarcadeDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
-    tankarcadeDrive.setExpiration(.1);
-    tankarcadeDrive.setMaxOutput(1);
+    tankArcadeDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
+    tankArcadeDrive.setExpiration(.1);
+    tankArcadeDrive.setMaxOutput(1);
 
     // calculations
     // TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
@@ -97,7 +97,7 @@ public class Drive extends SubsystemBase {
   public void Tankarcadeinput(Joystick joystickDriver, double Yval1, double Yval2) {
     Yval1 = joystickDriver.getRawAxis(1); // Left side of the robot
     Yval2 = joystickDriver.getRawAxis(4); // Right side of the robot
-    tankarcadeDrive.arcadeDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
+    tankArcadeDrive.arcadeDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
   public void driveStop() {

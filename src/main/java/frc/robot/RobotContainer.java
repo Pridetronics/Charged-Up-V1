@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
+//Joystick Imports
+import edu.wpi.first.wpilibj.Joystick;
 //subsystems
 import frc.robot.subsystems.Drive;
 import frc.robot.Constants.OperatorConstants;
@@ -28,28 +30,21 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-import frc.robot.commands.*; //This gives all the command imports
-//Joystick Imports
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+//Commands
+import frc.robot.commands.*;
 
 //Subsystems
-import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.NavX;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.DigitalInput;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -61,35 +56,36 @@ import edu.wpi.first.wpilibj.DigitalInput;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
- //subsystems
- public static Drive m_drive;
- public static Vision m_vision;
- public static Manipulator m_manipulator;
-  //controllers
+  // subsystems
+  public static Drive m_drive;
+  public static Vision m_vision;
+  public static Manipulator m_manipulator;
+  public static NavX m_navX;
+  // controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
-  // controller buttons
-  public static JoystickButton targetCenteringButton;
 
   // Drive Motors
   public static CANSparkMax rightFrontMotor;
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
-  
+
+  // manipulator Motors
   public static CANSparkMax manipulatorArmMotor;
   public static CANSparkMax manipulatorForearmMotor;
   public static CANSparkMax manipulatorWristMotor;
   public static CANSparkMax manipulatorClawMotor;
-  //Solenoids
+
+  // Solenoids
   public static DoubleSolenoid clawPiston;
-  //Nav-X
-  public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
-  public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
-  public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
 
+  // Nav-X
+  public static AHRS ahrs; // Attitude and Heading Reference System (motion sensor).
+  public static boolean autoBalanceXMode; // Object Declaration for autoBalanceXmode. True/False output.
+  public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
 
-  //PID Controllers
+  // PID Controllers
   public static SparkMaxPIDController shoulderPID;
   public static SparkMaxPIDController forearmPID;
   public static PIDController wristPID;
@@ -99,25 +95,15 @@ public class RobotContainer {
 
   public static Encoder wristEncoder;
   public static RelativeEncoder armEncoder;
-  
- // private final Drive m_drive = new Drive();
 
   // Manipulator Buttons
   public static JoystickButton forearmExtendButton;
   public static JoystickButton forearmRetractButton;
-
   public static JoystickButton wristPistonButton;
 
-  // Nav-X
-  public static AHRS ahrs; // Attitude and Heading Reference System (motion sensor).
-  public static boolean autoBalanceXMode; // Object Declaration for autoBalanceXmode. True/False output.
-  public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
+  // driver Buttons
+  public static JoystickButton targetCenteringButton;
 
-  // Manipulator Limit Switches
-  public static DigitalInput upperShoulderLimitSwitch;
-  public static DigitalInput lowerShoulderLimitSwitch;
-  public static DigitalInput lowerForearmLimitSwitch;
-  public static DigitalInput lowerWristLimitSwitch;
   // sendablechooser
   public static SendableChooser<Command> m_Chooser;
 
@@ -130,53 +116,28 @@ public class RobotContainer {
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
+    // Manipulator Motors
     manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
     manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
     manipulatorWristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
-    //inverts the left motors and leaves the right motors 
+    // inverts the left motors and leaves the right motors
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
     rightFrontMotor.setInverted(false);
     rightBackMotor.setInverted(false);
 
-    // Manipulator Motors
-    shoulderMotor = new CANSparkMax(OperatorConstants.kShoulderMotorCANID, MotorType.kBrushless);
-    forearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
-    wristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
-
-    // Manipulator Invertions
-    shoulderMotor.setInverted(false);
-    forearmMotor.setInverted(false);
-    wristMotor.setInverted(false);
-
-    // Manipulator Piston
-    wristPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonForwardWristChannel,
-        OperatorConstants.kPistonReverseWristChannel);
-
-    // Manipulator Limit Switches
-    upperShoulderLimitSwitch = new DigitalInput(OperatorConstants.kUpperShoulderLimitSwitchChannel);
-    lowerShoulderLimitSwitch = new DigitalInput(OperatorConstants.kLowerShoulderLimitSwitchChannel);
-    lowerForearmLimitSwitch = new DigitalInput(OperatorConstants.kLowerForearmLimitSwitchChannel);
-    lowerWristLimitSwitch = new DigitalInput(OperatorConstants.kLowerWristLimitSwitchChannel);
-
     // Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
 
-    m_drive = new Drive(joystickDriver);
-    m_manipulator = new Manipulator(joystickManipulator);
-    
-    //pistons
-    clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonExtendClawChannel, OperatorConstants.kPistonRetractClawChannel);
+    // pistons
+    clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonExtendClawChannel,
+        OperatorConstants.kPistonRetractClawChannel);
 
     wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
     armEncoder = manipulatorArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
-    m_navX = new NavX();
-    ahrs = new AHRS();
-    m_vision = new Vision();
-
-    //PID Controllers
+    // PID Controllers
     shoulderPID = manipulatorArmMotor.getPIDController();
     shoulderPID.setP(0.5);
     shoulderPID.setI(0);
@@ -185,10 +146,14 @@ public class RobotContainer {
     forearmPID.setP(0.1);
     forearmPID.setI(0);
     forearmPID.setD(0);
-    wristPID = new PIDController(0.52,  0, 0);
+    wristPID = new PIDController(0.52, 0, 0);
 
-    m_manipulator = new Manipulator(); 
-    m_manipulator.zeroEncoder();
+    m_drive = new Drive(joystickDriver);
+    m_manipulator = new Manipulator();
+
+    m_navX = new NavX();
+    ahrs = new AHRS();
+    m_vision = new Vision();
     m_Chooser = new SendableChooser<Command>();
     // sendable chooser options
     m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
@@ -196,7 +161,6 @@ public class RobotContainer {
     m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
     m_Chooser.addOption("turn around", new SequentialCommandGroup(new AutoMoveForward(m_drive),
         new AutoTurnAround(m_drive), new AutoMoveForward(m_drive)));
-
     // Configure the trigger bindings
     configureBindings();
     SmartDashboard.putData("Chooser", m_Chooser);
@@ -221,13 +185,15 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
+    m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
+
     targetCenteringButton = new JoystickButton(joystickDriver, OperatorConstants.kAimCentering);
     targetCenteringButton.toggleOnTrue(new TargetCenteringVision(m_vision));
-    m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
-    //m_navX.setDefaultCommand(new AutoBalance(m_navX));
 
-    JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputRetract);
-    JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputExtend);
+    JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator,
+        OperatorConstants.kManipulatorInputRetract);
+    JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator,
+        OperatorConstants.kManipulatorInputExtend);
 
     JoystickButton clawButton = new JoystickButton(joystickManipulator, OperatorConstants.kClawToggle);
 
@@ -239,10 +205,10 @@ public class RobotContainer {
     homingButton.onTrue(new HomingCommand(m_manipulator));
 
     // if (joystickDriver.getRawButtonPressed(0)) {
-    //   new AutoBalance(m_navX);
+    // new AutoBalance(m_navX);
     // }
     // if (joystickDriver.getRawButton(1)) {
-    //   new AutoBalance(m_navX);
+    // new AutoBalance(m_navX);
     // } //Not needed as of 2/2/2023 for now
     // Nav-X Button?????
   }

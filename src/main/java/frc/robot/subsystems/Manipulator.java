@@ -58,20 +58,20 @@ public class Manipulator extends SubsystemBase {
   /** Creates a new Manipulator. */
   public Manipulator() {
 
-    //Retrives Motors
+    // Retrives Motors
     armMotor = RobotContainer.manipulatorArmMotor;
     wristMotor = RobotContainer.manipulatorWristMotor;
     foreArmMotor = RobotContainer.manipulatorForearmMotor;
     claw = RobotContainer.clawPiston;
 
-    //Retrieves Encoders
+    // Retrieves Encoders
     armEncoder = RobotContainer.armEncoder;
     wristEncoder = RobotContainer.wristEncoder;
 
     forearmEncoder = foreArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    forearmEncoder.setPositionConversionFactor(OperatorConstants.kForearmCircum/12);
+    forearmEncoder.setPositionConversionFactor(OperatorConstants.kForearmCircum / 12);
 
-    //Retrieves PIDs
+    // Retrieves PIDs
     shoulderPID = RobotContainer.shoulderPID;
     forearmPID = RobotContainer.forearmPID;
     wristPID = RobotContainer.wristPID;
@@ -82,13 +82,6 @@ public class Manipulator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shoulder Encoder", m_shoulderEncoder.getPosition());
-    SmartDashboard.putNumber("Forearm Encoder", m_forearmEncoder.getPosition());
-    SmartDashboard.putNumber("Wrist Encoder", m_wristEncoder.getDistance());
-    SmartDashboard.putBoolean("Lower Shoulder Limit Switch", RobotContainer.lowerShoulderLimitSwitch.get());
-    SmartDashboard.putBoolean("Upper Shoulder Limit Switch", RobotContainer.upperShoulderLimitSwitch.get());
-    SmartDashboard.putBoolean("Lower Forearm Limit Switch", RobotContainer.lowerForearmLimitSwitch.get());
-    SmartDashboard.putBoolean("Lower Wrist Limit Switch", RobotContainer.lowerWristLimitSwitch.get());
   }
 
   public void zeroEncoder() {
@@ -96,19 +89,20 @@ public class Manipulator extends SubsystemBase {
     wristEncoder.reset();
   }
 
-  //Method called by ManipulatorInput to update shoulder
+  // Method called by ManipulatorInput to update shoulder
   public void moveArm(double Speed) {
     SmartDashboard.putNumber("First Speed", Speed);
     double conversionFactor = 42;
-    //Gets a decimal percentage of the total amount of rotations made (A full roation == 1)
+    // Gets a decimal percentage of the total amount of rotations made (A full
+    // roation == 1)
     double curArmPos = armEncoder.getPosition();
-    //Checks if motor is out of limits
+    // Checks if motor is out of limits
     boolean upperLimit = upperArmLimitSwitch.get();
     boolean lowerLimit = armLimitSwitch.get();
     SmartDashboard.putBoolean("UpperLimit Shoulder", upperLimit);
     SmartDashboard.putBoolean("lowerLimit Shoudldrr", lowerLimit);
 
-    //Updates the motor speed based on limits
+    // Updates the motor speed based on limits
     if (upperLimit) {
       Speed = Math.max(Speed, 0);
     } else if (lowerLimit) {
@@ -122,47 +116,47 @@ public class Manipulator extends SubsystemBase {
     }
     SmartDashboard.putNumber("Speed Shoulder", Speed);
     SmartDashboard.putNumber("lastShoulderSetpoint", lastShoulderSetpoint);
-    double incrementSpeed = Speed*OperatorConstants.shoulderSpeed;
-    //Updates PID/Motor with new speed, ensures velocity is the same
+    double incrementSpeed = Speed * OperatorConstants.shoulderSpeed;
+    // Updates PID/Motor with new speed, ensures velocity is the same
 
-    shoulderPID.setReference(lastShoulderSetpoint+incrementSpeed, ControlType.kPosition);
-    //armMotor.set(0.2);
+    shoulderPID.setReference(lastShoulderSetpoint + incrementSpeed, ControlType.kPosition);
+    // armMotor.set(0.2);
   }
 
-  //Method called by ManipulatorInput to update wrist
+  // Method called by ManipulatorInput to update wrist
   public void moveWrist(boolean up, boolean down) {
     SmartDashboard.putBoolean("Wrist Limit", wristLimitSwitch.get());
     if (!currentlyHoming) {
-      //Degrees the wrist has rotated
-      double curWristPos = wristEncoder.getDistance()*4.33;
+      // Degrees the wrist has rotated
+      double curWristPos = wristEncoder.getDistance() * 4.33;
       SmartDashboard.putNumber("Current Wrist Position", curWristPos);
-            //Checks if motor is out of limits
+      // Checks if motor is out of limits
       boolean lowerLimit = curWristPos >= 95;
       boolean upperLimit = wristLimitSwitch.get();
-      
-      //Sets speed based on what buttons are pressed
+
+      // Sets speed based on what buttons are pressed
       int upMotion = up ? -1 : 0;
       int downMotion = down ? 1 : 0;
 
-      //Updates the motor speed based on limits
+      // Updates the motor speed based on limits
       if (upperLimit) {
         upMotion = 0;
       } else if (lowerLimit) {
         downMotion = 0;
       }
-      //Updates PID/Motor with new speed, ensures velocity is the same
+      // Updates PID/Motor with new speed, ensures velocity is the same
       double newPos = wristPID.calculate(
-        wristEncoder.getDistance(), 
-        lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristSpeed
-      );
+          wristEncoder.getDistance(),
+          lastWristSetpoint + (upMotion + downMotion) * OperatorConstants.wristSpeed);
       SmartDashboard.putNumber("Wrist PID output", newPos);
-      SmartDashboard.putNumber("Goal speed", lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristSpeed);
+      SmartDashboard.putNumber("Goal speed",
+          lastWristSetpoint + (upMotion + downMotion) * OperatorConstants.wristSpeed);
       SmartDashboard.putNumber("Wrist set point", lastWristSetpoint);
       SmartDashboard.putNumber("Wrist Encoder", wristEncoder.getDistance());
 
       wristMotor.set(newPos);
-      
-      if (upMotion+downMotion != 0) {
+
+      if (upMotion + downMotion != 0) {
         lastWristSetpoint = wristEncoder.getDistance();
         wristMovingLast = true;
       } else {
@@ -175,25 +169,24 @@ public class Manipulator extends SubsystemBase {
 
   }
 
-
-
   public void moveForearm(boolean forwards) {
     int direction = forwards ? 1 : -1;
 
-    //Converts the rotations into a form that works with the encoders, while also setting the direction it needs to go in
-    double increment = OperatorConstants.kForearmIncrement*direction;
-    //Gets the current position
+    // Converts the rotations into a form that works with the encoders, while also
+    // setting the direction it needs to go in
+    double increment = OperatorConstants.kForearmIncrement * direction;
+    // Gets the current position
     double currentPos = forarmSetpoint;
-    //Find where the rotational goal is, set into the encoders countsPerRevlolutions form
-    double moveTo = increment+currentPos;
+    // Find where the rotational goal is, set into the encoders
+    // countsPerRevlolutions form
+    double moveTo = increment + currentPos;
 
-
-    //Checks if any limit bounds have been reached
+    // Checks if any limit bounds have been reached
     boolean lowerLimit = (!forearmLimitSwitch.get());
     boolean upperLimit = moveTo > OperatorConstants.forearmExtendLimit;
 
-    //Updates the goal position based on limits
-  if (upperLimit && forwards) {
+    // Updates the goal position based on limits
+    if (upperLimit && forwards) {
       moveTo = Math.min(moveTo, OperatorConstants.forearmExtendLimit);
     }
     if (lowerLimit) {
@@ -204,7 +197,7 @@ public class Manipulator extends SubsystemBase {
   };
 
   public void forarmUpdate() {
-    
+
     if (!currentlyHoming) {
       double moveTo = forarmSetpoint;
       boolean lowerLimit = !forearmLimitSwitch.get();
@@ -213,13 +206,13 @@ public class Manipulator extends SubsystemBase {
       if (lowerLimit) {
         moveTo = Math.max(moveTo, currentPos);
       }
-      
+
       forearmPID.setReference(moveTo, ControlType.kPosition);
     }
   }
 
   public void toggleClaw() {
-    
+
     DoubleSolenoid.Value clawEnabled = claw.get();
     if (clawEnabled == DoubleSolenoid.Value.kForward) {
       clawEnabled = DoubleSolenoid.Value.kReverse;
