@@ -84,7 +84,7 @@ public final class Constants {
     public static final int kAutoDistanceTwo = 14;
 
     public static final double wheelCircumference = 2 * (Math.PI * 3);;
-    public static final double desiredDistance = 280;
+    public static final double desiredDistance = 120;
     public static final double turn90Degrees = 18.81 / 4;// one full wheel rotation is 18.81 inches
     public static final double shortDistance = 12;
     public static final double turn180Degrees = 18.81 / 2;
