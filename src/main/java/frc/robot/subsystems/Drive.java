@@ -58,10 +58,10 @@ public class Drive extends SubsystemBase {
     m_rightFrontEncoder.setPositionConversionFactor(2.57);
     m_rightBackEncoder.setPositionConversionFactor(2.57);
 
-    m_rightFrontMotor.setOpenLoopRampRate(.5);// ramping
-    m_rightBackMotor.setOpenLoopRampRate(.5);
-    m_leftBackMotor.setOpenLoopRampRate(.5);
-    m_leftFrontMotor.setOpenLoopRampRate(.5);
+    m_rightFrontMotor.setOpenLoopRampRate(1);// ramping
+    m_rightBackMotor.setOpenLoopRampRate(1);
+    m_leftBackMotor.setOpenLoopRampRate(1);
+    m_leftFrontMotor.setOpenLoopRampRate(1);
     // Zeroes encoders
 
     // Two motorcontroller groups that will act as left and right in tank drive
@@ -108,7 +108,7 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveBack() {
-    Left.set(.1);
+    Left.set(.11);
     Right.set(.1);
   }
 
@@ -118,12 +118,12 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveLeft() {
-    Left.set(-.1);
+    Left.set(-.11);
     Right.set(.1);
   }
 
   public void driveRight() {
-    Left.set(.1);
+    Left.set(.11);
     Right.set(-.1);
   }
 }

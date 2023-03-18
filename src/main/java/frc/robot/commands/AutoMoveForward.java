@@ -15,9 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoMoveForward extends CommandBase {
   private Drive m_drive;
-  private Double desiredDistance;
-  private Double ticksPerInch;
-  private Double ticksPerRotation;
 
   /** Creates a new AutoMoveForward. */
   public AutoMoveForward(Drive drive) {
