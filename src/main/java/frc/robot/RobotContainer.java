@@ -4,24 +4,36 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+//subsystems
+import frc.robot.subsystems.Drive;
+import frc.robot.Constants.OperatorConstants;
+
+import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Vision;
+
 //Nav-X Imports
 import com.kauailabs.navx.frc.AHRS;
 
 //Hardware imports
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
+import frc.robot.commands.*; //This gives all the command imports
 //Joystick Imports
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-//Commands
-import frc.robot.commands.*; //This gives all the command imports
 
 //Subsystems
 import frc.robot.subsystems.Drive;
@@ -35,8 +47,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.DigitalInput;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -48,13 +61,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // Subsystems
-  public static Drive m_drive;
-  public static Vision m_vision;
-  public static NavX m_navX;
-  public static Manipulator m_manipulator;
-
-  // Controllers
+ //subsystems
+ public static Drive m_drive;
+ public static Vision m_vision;
+ public static Manipulator m_manipulator;
+  //controllers
   public static Joystick joystickDriver;
   public static Joystick joystickManipulator;
   // controller buttons
@@ -65,14 +76,31 @@ public class RobotContainer {
   public static CANSparkMax leftFrontMotor;
   public static CANSparkMax rightBackMotor;
   public static CANSparkMax leftBackMotor;
+  
+  public static CANSparkMax manipulatorArmMotor;
+  public static CANSparkMax manipulatorForearmMotor;
+  public static CANSparkMax manipulatorWristMotor;
+  public static CANSparkMax manipulatorClawMotor;
+  //Solenoids
+  public static DoubleSolenoid clawPiston;
+  //Nav-X
+  public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
+  public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
+  public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
 
-  // Manipulator Motors
-  public static CANSparkMax shoulderMotor;
-  public static CANSparkMax forearmMotor;
-  public static CANSparkMax wristMotor;
 
-  // Wrist Piston
-  public static DoubleSolenoid wristPiston;
+  //PID Controllers
+  public static SparkMaxPIDController shoulderPID;
+  public static SparkMaxPIDController forearmPID;
+  public static PIDController wristPID;
+
+  public static DigitalInput forearmLimitSwitch = new DigitalInput(OperatorConstants.kForearmLimitID);
+  public static DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kWristLimitID);
+
+  public static Encoder wristEncoder;
+  public static RelativeEncoder armEncoder;
+  
+ // private final Drive m_drive = new Drive();
 
   // Manipulator Buttons
   public static JoystickButton forearmExtendButton;
@@ -102,8 +130,10 @@ public class RobotContainer {
     leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
     rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-
-    // Inverts the left motors and leaves the right motors
+    manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
+    manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
+    manipulatorWristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+    //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
     rightFrontMotor.setInverted(false);
@@ -135,10 +165,30 @@ public class RobotContainer {
 
     m_drive = new Drive(joystickDriver);
     m_manipulator = new Manipulator(joystickManipulator);
+    
+    //pistons
+    clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonExtendClawChannel, OperatorConstants.kPistonRetractClawChannel);
+
+    wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
+    armEncoder = manipulatorArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+
     m_navX = new NavX();
     ahrs = new AHRS();
     m_vision = new Vision();
 
+    //PID Controllers
+    shoulderPID = manipulatorArmMotor.getPIDController();
+    shoulderPID.setP(0.5);
+    shoulderPID.setI(0);
+    shoulderPID.setD(0);
+    forearmPID = manipulatorForearmMotor.getPIDController();
+    forearmPID.setP(0.1);
+    forearmPID.setI(0);
+    forearmPID.setD(0);
+    wristPID = new PIDController(0.52,  0, 0);
+
+    m_manipulator = new Manipulator(); 
+    m_manipulator.zeroEncoder();
     m_Chooser = new SendableChooser<Command>();
     // sendable chooser options
     m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
@@ -171,32 +221,28 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
-
-    // This will do Shoulder and Wrist movements on Axis 2 (Shoulder) and Axis 5,6
-    // (Wrist)
-    // m_manipulator.setDefaultCommand(new ManipulatorMovement(joystickManipulator,
-    // m_manipulator));
-
     targetCenteringButton = new JoystickButton(joystickDriver, OperatorConstants.kAimCentering);
     targetCenteringButton.toggleOnTrue(new TargetCenteringVision(m_vision));
-    // forearmExtendButton = new JoystickButton(joystickManipulator,
-    // OperatorConstants.kForearmExtendButtonNumber);
-    // forearmExtendButton.whileTrue(new ForearmExtension(m_manipulator));
-    // forearmRetractButton = new JoystickButton(joystickManipulator,
-    // OperatorConstants.kForearmRetractButtonNumber);
-    // forearmRetractButton.whileTrue(new ForearmRetraction(m_manipulator));
-    // // Extend/Retract Wrist Piston
-    // wristPistonButton = new JoystickButton(joystickManipulator,
-    // OperatorConstants.kWristPistonButtonNumber);
-    // wristPistonButton.toggleOnTrue(new InstantCommand(m_manipulator::extendWrist,
-    // m_manipulator))
-    // .toggleOnFalse(new InstantCommand(m_manipulator::retractWrist,
-    // m_manipulator));
+    m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
+    //m_navX.setDefaultCommand(new AutoBalance(m_navX));
 
-    // m_navX.setDefaultCommand(new AutoBalance(m_navX));
+    JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputRetract);
+    JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputExtend);
 
-    // if (joystickDriver.getRawButtonPressed(1)) {
-    // new AutoBalance(m_navX);
+    JoystickButton clawButton = new JoystickButton(joystickManipulator, OperatorConstants.kClawToggle);
+
+    forearmButtonExtend.onTrue(new forearmInput(m_manipulator, true));
+    forearmButtonRetract.onTrue(new forearmInput(m_manipulator, false));
+    clawButton.onTrue(new clawInput(m_manipulator));
+
+    JoystickButton homingButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
+    homingButton.onTrue(new HomingCommand(m_manipulator));
+
+    // if (joystickDriver.getRawButtonPressed(0)) {
+    //   new AutoBalance(m_navX);
+    // }
+    // if (joystickDriver.getRawButton(1)) {
+    //   new AutoBalance(m_navX);
     // } //Not needed as of 2/2/2023 for now
     // Nav-X Button?????
   }

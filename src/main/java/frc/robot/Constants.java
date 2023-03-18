@@ -34,48 +34,46 @@ public final class Constants {
     public static final double kOffBalanceAngleThresholdDegrees = 10;
     public static final double kOnBalanceAngleThresholdDegrees = 5;
 
-    // Drive Autonomous
-    public static final double kAutoVolt = -.5;
 
-    // Manipulator Motor IDs
-    public static final int kShoulderMotorCANID = 5;
+    //piston channels
+    public static final int kPistonExtendClawChannel = 0;
+    public static final int kPistonRetractClawChannel = 1;
+
+    
+    //drive Autonomous
+    public static final double kAutoVolt = -.5;
+   
+    //manipulator Motor IDs 
+    public static final int kArmMotorCANID = 5;
     public static final int kForearmMotorCANID = 6;
     public static final int kWristMotorCANID = 7;
+    
+    public static final int kArmInputAxis = 1;
+    public static final int kManipulatorInputExtend = 12;
+    public static final int kManipulatorInputRetract = 11;
+    public static final int kWristInput = 5;
+    public static final int kManipulatorHomingInput = 8;
 
-    // Wrist Encoder IDs
-    public static final int kWristMotorDIOID1 = 4;
-    public static final int kWristMotorDIOID2 = 5;
+    //Limit Switches
+    public static final int kShoulderLowerLimitID = 1;
+    public static final int kShoulderUpperLimitID = 0;
+    public static final int kForearmLimitID = 2;
+    public static final int kWristLimitID = 3;   
+    public static final int kWristEncoderAID = 4;
+    public static final int kWristEncoderBID = 5;
 
-    // Pistion Channels
-    public static final int kPistonForwardWristChannel = 0;
-    public static final int kPistonReverseWristChannel = 1;
+    //Solenoids
+    public static final int kClawToggle = 1;
+    
+    public static final double kForearmCircum = (0.75+0.25)*Math.PI;
+    public static final double kForearmIncrement = 2;
+    //value is in Inches
+    public static final double forearmExtendLimit = 25;
 
-    // manipulator controller buttons
-    // Shoulder Button
-    public static final int kShoulderAxisNumber = 2;
-
-    // Forearm Buttons
-    public static final int kForearmExtendButtonNumber = 11;
-    public static final int kForearmRetractButtonNumber = 12;
-
-    // Wrist Buttons
-    public static final int kWristRotationAxisNumber = 5;
-    public static final int kWristPistonButtonNumber = 1;
-
-    // Limit Switches
-    public static final int kUpperShoulderLimitSwitchChannel = 0;
-    public static final int kLowerShoulderLimitSwitchChannel = 1;
-    public static final int kLowerForearmLimitSwitchChannel = 2;
-    public static final int kLowerWristLimitSwitchChannel = 3;
-
-    // PID here
-    public static final double MANIPULATOR_MIN_OUTPUT = -6000.0;
-    public static final double MANIPULATOR_MAx_OUTPUT = 6000.0;
-
-    // Upper Limit For Forearm + Wrist
-    public static final double encoderForearmDistance = 145;
-    public static final double encoderWristDistance = 100;
-
+    //Motor speeds
+    public static final double shoulderSpeed = 0.7;
+    public static final double wristSpeed = 0.75;
+    public static final int wristEncoderCountsPerRev = 44; //Counts per revolution for erist encoder (APPROXIMATE)
     // Driver buttons
     public static final int kAimCentering = 1;
 
@@ -85,8 +83,8 @@ public final class Constants {
 
     public static final double wheelCircumference = 2 * (Math.PI * 3);;
     public static final double desiredDistance = 56;
-    public static final double turn90Degrees = 18.81 / 4;// one full wheel rotation is 18.81 inches
     public static final double shortDistance = 12;
+    public static final double turn90Degrees = 18.81 / 4;// one full wheel rotation is 18.81 inches
     public static final double turn180Degrees = 18.81 / 2;
     public static final double longDistance = 132;
   }

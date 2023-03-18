@@ -4,47 +4,49 @@
 
 package frc.robot.commands;
 
+
+import java.lang.management.OperatingSystemMXBean;
+
 //joystick
 import edu.wpi.first.wpilibj.Joystick;
+
+import frc.robot.Constants.OperatorConstants;
 //subsystems
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Manipulator;
+
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class JoystickDrive extends CommandBase {
-  private Drive m_drive;
-  private Joystick m_joystickdriver;
-
+public class forearmInput extends InstantCommand {
+    private Manipulator manipulator;
+    private boolean moveForward;
   /** Creates a new JoystickDrive. */
-  public JoystickDrive(Joystick joystickDriver, Drive drive) {
-    m_joystickdriver = joystickDriver;
-    m_drive = drive;
-    addRequirements(m_drive);
+  public forearmInput(Manipulator m_manipulator, boolean forwardButton) {
+    manipulator = m_manipulator;
+    moveForward = forwardButton;
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() {}
 
-  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double Yval1 = m_joystickdriver.getRawAxis(1);
-    double Yval2 = m_joystickdriver.getRawAxis(4);
-    m_drive.TankArcadeinput(m_joystickdriver, Yval1, Yval2);
+    manipulator.moveForearm(moveForward);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

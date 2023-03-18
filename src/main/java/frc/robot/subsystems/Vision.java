@@ -127,12 +127,6 @@ public class Vision extends SubsystemBase {
     distanceInInches = initialDistance * 13.6; // Converts distance into inches.
     distanceInFeet = distanceInInches / 12; // Converts distance in inches to feet
     roundedDistance = Math.round(distanceInFeet); // Rounds distance in feet
-
-    SmartDashboard.putNumber("Initial Distance", initialDistance); // Puts all these values on the smartdashboard when
-                                                                   // run. This is solely for testing purposes
-    SmartDashboard.putNumber("Distance in Inches", distanceInInches);
-    SmartDashboard.putNumber("Distance in Feet", distanceInFeet);
-    SmartDashboard.putNumber("Rounded Distance", roundedDistance);
   }
 
   public void lightsOut() {
