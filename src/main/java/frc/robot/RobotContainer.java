@@ -23,7 +23,9 @@ import com.kauailabs.navx.frc.AHRS;
 
 //Hardware imports
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -92,6 +94,9 @@ public class RobotContainer {
   public static DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kWristLimitID);
 
   public static Encoder wristEncoder;
+  public static RelativeEncoder armEncoder;
+  
+ // private final Drive m_drive = new Drive();
 
   // private final Drive m_drive = new Drive();
 
@@ -123,6 +128,7 @@ public class RobotContainer {
         OperatorConstants.kPistonRetractClawChannel);
 
     wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
+    armEncoder = manipulatorArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
     m_navX = new NavX();
     ahrs = new AHRS();

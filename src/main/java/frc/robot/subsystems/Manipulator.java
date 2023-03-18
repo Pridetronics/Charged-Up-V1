@@ -65,7 +65,7 @@ public class Manipulator extends SubsystemBase {
     claw = RobotContainer.clawPiston;
 
     //Retrieves Encoders
-    armEncoder = armMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+    armEncoder = RobotContainer.armEncoder;
     wristEncoder = RobotContainer.wristEncoder;
 
     forearmEncoder = foreArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
