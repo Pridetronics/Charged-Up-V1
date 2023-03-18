@@ -170,8 +170,22 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
-
+    m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
     // m_navX.setDefaultCommand(new AutoBalance(m_navX));
+
+    JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator,
+        OperatorConstants.kManipulatorInputRetract);
+    JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator,
+        OperatorConstants.kManipulatorInputExtend);
+
+    JoystickButton clawButton = new JoystickButton(joystickManipulator, OperatorConstants.kClawToggle);
+
+    forearmButtonExtend.onTrue(new forearmInput(m_manipulator, true));
+    forearmButtonRetract.onTrue(new forearmInput(m_manipulator, false));
+    clawButton.onTrue(new clawInput(m_manipulator));
+
+    JoystickButton homingButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
+    homingButton.onTrue(new HomingCommand(m_manipulator));
 
     // if (joystickDriver.getRawButtonPressed(0)) {
     // new AutoBalance(m_navX);

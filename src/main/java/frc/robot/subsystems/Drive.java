@@ -16,60 +16,62 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxRelativeEncoder;
 //data collection
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Drive extends SubsystemBase {
-  //Motors
+  // Motors
   private CANSparkMax m_rightFrontMotor;
   private CANSparkMax m_leftFrontMotor;
   private CANSparkMax m_rightBackMotor;
   private CANSparkMax m_leftBackMotor;
 
-  //Encoders
+  // Encoders
   public static RelativeEncoder m_rightFrontEncoder;
   public static RelativeEncoder m_leftFrontEncoder;
   public static RelativeEncoder m_rightBackEncoder;
   public static RelativeEncoder m_leftBackEncoder;
 
-  //Makes differential drive and motorcontroller groups
+  // Makes differential drive and motorcontroller groups
   public static DifferentialDrive tankArcadeDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
-  //Variables
-  public double TPR;//ticks per revolution
-  public double TPI;//Ticks per inch
+  // Variables
+  public double TPR;// ticks per revolution
+  public double TPI;// Ticks per inch
   public double wheelCircumference;
   public double desiredDistance;
-  /** Creates a new Drive. */
-    public Drive( Joystick joystickDriver) {
 
-    //Motors are now set to same as robotcontainer
+  /** Creates a new Drive. */
+  public Drive(Joystick joystickDriver) {
+
+    // Motors are now set to same as robotcontainer
     m_rightFrontMotor = RobotContainer.rightFrontMotor;
     m_leftFrontMotor = RobotContainer.leftFrontMotor;
     m_rightBackMotor = RobotContainer.rightBackMotor;
     m_leftBackMotor = RobotContainer.leftBackMotor;
-    //Detects and sets encoder values
+    // Detects and sets encoder values
     m_rightFrontEncoder = m_rightFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     m_leftFrontEncoder = m_leftFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     m_rightBackEncoder = m_rightBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     m_leftBackEncoder = m_leftBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    
-    //Zeroes encoders
+
+    // Zeroes encoders
     zeroEncoders();
-      //Two motorcontroller groups that will act as left and right in tank drive 
-      Left = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
-      Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
-      tankArcadeDrive = new DifferentialDrive(Left, Right);
-        
-        tankArcadeDrive.setSafetyEnabled(true);
-        tankArcadeDrive.setExpiration(.1);
-        tankArcadeDrive.setMaxOutput(1);
-      
-      //calculations
-      TPR = m_leftFrontEncoder.getCountsPerRevolution();
-      SmartDashboard.putNumber("Ticks per revolution", TPR);
-      wheelCircumference = 2*(Math.PI*3);// circumference of wheel in inches
-      TPI = TPR*wheelCircumference;
-      desiredDistance = 24;// 2 feet in inches, sujbect to change
-    }   
+    // Two motorcontroller groups that will act as left and right in tank drive
+    Left = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
+    Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
+    tankArcadeDrive = new DifferentialDrive(Left, Right);
+
+    tankArcadeDrive.setSafetyEnabled(true);
+    tankArcadeDrive.setExpiration(.1);
+    tankArcadeDrive.setMaxOutput(1);
+
+    // calculations
+    TPR = m_leftFrontEncoder.getCountsPerRevolution();
+    SmartDashboard.putNumber("Ticks per revolution", TPR);
+    wheelCircumference = 2 * (Math.PI * 3);// circumference of wheel in inches
+    TPI = TPR * wheelCircumference;
+    desiredDistance = 24;// 2 feet in inches, sujbect to change
+  }
 
   @Override
   public void periodic() {
@@ -79,28 +81,28 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Front Right Encoder", m_rightFrontEncoder.getPosition());
     SmartDashboard.putNumber("Back Right Encoder", m_rightBackEncoder.getPosition());
   }
-  public void zeroEncoders(){
+
+  public void zeroEncoders() {
     m_rightFrontEncoder.setPosition(0);
     m_leftFrontEncoder.setPosition(0);
     m_rightBackEncoder.setPosition(0);
     m_leftBackEncoder.setPosition(0);
   }
-  public void TankArcadeinput(Joystick joystickDriver,double Yval1, double Yval2){
+
+  public void TankArcadeinput(Joystick joystickDriver, double Yval1, double Yval2) {
     Yval1 = joystickDriver.getRawAxis(1);
     Yval2 = joystickDriver.getRawAxis(4);
-    //reduces speed so field is not torn apart
-    Yval1 = Yval1 * .71;
-    Yval2 = Yval2 * .7;
-    tankArcadeDrive.arcadeDrive(Yval1, Yval2,true);
+    // reduces speed so field is not torn apart
+    // Yval1 = Yval1 * .71;
+    // Yval2 = Yval2 * .7;
+    tankArcadeDrive.arcadeDrive(Yval1, Yval2, true);
   }
-  public void driveStop(){
+
+  public void driveStop() {
     m_leftFrontMotor.set(0);
     m_leftBackMotor.set(0);
     m_rightFrontMotor.set(0);
     m_rightBackMotor.set(0);
   }
-
-
-
 
 }
