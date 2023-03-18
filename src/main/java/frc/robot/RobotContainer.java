@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -139,14 +140,14 @@ public class RobotContainer {
 
     // PID Controllers
     shoulderPID = manipulatorArmMotor.getPIDController();
-    shoulderPID.setP(0.5);
+    shoulderPID.setP(0.45);
     shoulderPID.setI(0);
     shoulderPID.setD(0);
     forearmPID = manipulatorForearmMotor.getPIDController();
     forearmPID.setP(0.1);
     forearmPID.setI(0);
     forearmPID.setD(0);
-    wristPID = new PIDController(0.52, 0, 0);
+    wristPID = new PIDController(0.485, 0, 0);
 
     m_drive = new Drive(joystickDriver);
     m_manipulator = new Manipulator();
@@ -157,7 +158,9 @@ public class RobotContainer {
     m_Chooser = new SendableChooser<Command>();
     // sendable chooser options
     m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
-    m_Chooser.addOption("Auto Backwards", new AutoMoveBackwards(m_drive));
+    m_Chooser.addOption("Auto Backwards",
+        new SequentialCommandGroup(new HomingCommand(m_manipulator), new WaitCommand(1),
+            new AutoMoveBackwards(m_drive)));
     m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
     m_Chooser.addOption("turn around", new SequentialCommandGroup(new AutoMoveForward(m_drive),
         new AutoTurnAround(m_drive), new AutoMoveForward(m_drive)));
@@ -201,8 +204,9 @@ public class RobotContainer {
     forearmButtonRetract.onTrue(new forearmInput(m_manipulator, false));
     clawButton.onTrue(new clawInput(m_manipulator));
 
-    JoystickButton homingButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
-    homingButton.onTrue(new HomingCommand(m_manipulator));
+    // JoystickButton homingButton = new JoystickButton(joystickManipulator,
+    // OperatorConstants.kManipulatorHomingInput);
+    // homingButton.onTrue(new HomingCommand(m_manipulator));
 
     // if (joystickDriver.getRawButtonPressed(0)) {
     // new AutoBalance(m_navX);

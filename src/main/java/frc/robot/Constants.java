@@ -34,46 +34,44 @@ public final class Constants {
     public static final double kOffBalanceAngleThresholdDegrees = 10;
     public static final double kOnBalanceAngleThresholdDegrees = 5;
 
-
-    //piston channels
+    // piston channels
     public static final int kPistonExtendClawChannel = 0;
     public static final int kPistonRetractClawChannel = 1;
 
-    
-    //drive Autonomous
+    // drive Autonomous
     public static final double kAutoVolt = -.5;
-   
-    //manipulator Motor IDs 
+
+    // manipulator Motor IDs
     public static final int kArmMotorCANID = 5;
     public static final int kForearmMotorCANID = 6;
     public static final int kWristMotorCANID = 7;
-    
+
     public static final int kArmInputAxis = 1;
     public static final int kManipulatorInputExtend = 12;
     public static final int kManipulatorInputRetract = 11;
     public static final int kWristInput = 5;
     public static final int kManipulatorHomingInput = 8;
 
-    //Limit Switches
+    // Limit Switches
     public static final int kShoulderLowerLimitID = 1;
     public static final int kShoulderUpperLimitID = 0;
     public static final int kForearmLimitID = 2;
-    public static final int kWristLimitID = 3;   
+    public static final int kWristLimitID = 3;
     public static final int kWristEncoderAID = 4;
     public static final int kWristEncoderBID = 5;
 
-    //Solenoids
+    // Solenoids
     public static final int kClawToggle = 1;
-    
-    public static final double kForearmCircum = (0.75+0.25)*Math.PI;
+
+    public static final double kForearmCircum = (0.75 + 0.25) * Math.PI;
     public static final double kForearmIncrement = 2;
-    //value is in Inches
+    // value is in Inches
     public static final double forearmExtendLimit = 25;
 
-    //Motor speeds
+    // Motor speeds
     public static final double shoulderSpeed = 0.7;
     public static final double wristSpeed = 0.75;
-    public static final int wristEncoderCountsPerRev = 44; //Counts per revolution for erist encoder (APPROXIMATE)
+    public static final int wristEncoderCountsPerRev = 44; // Counts per revolution for erist encoder (APPROXIMATE)
     // Driver buttons
     public static final int kAimCentering = 1;
 
@@ -86,6 +84,6 @@ public final class Constants {
     public static final double shortDistance = 12;
     public static final double turn90Degrees = 18.81 / 4;// one full wheel rotation is 18.81 inches
     public static final double turn180Degrees = 18.81 / 2;
-    public static final double longDistance = 132;
+    public static final double longDistance = 134;
   }
 }
