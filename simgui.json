@@ -23,9 +23,6 @@
     }
   },
   "NetworkTables": {
-    "Retained Values": {
-      "open": false
-    },
     "transitory": {
       "CameraPublisher": {
         "USB Camera 0": {
