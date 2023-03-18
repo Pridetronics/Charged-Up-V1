@@ -97,6 +97,8 @@ public class Drive extends SubsystemBase {
   public void Tankarcadeinput(Joystick joystickDriver, double Yval1, double Yval2) {
     Yval1 = joystickDriver.getRawAxis(1); // Left side of the robot
     Yval2 = joystickDriver.getRawAxis(4); // Right side of the robot
+    Yval1 *= .9;
+    Yval2 *= .9;
     tankArcadeDrive.arcadeDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
