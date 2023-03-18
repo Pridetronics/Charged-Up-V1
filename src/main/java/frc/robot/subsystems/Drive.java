@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 //drive train
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -14,6 +15,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxRelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 //data collection
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -53,7 +56,7 @@ public class Drive extends SubsystemBase {
     m_leftBackEncoder.setPositionConversionFactor(2.57);
     m_leftFrontEncoder.setPositionConversionFactor(2.57);
     m_rightFrontEncoder.setPositionConversionFactor(2.57);
-    m_leftBackEncoder.setPositionConversionFactor(2.57);
+    m_rightBackEncoder.setPositionConversionFactor(2.57);
 
     m_rightFrontMotor.setOpenLoopRampRate(.5);// ramping
     m_rightBackMotor.setOpenLoopRampRate(.5);
@@ -69,6 +72,7 @@ public class Drive extends SubsystemBase {
     tankarcadeDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
     tankarcadeDrive.setExpiration(.1);
     tankarcadeDrive.setMaxOutput(1);
+
     // calculations
     // TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
 

@@ -88,6 +88,6 @@ public final class Constants {
     public static final double turn90Degrees = 18.81 / 4;// one full wheel rotation is 18.81 inches
     public static final double shortDistance = 12;
     public static final double turn180Degrees = 18.81 / 2;
-    public static final double longDistance = 110;
+    public static final double longDistance = 96;
   }
 }

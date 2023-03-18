@@ -7,6 +7,10 @@ package frc.robot.commands;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Vision;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoMoveForward extends CommandBase {
@@ -26,7 +30,10 @@ public class AutoMoveForward extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kBrake);
     m_drive.zeroEncoders();
   }
 
@@ -41,12 +48,17 @@ public class AutoMoveForward extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.driveStop();
+    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= Constants.OperatorConstants.desiredDistance) {
+    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= Constants.OperatorConstants.longDistance) {
       return true;
     } else {
       return false;
