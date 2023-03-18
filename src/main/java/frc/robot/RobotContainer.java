@@ -128,14 +128,14 @@ public class RobotContainer {
 
     //PID Controllers
     shoulderPID = manipulatorArmMotor.getPIDController();
-    shoulderPID.setP(0.5);
+    shoulderPID.setP(0.45);
     shoulderPID.setI(0);
     shoulderPID.setD(0);
     forearmPID = manipulatorForearmMotor.getPIDController();
     forearmPID.setP(0.1);
     forearmPID.setI(0);
     forearmPID.setD(0);
-    wristPID = new PIDController(0.52,  0, 0);
+    wristPID = new PIDController(0.485,  0, 0);
 
     m_manipulator = new Manipulator(); 
     m_manipulator.zeroEncoder();
