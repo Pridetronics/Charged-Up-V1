@@ -73,10 +73,9 @@ public class RobotContainer {
   
   public static CANSparkMax manipulatorArmMotor;
   public static CANSparkMax manipulatorForearmMotor;
-  public static CANSparkMax manipulatorWristMotor;
   public static CANSparkMax manipulatorClawMotor;
   //Solenoids
-  public static DoubleSolenoid clawPiston;
+  
   //Nav-X
   public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
   public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
@@ -105,7 +104,7 @@ public class RobotContainer {
     leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
     manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
     manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
-    manipulatorWristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+    manipulatorClawMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
     //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
@@ -117,9 +116,6 @@ public class RobotContainer {
     //drive
     m_drive = new Drive(joystickDriver);
     
-    //pistons
-    clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonExtendClawChannel, OperatorConstants.kPistonRetractClawChannel);
-
     wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
     armEncoder = manipulatorArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
@@ -147,7 +143,8 @@ public class RobotContainer {
       // Configure the trigger bindings
     configureBindings();
 
-    SmartDashboard.putString("Code: ", "Helen's");
+    SmartDashboard.putString("Code: ", "Matthew");
+    SmartDashboard.putString("Version: ", "1");
     SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
     SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
     SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
@@ -170,11 +167,8 @@ public class RobotContainer {
     JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputRetract);
     JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorInputExtend);
 
-    JoystickButton clawButton = new JoystickButton(joystickManipulator, OperatorConstants.kClawToggle);
-
     forearmButtonExtend.onTrue(new forearmInput(m_manipulator, true));
     forearmButtonRetract.onTrue(new forearmInput(m_manipulator, false));
-    clawButton.onTrue(new clawInput(m_manipulator));
 
     JoystickButton homingButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
     homingButton.onTrue(new HomingCommand(m_manipulator));

@@ -47,6 +47,8 @@ public final class Constants {
     public static final int kManipulatorInputRetract = 11;
     public static final int kWristInput = 5;
     public static final int kManipulatorHomingInput = 8;
+    public static final int kManipulatorClawIntake = 4;
+
 
     //Limit Switches
     public static final int kShoulderLowerLimitID = 1;
@@ -66,7 +68,8 @@ public final class Constants {
 
     //Motor speeds
     public static final double shoulderSpeed = 0.7;
-    public static final double wristSpeed = 0.75;
+    public static final double wristSpeed = 0.5;
+
     public static final int wristEncoderCountsPerRev = 44; //Counts per revolution for erist encoder (APPROXIMATE)
   }
 }

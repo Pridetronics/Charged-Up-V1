@@ -27,14 +27,7 @@ public class HomingCommand extends CommandBase {
   private SparkMaxPIDController forearmPID;
   private RelativeEncoder forearmEncoder;
 
-  private CANSparkMax wristMotor;
-  private Encoder wristEncoder;
-
   private DigitalInput forearmLimitSwitch = RobotContainer.forearmLimitSwitch;
-  private DigitalInput wristLimitSwitch = RobotContainer.wristLimitSwitch;
-
-
-  private boolean wristEnded = false;
   private boolean forearmEnded = false;
 
 
@@ -45,8 +38,6 @@ public class HomingCommand extends CommandBase {
 
     forearmMotor = RobotContainer.manipulatorForearmMotor;
     forearmPID = RobotContainer.forearmPID;
-
-    wristMotor = RobotContainer.manipulatorWristMotor;
 
     addRequirements(m_manipulator);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -68,19 +59,6 @@ public class HomingCommand extends CommandBase {
       forearmPID.setReference(-0.1, ControlType.kDutyCycle);
     }
 
-    if (!wristEnded && wristLimitSwitch.get()) {
-      endWrist();
-
-    } else {
-      wristMotor.set(-0.38);
-    }
-  }
-
-  private void endWrist() {
-    wristEnded = true;
-    wristMotor.set(0);
-    wristEncoder = RobotContainer.wristEncoder;
-    wristEncoder.reset();
   }
 
   private void endForearm() {
@@ -101,7 +79,7 @@ public class HomingCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putBoolean("homing finished", wristEnded && forearmEnded);
-    return wristEnded && forearmEnded;
+    SmartDashboard.putBoolean("homing finished", forearmEnded);
+    return forearmEnded;
   }
 }

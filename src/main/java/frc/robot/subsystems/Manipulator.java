@@ -39,8 +39,6 @@ public class Manipulator extends SubsystemBase {
   private CANSparkMax wristMotor;
   private CANSparkMax foreArmMotor;
 
-  private DoubleSolenoid claw;
-
   private RelativeEncoder armEncoder;
   private Encoder wristEncoder;
   private RelativeEncoder forearmEncoder;
@@ -62,7 +60,6 @@ public class Manipulator extends SubsystemBase {
     armMotor = RobotContainer.manipulatorArmMotor;
     wristMotor = RobotContainer.manipulatorWristMotor;
     foreArmMotor = RobotContainer.manipulatorForearmMotor;
-    claw = RobotContainer.clawPiston;
 
     //Retrieves Encoders
     armEncoder = RobotContainer.armEncoder;
@@ -76,7 +73,6 @@ public class Manipulator extends SubsystemBase {
     forearmPID = RobotContainer.forearmPID;
     wristPID = RobotContainer.wristPID;
 
-    claw.set(DoubleSolenoid.Value.kReverse);
   }
 
   @Override
@@ -122,53 +118,11 @@ public class Manipulator extends SubsystemBase {
     //armMotor.set(0.2);
   }
 
-  //Method called by ManipulatorInput to update wrist
-  public void moveWrist(boolean up, boolean down) {
-    SmartDashboard.putBoolean("Wrist Limit", wristLimitSwitch.get());
-    if (!currentlyHoming) {
-      //Degrees the wrist has rotated
-      double curWristPos = wristEncoder.getDistance()*4.33;
-      SmartDashboard.putNumber("Current Wrist Position", curWristPos);
-            //Checks if motor is out of limits
-      boolean lowerLimit = curWristPos >= 95;
-      boolean upperLimit = wristLimitSwitch.get();
-      
-      //Sets speed based on what buttons are pressed
-      int upMotion = up ? -1 : 0;
-      int downMotion = down ? 1 : 0;
-
-      //Updates the motor speed based on limits
-      if (upperLimit) {
-        upMotion = 0;
-      } else if (lowerLimit) {
-        downMotion = 0;
-      }
-      //Updates PID/Motor with new speed, ensures velocity is the same
-      double newPos = wristPID.calculate(
-        wristEncoder.getDistance(), 
-        lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristSpeed
-      );
-      SmartDashboard.putNumber("Wrist PID output", newPos);
-      SmartDashboard.putNumber("Goal speed", lastWristSetpoint+(upMotion+downMotion)*OperatorConstants.wristSpeed);
-      SmartDashboard.putNumber("Wrist set point", lastWristSetpoint);
-      SmartDashboard.putNumber("Wrist Encoder", wristEncoder.getDistance());
-
-      wristMotor.set(newPos);
-      
-      if (upMotion+downMotion != 0) {
-        lastWristSetpoint = wristEncoder.getDistance();
-        wristMovingLast = true;
-      } else {
-        if (wristMovingLast == true) {
-          lastWristSetpoint = wristEncoder.getDistance();
-        }
-        wristMovingLast = false;
-      }
-    }
-
+  public void setClaw(Boolean forward) {
+    int setToSpeed = forward ? 1 : -1;
+    double finalSpeed = setToSpeed * OperatorConstants.wristSpeed;
+    wristMotor.set(finalSpeed);
   }
-
-
 
   public void moveForearm(boolean forwards) {
     int direction = forwards ? 1 : -1;
@@ -209,18 +163,6 @@ public class Manipulator extends SubsystemBase {
       
       forearmPID.setReference(moveTo, ControlType.kPosition);
     }
-  }
-
-  public void toggleClaw() {
-    
-    DoubleSolenoid.Value clawEnabled = claw.get();
-    if (clawEnabled == DoubleSolenoid.Value.kForward) {
-      clawEnabled = DoubleSolenoid.Value.kReverse;
-    } else {
-      clawEnabled = DoubleSolenoid.Value.kForward;
-    }
-
-    claw.set(clawEnabled);
   }
 
 }
