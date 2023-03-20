@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
+    SmartDashboard.putString("Code version", "3/18 DCA");// drive claw and auto works
     SmartDashboard.putString("WpilibVer", "2023.2.1");
     // CameraServer.startAutomaticCapture(0);
 
