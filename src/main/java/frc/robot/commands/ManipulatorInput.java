@@ -39,8 +39,7 @@ public class ManipulatorInput extends CommandBase {
     double armJoystickMovement = joystick.getRawAxis(OperatorConstants.kArmInputAxis);
     manipulator.moveArm(armJoystickMovement);
     
-    int wristStick = joystick.getPOV();
-    SmartDashboard.putNumber("Hat Movement", wristStick);
+    
 
     double joyStickValue = joystick.getRawAxis(OperatorConstants.kManipulatorClawIntake);
 

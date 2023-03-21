@@ -172,6 +172,9 @@ public class RobotContainer {
     JoystickButton homingButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
     homingButton.onTrue(new HomingCommand(m_manipulator));
 
+    JoystickButton clawToggleButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
+    clawToggleButton.onTrue(new HomingCommand(m_manipulator));
+
     // if (joystickDriver.getRawButtonPressed(0)) {
     //   new AutoBalance(m_navX);
     // }
