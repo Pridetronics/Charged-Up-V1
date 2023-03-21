@@ -12,11 +12,11 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoRotateRight extends CommandBase {
+public class AutoRotateLeft extends CommandBase {
   private Drive m_Drive;
 
   /** Creates a new AutoRotateLeft. */
-  public AutoRotateRight(Drive drive) {
+  public AutoRotateLeft(Drive drive) {
     m_Drive = drive;
 
     addRequirements(drive);
@@ -26,18 +26,18 @@ public class AutoRotateRight extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_Drive.zeroEncoders();
     RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
     RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
     RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
     RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kBrake);
-    m_Drive.zeroEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    m_Drive.driveRight();
+    m_Drive.driveLeft();
 
   }
 

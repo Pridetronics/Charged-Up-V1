@@ -102,6 +102,7 @@ public class Drive extends SubsystemBase {
     tankArcadeDrive.arcadeDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
+  // all auto void functions
   public void driveStop() {
     m_leftFrontMotor.set(0);
     m_leftBackMotor.set(0);
@@ -110,22 +111,22 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveBack() {
-    Left.set(.11);
-    Right.set(.1);
+    Left.set(.21);
+    Right.set(.2);
   }
 
   public void driveForward() {
-    Left.set(-.11);
-    Right.set(-.1);
+    Left.set(-.21);
+    Right.set(-.2);
   }
 
   public void driveLeft() {
-    Left.set(-.11);
-    Right.set(.1);
+    Left.set(-.21);
+    Right.set(.2);
   }
 
   public void driveRight() {
-    Left.set(.11);
-    Right.set(-.1);
+    Left.set(.21);
+    Right.set(-.2);
   }
 }

@@ -161,8 +161,10 @@ public class RobotContainer {
     m_Chooser.addOption("Auto Backwards",
         new SequentialCommandGroup(new HomingCommand(m_manipulator), new WaitCommand(1),
             new AutoMoveBackwards(m_drive)));
+    m_Chooser.addOption("take targets", new SequentialCommandGroup(new AutoMoveBackwards(m_drive),
+        new AutoRotateLeft(m_drive), new AutoMoveForward(m_drive)));
     m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
-    m_Chooser.addOption("turn around", new SequentialCommandGroup(new AutoMoveForward(m_drive),
+    m_Chooser.addOption("turn around", new SequentialCommandGroup(new AutoForwardTarget(m_drive),
         new AutoTurnAround(m_drive), new AutoMoveForward(m_drive)));
     // Configure the trigger bindings
     configureBindings();

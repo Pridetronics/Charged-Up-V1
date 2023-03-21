@@ -56,6 +56,9 @@
     "Persistent Values": {
       "open": false
     },
+    "Transitory Values": {
+      "open": false
+    },
     "transitory": {
       "CameraPublisher": {
         "Serve_POV": {
@@ -95,8 +98,5 @@
       },
       "open": true
     }
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }

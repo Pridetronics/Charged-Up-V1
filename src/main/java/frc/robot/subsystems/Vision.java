@@ -31,8 +31,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 public class Vision extends SubsystemBase {
-  // software
-  public MjpegServer Server1;
 
   public CvSource outputStream;
   // Hardware
@@ -44,11 +42,15 @@ public class Vision extends SubsystemBase {
   private CANSparkMax m_rightBackMotor;
   private CANSparkMax m_leftBackMotor;
 
+  private CANSparkMax m_manipulatorShoulder;
+
   // Encoders
   private static RelativeEncoder m_rightFrontEncoder;
   private static RelativeEncoder m_leftFrontEncoder;
   private static RelativeEncoder m_rightBackEncoder;
   private static RelativeEncoder m_leftBackEncoder;
+
+  private static RelativeEncoder m_shoulderEncoder;
   // motor groups
   private MotorControllerGroup Left;
   private MotorControllerGroup Right;
@@ -80,6 +82,10 @@ public class Vision extends SubsystemBase {
     m_rightFrontEncoder = m_rightFrontMotor.getEncoder();
     m_rightBackMotor = RobotContainer.rightBackMotor;
     m_rightBackEncoder = m_rightBackMotor.getEncoder();
+
+    m_manipulatorShoulder = RobotContainer.manipulatorArmMotor;
+    m_shoulderEncoder = m_manipulatorShoulder.getEncoder();
+
     // pov camera
     camera_0 = CameraServer.startAutomaticCapture(0);
     NetworkTableInstance.getDefault().getTable("USB Camera 0").getEntry("mode")
@@ -88,7 +94,7 @@ public class Vision extends SubsystemBase {
     // retrieve the Server1 name and sets
     // resolution
     System.out.println("See All");
-    inst.startClient3("3853");
+    // inst.startClient3("3853");
     // starts new DS client, Very important for lime
     inst.startDSClient();
     inst.getEntry("stream").setDouble(0);// when usb camera is plugged into limelight, shows isde by side video feeds
@@ -107,7 +113,8 @@ public class Vision extends SubsystemBase {
     ta = aEntry.getDouble(0.0); // Target Area (0% of image to 100% of image)
     ty = yEntry.getDouble(0.0); // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair to Target (-27.5 degrees to 27.5 degrees)
-    tv = vEntry.getDouble(0.0);
+    tv = vEntry.getDouble(0.0); // valid targets
+
     SmartDashboard.putNumber("Limelight X", tx);// will be commented out after testing
 
     SmartDashboard.putNumber("Limelight Y", ty);
@@ -123,7 +130,7 @@ public class Vision extends SubsystemBase {
     angleTotal = 0.628 + ty; // Input radians
     angleTan = Math.tan(angleTotal);
 
-    initialDistance = Math.abs(heightTotal / angleTan); // Returns negative, so there's a negative on the next line
+    initialDistance = Math.abs(heightTotal / angleTan);
     distanceInInches = initialDistance * 13.6; // Converts distance into inches.
     distanceInFeet = distanceInInches / 12; // Converts distance in inches to feet
     roundedDistance = Math.round(distanceInFeet); // Rounds distance in feet
@@ -141,14 +148,14 @@ public class Vision extends SubsystemBase {
   }
 
   public void driveBack() {
-    Left.set(-.6);
-    Right.set(-.6);
+    Left.set(.6);
+    Right.set(.6);
     System.out.println("Backwards");
   }
 
   public void driveForward() {
-    Left.set(.6);
-    Right.set(.6);
+    Left.set(-.6);
+    Right.set(-.6);
     System.out.println("Forwards");
   }
 
