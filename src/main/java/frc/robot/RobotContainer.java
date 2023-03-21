@@ -38,7 +38,6 @@ import frc.robot.commands.HomingCommand;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.ManipulatorInput;
 import frc.robot.commands.forearmInput;
-import frc.robot.commands.clawInput;
 
 //Subsystems
 import frc.robot.subsystems.Drive;

@@ -36,15 +36,13 @@ public class Manipulator extends SubsystemBase {
   private DigitalInput forearmLimitSwitch = RobotContainer.forearmLimitSwitch;
 
   private CANSparkMax armMotor;
-  private CANSparkMax wristMotor;
+  private CANSparkMax clawMotor;
   private CANSparkMax foreArmMotor;
 
   private RelativeEncoder armEncoder;
-  private Encoder wristEncoder;
   private RelativeEncoder forearmEncoder;
 
   private SparkMaxPIDController shoulderPID;
-  private PIDController wristPID;
   private SparkMaxPIDController forearmPID;
 
   private double lastWristSetpoint = 0;
@@ -58,12 +56,11 @@ public class Manipulator extends SubsystemBase {
 
     //Retrives Motors
     armMotor = RobotContainer.manipulatorArmMotor;
-    wristMotor = RobotContainer.manipulatorWristMotor;
+    clawMotor = RobotContainer.manipulatorClawMotor;
     foreArmMotor = RobotContainer.manipulatorForearmMotor;
 
     //Retrieves Encoders
     armEncoder = RobotContainer.armEncoder;
-    wristEncoder = RobotContainer.wristEncoder;
 
     forearmEncoder = foreArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
     forearmEncoder.setPositionConversionFactor(OperatorConstants.kForearmCircum/12);
@@ -71,7 +68,6 @@ public class Manipulator extends SubsystemBase {
     //Retrieves PIDs
     shoulderPID = RobotContainer.shoulderPID;
     forearmPID = RobotContainer.forearmPID;
-    wristPID = RobotContainer.wristPID;
 
   }
 
@@ -82,7 +78,6 @@ public class Manipulator extends SubsystemBase {
 
   public void zeroEncoder() {
     armEncoder.setPosition(0);
-    wristEncoder.reset();
   }
 
   //Method called by ManipulatorInput to update shoulder
@@ -121,7 +116,7 @@ public class Manipulator extends SubsystemBase {
   public void setClaw(Boolean forward) {
     int setToSpeed = forward ? 1 : -1;
     double finalSpeed = setToSpeed * OperatorConstants.wristSpeed;
-    wristMotor.set(finalSpeed);
+    clawMotor.set(finalSpeed);
   }
 
   public void moveForearm(boolean forwards) {
