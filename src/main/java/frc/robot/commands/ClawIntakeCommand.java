@@ -14,30 +14,31 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.Robot;
-import frc.robot.RobotContainesar;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class HomingCommand extends CommandBase {
+public class ClawIntakeCommand extends CommandBase {
   private Manipulator m_manipulator;
   private CANSparkMax forearmMotor;
   private SparkMaxPIDController forearmPID;
   private RelativeEncoder forearmEncoder;
 
   private DigitalInput forearmLimitSwitch = RobotContainer.forearmLimitSwitch;
-  private boolean forearmEnded = false;
+  private boolean enabled = false;
 
 
   
   /** Creates a new HoningCommand. */
-  public HomingCommand(Manipulator manipulator) {
+  public ClawIntakeCommand(Manipulator manipulator, boolean enable) {
     m_manipulator = manipulator;
 
     forearmMotor = RobotContainer.manipulatorForearmMotor;
     forearmPID = RobotContainer.forearmPID;
+    enabled = enable;
 
     addRequirements(m_manipulator);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -47,39 +48,28 @@ public class HomingCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    m_manipulator.currentlyHoming = true;
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!forearmEnded && !forearmLimitSwitch.get()) {
-      endForearm();
-    } else {
-      forearmPID.setReference(-0.1, ControlType.kDutyCycle);
-    }
-
-  }
-
-  private void endForearm() {
-    forearmEnded = true;
-    forearmEncoder = forearmMotor.getEncoder();
-    forearmEncoder.setPosition(0);
+  
+    m_manipulator.clawEnabled = enabled;
     
-    forearmPID.setReference(0, ControlType.kPosition);
+
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {    
 
-    m_manipulator.currentlyHoming = false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putBoolean("homing finished", forearmEnded);
-    return forearmEnded;
+    return true;
   }
 }

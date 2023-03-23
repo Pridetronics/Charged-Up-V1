@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.Autos;
 import frc.robot.commands.HomingCommand;
+import frc.robot.commands.ClawIntakeCommand;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.ManipulatorInput;
 import frc.robot.commands.forearmInput;
@@ -172,8 +173,10 @@ public class RobotContainer {
     JoystickButton homingButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
     homingButton.onTrue(new HomingCommand(m_manipulator));
 
-    JoystickButton clawToggleButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
-    clawToggleButton.onTrue(new HomingCommand(m_manipulator));
+    JoystickButton clawToggleButton = new JoystickButton(joystickManipulator, OperatorConstants.kClawToggle);
+    clawToggleButton.onTrue(new ClawIntakeCommand(m_manipulator,true));
+    clawToggleButton.onFalse(new ClawIntakeCommand(m_manipulator, false));
+
 
     // if (joystickDriver.getRawButtonPressed(0)) {
     //   new AutoBalance(m_navX);
