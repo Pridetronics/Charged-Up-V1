@@ -74,11 +74,13 @@ public class RobotContainer {
   // manipulator Motors
   public static CANSparkMax manipulatorArmMotor;
   public static CANSparkMax manipulatorForearmMotor;
-  public static CANSparkMax manipulatorWristMotor;
   public static CANSparkMax manipulatorClawMotor;
-
-  // Solenoids
-  public static DoubleSolenoid clawPiston;
+  //Solenoids
+  
+  //Nav-X
+  public static AHRS ahrs; //Attitude and Heading Reference System (motion sensor).
+  public static boolean autoBalanceXMode; //Object Declaration for autoBalanceXmode. True/False output.
+  public static boolean autoBalanceYMode; //Object Declaration for autoBalanceYmode. True/False output.
 
   // Nav-X
   public static AHRS ahrs; // Attitude and Heading Reference System (motion sensor).
@@ -119,8 +121,8 @@ public class RobotContainer {
     // Manipulator Motors
     manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
     manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
-    manipulatorWristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
-    // inverts the left motors and leaves the right motors
+    manipulatorClawMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+    //inverts the left motors and leaves the right motors 
     leftFrontMotor.setInverted(true);
     leftBackMotor.setInverted(true);
     rightFrontMotor.setInverted(false);
@@ -129,11 +131,9 @@ public class RobotContainer {
     // Connects joystick ids to proper ports
     joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
     joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
-
-    // pistons
-    clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonExtendClawChannel,
-        OperatorConstants.kPistonRetractClawChannel);
-
+    //drive
+    m_drive = new Drive(joystickDriver);
+    
     wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
     armEncoder = manipulatorArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
@@ -146,7 +146,7 @@ public class RobotContainer {
     forearmPID.setP(0.1);
     forearmPID.setI(0);
     forearmPID.setD(0);
-    wristPID = new PIDController(0.485, 0, 0);
+    wristPID = new PIDController(0.485,  0, 0);
 
     m_drive = new Drive(joystickDriver);
     m_manipulator = new Manipulator();
@@ -194,20 +194,15 @@ public class RobotContainer {
     targetCenteringButton = new JoystickButton(joystickDriver, OperatorConstants.kAimCentering);
     targetCenteringButton.toggleOnTrue(new TargetCenteringVision(m_vision));
 
-    JoystickButton forearmButtonExtend = new JoystickButton(joystickManipulator,
-        OperatorConstants.kManipulatorInputRetract);
-    JoystickButton forearmButtonRetract = new JoystickButton(joystickManipulator,
-        OperatorConstants.kManipulatorInputExtend);
-
-    JoystickButton clawButton = new JoystickButton(joystickManipulator, OperatorConstants.kClawToggle);
-
     forearmButtonExtend.onTrue(new forearmInput(m_manipulator, true));
     forearmButtonRetract.onTrue(new forearmInput(m_manipulator, false));
-    clawButton.onTrue(new clawInput(m_manipulator));
 
     // JoystickButton homingButton = new JoystickButton(joystickManipulator,
     // OperatorConstants.kManipulatorHomingInput);
     // homingButton.onTrue(new HomingCommand(m_manipulator));
+
+    JoystickButton clawToggleButton = new JoystickButton(joystickManipulator, OperatorConstants.kManipulatorHomingInput);
+    clawToggleButton.onTrue(new HomingCommand(m_manipulator));
 
     // if (joystickDriver.getRawButtonPressed(0)) {
     // new AutoBalance(m_navX);
