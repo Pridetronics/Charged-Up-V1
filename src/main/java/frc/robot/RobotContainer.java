@@ -27,7 +27,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 //Commands

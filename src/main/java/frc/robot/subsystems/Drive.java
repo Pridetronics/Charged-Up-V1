@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 //drive train
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -14,8 +13,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxRelativeEncoder;
-import com.revrobotics.CANSparkMax.IdleMode;
 
 //data collection
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -58,11 +55,11 @@ public class Drive extends SubsystemBase {
     m_rightFrontEncoder.setPositionConversionFactor(2.57);
     m_rightBackEncoder.setPositionConversionFactor(2.57);
 
-    m_rightFrontMotor.setOpenLoopRampRate(1);// ramping
-    m_rightBackMotor.setOpenLoopRampRate(1);
-    m_leftBackMotor.setOpenLoopRampRate(1);
-    m_leftFrontMotor.setOpenLoopRampRate(1);
-    // Zeroes encoders
+    m_rightFrontMotor.setOpenLoopRampRate(.75);// time it takes to get motors up to full speed instead of 0 to 100 in
+                                               // .00001 seconds
+    m_rightBackMotor.setOpenLoopRampRate(.75);
+    m_leftBackMotor.setOpenLoopRampRate(.75);
+    m_leftFrontMotor.setOpenLoopRampRate(.75);
 
     // Two motorcontroller groups that will act as left and right in tank drive
     Left = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);

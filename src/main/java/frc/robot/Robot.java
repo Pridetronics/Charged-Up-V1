@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    SmartDashboard.putString("Code version", "3/18 DCA");// drive claw and auto works
+    SmartDashboard.putString("Code version", "3/21 DCA");// drive claw and auto works
     SmartDashboard.putString("WpilibVer", "2023.2.1");
     // CameraServer.startAutomaticCapture(0);
 
@@ -120,6 +120,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+    teleopInit();
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
@@ -127,6 +128,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
+    teleopPeriodic();
   }
 
   /** This function is called once when the robot is first started up. */

@@ -97,7 +97,8 @@ public class Vision extends SubsystemBase {
     // inst.startClient3("3853");
     // starts new DS client, Very important for lime
     inst.startDSClient();
-    inst.getEntry("stream").setDouble(0);// when usb camera is plugged into limelight, shows isde by side video feeds
+    // inst.getEntry("stream").setDouble(0);// when usb camera is plugged into
+    // limelight, shows isde by side video feeds
     // network tables
 
     SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
