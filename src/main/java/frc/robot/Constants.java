@@ -72,10 +72,7 @@ public final class Constants {
 
     // Motor speeds
     public static final double shoulderSpeed = 0.7;
-    public static final double wristSpeed = 0.5;
-    public static final int wristEncoderCountsPerRev = 44; //Counts per revolution for erist encoder (APPROXIMATE)
-    // Driver buttons
-    public static final int kAimCentering = 1;
+    public static final double wristSpeed = 0.75;
 
     // autonoous distances in inches
     public static final int kAutoDistanceOne = 12;// placeholder values

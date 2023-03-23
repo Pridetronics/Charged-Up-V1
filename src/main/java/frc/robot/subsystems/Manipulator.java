@@ -115,11 +115,11 @@ public class Manipulator extends SubsystemBase {
     // armMotor.set(0.2);
   }
 
-  public void setClaw(Boolean forward) {
-    int setToSpeed = forward ? 1 : -1;
+  public void setClaw(int setToSpeed) {
     int isClawEnabled = clawEnabled ? 1 : 0;
-    double finalSpeed = setToSpeed * OperatorConstants.wristSpeed * isClawEnabled;
+    double finalSpeed = setToSpeed * OperatorConstants.wristSpeed;
     clawMotor.set(finalSpeed);
+    SmartDashboard.putNumber("setToSpeed", finalSpeed);
   }
 
   public void moveForearm(boolean forwards) {

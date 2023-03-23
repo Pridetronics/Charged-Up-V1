@@ -41,14 +41,17 @@ public class ManipulatorInput extends CommandBase {
     
     
 
-    double joyStickValue = joystick.getRawAxis(OperatorConstants.kManipulatorClawIntake);
+    int hatPos = joystick.getPOV();
 
-    if (joyStickValue <= 0) {
-        manipulator.setClaw(true);
-    } else if (joyStickValue > 0) {
-        manipulator.setClaw(false);
-
+    if (hatPos == 0 || hatPos == 45 || hatPos == 315) {
+        manipulator.setClaw(1);
+    } else if (hatPos == 180 || hatPos == 225 || hatPos == 135) {
+        manipulator.setClaw(-1);
+    } else {
+      manipulator.setClaw(0);
     }
+
+    SmartDashboard.putNumber("Clawspeed", hatPos);
 
     manipulator.forarmUpdate();
   }
