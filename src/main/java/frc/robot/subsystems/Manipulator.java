@@ -49,6 +49,7 @@ public class Manipulator extends SubsystemBase {
   private double lastShoulderSetpoint = 0;
   private double forarmSetpoint = 0;
   public boolean currentlyHoming = true;
+  public boolean clawEnabled = false;
   private boolean wristMovingLast = false;
 
   /** Creates a new Manipulator. */
@@ -116,7 +117,8 @@ public class Manipulator extends SubsystemBase {
 
   public void setClaw(Boolean forward) {
     int setToSpeed = forward ? 1 : -1;
-    double finalSpeed = setToSpeed * OperatorConstants.wristSpeed;
+    int isClawEnabled = clawEnabled ? 1 : 0;
+    double finalSpeed = setToSpeed * OperatorConstants.wristSpeed * isClawEnabled;
     clawMotor.set(finalSpeed);
   }
 
