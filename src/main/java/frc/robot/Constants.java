@@ -31,8 +31,13 @@ public final class Constants {
     public static final int kRightBackDriveCANID = 4;
 
     // Nav-x IDs
-    public static final double kOffBalanceAngleThresholdDegrees = 10;
+    public static final double kOffBalanceAngleThresholdDegrees = 86;
     public static final double kOnBalanceAngleThresholdDegrees = 5;
+
+    public static final double kFirstPitchDegree = 8.0;
+    public static final double kSecondPitchDegree = -8.0;
+    public static final double kAutoBalanceDriveForward = 0.3;
+    public static final double kAutoBalanceDriveBackward = -0.3;
 
     // Drive Autonomous
     public static final double kAutoVolt = -.5;
@@ -49,6 +54,9 @@ public final class Constants {
     // Pistion Channels
     public static final int kPistonForwardWristChannel = 0;
     public static final int kPistonReverseWristChannel = 1;
+
+    // NavX Button
+    public static final int kNavXButtonNumber = 3;
 
     // Shoulder Button
     public static final int kShoulderAxisNumber = 2;

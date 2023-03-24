@@ -30,6 +30,8 @@ import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Vision;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
@@ -73,6 +75,8 @@ public class RobotContainer {
   // Manipulator Buttons
   public static JoystickButton forearmExtendButton;
   public static JoystickButton forearmRetractButton;
+
+  public static JoystickButton navXButton;
 
   public static JoystickButton wristPistonButton;
 
@@ -129,12 +133,18 @@ public class RobotContainer {
 
     m_drive = new Drive(joystickDriver);
     m_manipulator = new Manipulator(joystickManipulator);
-    m_navX = new NavX();
     ahrs = new AHRS();
+    m_navX = new NavX();
     m_vision = new Vision();
 
     // Sendable chooser
     SendableChooser<Command> m_Chooser = new SendableChooser<>();
+    // Sendable chooser options
+    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
+    m_Chooser.addOption("auto rotate and forward",
+        new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
+            new InstantCommand(m_drive::calculateDistance)));
+    m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
 
     // Configure the trigger bindings
     configureBindings();
@@ -181,12 +191,12 @@ public class RobotContainer {
     // .toggleOnFalse(new InstantCommand(m_manipulator::retractWrist,
     // m_manipulator));
 
-    m_navX.setDefaultCommand(new AutoBalance(m_navX, m_drive));
+    // m_navX.setDefaultCommand(new AutoBalance(m_navX, m_drive));
 
-    // if (joystickDriver.getRawButtonPressed(1)) {
-    // new AutoBalance(m_navX);
-    // } //Not needed as of 2/2/2023 for now
-    // Nav-X Button?????
+    // m_navX.setDefaultCommand(new AutoBalance_2(m_navX, m_drive));
+
+    navXButton = new JoystickButton(joystickDriver, Constants.OperatorConstants.kNavXButtonNumber);
+    navXButton.onTrue(new AutoBalance_2(m_navX, m_drive));
   }
 
   /**
