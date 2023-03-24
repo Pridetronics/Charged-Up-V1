@@ -70,7 +70,7 @@ public final class Constants {
     public static final double forearmExtendLimit = 25;
 
     // Motor speeds
-    public static final double shoulderSpeed = 0.75;
+    public static final double shoulderSpeed = 0.9;
     public static final double wristSpeed = 0.95;
 
     // Driver buttons
@@ -89,8 +89,9 @@ public final class Constants {
     public static final int kmMoveShoulderDegrees = -7;
     // countsper revolution and multiplying that by wheel
     // circumference
-    public static final double longDistance = 146.41;
-    public static final double targetLineUp = 0;
-    public static final double targetMid = 42.86;
+    public static final double longDistance = 134.41;// moving on charge station
+    public static final double targetLineUp = 0;// to be determined
+    public static final double targetMid = 42.86;// to middle of station
+    public static final double DistanceGround = 146.41;// moving along from ground
   }
 }

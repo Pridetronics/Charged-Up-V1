@@ -1,42 +1,10 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "SPARK MAX [1]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [2]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [3]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [4]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [5]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Drive": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
-<<<<<<< HEAD
-=======
       "/LiveWindow/Ungrouped/DifferentialDrive[2]": "DifferentialDrive",
->>>>>>> gerald
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
@@ -45,68 +13,7 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/BalanceMode": "Command",
-      "/SmartDashboard/Chooser": "String Chooser",
-      "/SmartDashboard/sendableChooser": "String Chooser"
-    },
-    "windows": {
-      "/FMSInfo": {
-        "window": {
-          "visible": true
-        }
-      }
+      "/SmartDashboard/Chooser": "String Chooser"
     }
-  },
-  "NetworkTables": {
-<<<<<<< HEAD
-=======
-    "Persistent Values": {
-      "open": false
-    },
-    "Transitory Values": {
-      "open": false
-    },
->>>>>>> gerald
-    "transitory": {
-      "CameraPublisher": {
-        "Serve_POV": {
-          "open": true
-        },
-        "Serve_POV_Camera": {
-          "open": true
-        },
-        "USB Camera 0": {
-          "PropertyInfo": {
-            "open": true
-          }
-        },
-        "open": true
-      },
-      "LiveWindow": {
-        "open": true
-      },
-      "Shuffleboard": {
-        "open": true
-      },
-      "SmartDashboard": {
-        "BalanceMode": {
-          "open": true
-        },
-        "Chooser": {
-          "open": true
-        },
-        "open": true
-      }
-    }
-  },
-  "NetworkTables Info": {
-    "Server": {
-      "Subscribers": {
-        "open": true
-      },
-      "open": true
-    }
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }
