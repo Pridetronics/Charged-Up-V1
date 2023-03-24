@@ -3,48 +3,47 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import java.lang.management.OperatingSystemMXBean;
-
-//joystick
-import edu.wpi.first.wpilibj.Joystick;
 
 import frc.robot.Constants.OperatorConstants;
-//subsystems
-import frc.robot.subsystems.Manipulator;
-
-
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class clawInput extends InstantCommand {
-    private Manipulator manipulator;
-    private boolean moveForward;
-  /** Creates a new JoystickDrive. */
-  public clawInput(Manipulator m_manipulator) {
-    manipulator = m_manipulator;
-    
+public class AutoTurnAround extends CommandBase {
+  private Drive m_Drive;
 
+  /** Creates a new AutoTurnAround. */
+  public AutoTurnAround(Drive drive) {
+    m_Drive = drive;
+
+    addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-
+  public void initialize() {
+    m_Drive.zeroEncoders();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    manipulator.toggleClaw();
+    m_Drive.driveRight();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= OperatorConstants.turn180Degrees) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 }
