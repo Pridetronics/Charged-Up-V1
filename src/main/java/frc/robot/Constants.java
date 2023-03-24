@@ -36,8 +36,8 @@ public final class Constants {
 
     public static final double kAutoBalanceDriveBackward = -0.3;
     public static final double kAutoBalanceDriveForward = 0.3;
-    public static final double kSecondPitchDegree = -8.0;
-    public static final double kFirstPitchDegree = 8.0;
+    public static final double kSecondRollDegree = -8.0;
+    public static final double kFirstRollDegree = 8.0;
     public static final double kAutoVolt = -.5;
 
     // manipulator Motor IDs

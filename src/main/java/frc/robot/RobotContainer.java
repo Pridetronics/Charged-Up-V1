@@ -241,7 +241,7 @@ public class RobotContainer {
     // m_navX.setDefaultCommand(new AutoBalance(m_navX, m_drive));
 
     navXButton = new JoystickButton(joystickDriver, Constants.OperatorConstants.kNavXButtonNumber);
-    navXButton.onTrue(new SecondAutoBalance(m_navX, m_drive));
+    navXButton.whileTrue(new SecondAutoBalance(m_navX, m_drive));
 
   }
 

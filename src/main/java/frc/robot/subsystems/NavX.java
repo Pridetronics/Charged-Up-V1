@@ -111,9 +111,9 @@ public class NavX extends SubsystemBase {
 
   public void secondAutoBalance() {
     double rollAngleDegrees = m_ahrs.getRoll();
-    if (rollAngleDegrees > Constants.OperatorConstants.kFirstPitchDegree) {
+    if (rollAngleDegrees > Constants.OperatorConstants.kFirstRollDegree) {
       m_drive.autoBalanceForward();
-    } else if (rollAngleDegrees < Constants.OperatorConstants.kSecondPitchDegree) {
+    } else if (rollAngleDegrees < Constants.OperatorConstants.kSecondRollDegree) {
       m_drive.autoBalanceBackward();
     } else {
       m_drive.driveStop();
