@@ -9,8 +9,6 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,18 +35,11 @@ public class NavX extends SubsystemBase {
     } catch (RuntimeException ex) {
       DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
     }
-    resetNavX();
-    SmartDashboard.putString("NavX:", "Test"); // Shows "NavX: Test" on SmartDashboard
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("PitchingAngleDegrees", m_ahrs.getPitch()); // Shows NavX's Rotation around the X axis
-                                                                         // value on SmartDashboard
-    SmartDashboard.putNumber("RollAngleDegrees", m_ahrs.getRoll()); // Shows NavX's Rotation around the Y axis value on
-                                                                    // SmartDashboard
-    SmartDashboard.putNumber("YawDegrees", m_ahrs.getYaw()); // Shows NavX's Rotation Z axis value on SmartDashboard
   }
 
   public void autoBalance() {
@@ -106,13 +97,11 @@ public class NavX extends SubsystemBase {
     }
 
     try {
-      Drive.tankDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
+      Drive.tankArcadeDrive.tankDrive(xAxisRate, yAxisRate, m_autoBalanceXMode);
     } catch (RuntimeException ex) {
       String err_string = "Drive system error: " + ex.getMessage();
       DriverStation.reportError(err_string, true);
     }
-    SmartDashboard.putString("NavX:", "Periodic Test");
-
   }
 
   public static void resetNavX() {

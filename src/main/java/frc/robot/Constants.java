@@ -34,56 +34,66 @@ public final class Constants {
     public static final double kOffBalanceAngleThresholdDegrees = 86;
     public static final double kOnBalanceAngleThresholdDegrees = 5;
 
-    public static final double kFirstPitchDegree = 8.0;
-    public static final double kSecondPitchDegree = -8.0;
-    public static final double kAutoBalanceDriveForward = 0.3;
     public static final double kAutoBalanceDriveBackward = -0.3;
-
-    // Drive Autonomous
+    public static final double kAutoBalanceDriveForward = 0.3;
+    public static final double kSecondPitchDegree = -8.0;
+    public static final double kFirstPitchDegree = 8.0;
     public static final double kAutoVolt = -.5;
 
-    // Manipulator Motor IDs
-    public static final int kShoulderMotorCANID = 5;
+    // manipulator Motor IDs
+    public static final int kArmMotorCANID = 5;
     public static final int kForearmMotorCANID = 6;
     public static final int kWristMotorCANID = 7;
 
-    // Wrist Encoder IDs
-    public static final int kWristMotorDIOID1 = 4;
-    public static final int kWristMotorDIOID2 = 5;
+    public static final int kArmInputAxis = 1;
+    public static final int kManipulatorInputExtend = 12;
+    public static final int kManipulatorInputRetract = 11;
+    public static final int kWristInput = 5;
+    public static final int kManipulatorHomingInput = 8;
+    public static final int kManipulatorClawIntake = 4;
 
-    // Pistion Channels
-    public static final int kPistonForwardWristChannel = 0;
-    public static final int kPistonReverseWristChannel = 1;
+    // Limit Switches
+    public static final int kShoulderLowerLimitID = 1;
+    public static final int kShoulderUpperLimitID = 0;
+    public static final int kForearmLimitID = 2;
+    public static final int kWristLimitID = 3;
+    public static final int kWristEncoderAID = 4;
+    public static final int kWristEncoderBID = 5;
 
     // NavX Button
     public static final int kNavXButtonNumber = 3;
 
-    // Shoulder Button
-    public static final int kShoulderAxisNumber = 2;
+    // Solenoids
+    public static final int kClawToggle = 1;
 
-    // Forearm Buttons
-    public static final int kForearmExtendButtonNumber = 11;
-    public static final int kForearmRetractButtonNumber = 12;
+    public static final double kForearmCircum = (0.75 + 0.25) * Math.PI;
+    public static final double kForearmIncrement = 2;
+    // value is in Inches
+    public static final double forearmExtendLimit = 25;
 
-    // Wrist Buttons
-    public static final int kWristRotationAxisNumber = 5;
-    public static final int kWristPistonButtonNumber = 1;
+    // Motor speeds
+    public static final double shoulderSpeed = 0.9;
+    public static final double wristSpeed = 0.95;
 
-    // Limit Switches
-    public static final int kUpperShoulderLimitSwitchChannel = 0;
-    public static final int kLowerShoulderLimitSwitchChannel = 1;
-    public static final int kLowerForearmLimitSwitchChannel = 2;
-    public static final int kLowerWristLimitSwitchChannel = 3;
+    // Driver buttons
+    public static final int kAimCentering = 1;
+    public static final int kToggleBrake = 2;
 
-    // PID here
-    public static final double MANIPULATOR_MIN_OUTPUT = -6000.0;
-    public static final double MANIPULATOR_MAx_OUTPUT = 6000.0;
+    // autonoous distances in inches
+    public static final int kAutoDistanceOne = 12;// placeholder values
+    public static final int kAutoDistanceTwo = 14;
 
-    // Upper Limit For Forearm + Wrist
-    public static final double encoderForearmDistance = 145;
-    public static final double encoderWristDistance = 100;
-
-    // Driver
-    public static final int Centering = 1;
+    public static final double wheelCircumference = 2 * (Math.PI * 3);
+    public static final double desiredDistance = 56;
+    public static final double shortDistance = 12;
+    public static final double turn90Degrees = 18.81 / 4;// one full wheel rotation is 18.81 inches
+    public static final double turn180Degrees = 18.81 / 2;// wheel rotation is found by multiplying gearbox with
+    public static final int kmMoveShoulderDegrees = -7;
+    // countsper revolution and multiplying that by wheel
+    // circumference
+    public static final double longDistance = 134.41;// moving on charge station
+    public static final double targetLineUp = 0;// to be determined
+    public static final double targetMid = 42.86;// to middle of station
+    public static final double DistanceGround = 146.41;// moving along from ground
   }
 }

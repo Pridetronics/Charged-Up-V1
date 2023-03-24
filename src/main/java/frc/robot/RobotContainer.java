@@ -4,37 +4,45 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+//Joystick Imports
+import edu.wpi.first.wpilibj.Joystick;
+//subsystems
+import frc.robot.subsystems.Drive;
+import frc.robot.Constants.OperatorConstants;
+
+import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.Vision;
+
 //Nav-X Imports
 import com.kauailabs.navx.frc.AHRS;
 
 //Hardware imports
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
-//Joystick Imports
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-
 //Commands
-import frc.robot.commands.*; //This gives all the command imports
+import frc.robot.commands.*;
 
 //Subsystems
-import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Manipulator;
-import frc.robot.subsystems.NavX;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
@@ -48,164 +56,192 @@ import edu.wpi.first.wpilibj.DigitalInput;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // Subsystems
-  public static Drive m_drive;
-  public static Vision m_vision;
-  public static NavX m_navX;
-  public static Manipulator m_manipulator;
+        // subsystems
+        public static Drive m_drive;
+        public static Vision m_vision;
+        public static Manipulator m_manipulator;
+        public static NavX m_navX;
+        // controllers
+        public static Joystick joystickDriver;
+        public static Joystick joystickManipulator;
 
-  // Controllers
-  public static Joystick joystickDriver;
-  public static Joystick joystickManipulator;
+        // Drive Motors
+        public static CANSparkMax rightFrontMotor;
+        public static CANSparkMax leftFrontMotor;
+        public static CANSparkMax rightBackMotor;
+        public static CANSparkMax leftBackMotor;
 
-  // Drive Motors
-  public static CANSparkMax rightFrontMotor;
-  public static CANSparkMax leftFrontMotor;
-  public static CANSparkMax rightBackMotor;
-  public static CANSparkMax leftBackMotor;
+        // manipulator Motors
+        public static CANSparkMax manipulatorArmMotor;
+        public static CANSparkMax manipulatorForearmMotor;
+        public static CANSparkMax manipulatorClawMotor;
+        // Solenoids
 
-  // Manipulator Motors
-  public static CANSparkMax shoulderMotor;
-  public static CANSparkMax forearmMotor;
-  public static CANSparkMax wristMotor;
+        // Nav-X
+        public static AHRS ahrs; // Attitude and Heading Reference System (motion sensor).
+        public static boolean autoBalanceXMode; // Object Declaration for autoBalanceXmode. True/False output.
+        public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
 
-  // Wrist Piston
-  public static DoubleSolenoid wristPiston;
+        // PID Controllers
+        public static SparkMaxPIDController shoulderPID;
+        public static SparkMaxPIDController forearmPID;
+        public static PIDController wristPID;
 
-  // Manipulator Buttons
-  public static JoystickButton forearmExtendButton;
-  public static JoystickButton forearmRetractButton;
+        public static DigitalInput forearmLimitSwitch = new DigitalInput(OperatorConstants.kForearmLimitID);
+        public static DigitalInput wristLimitSwitch = new DigitalInput(OperatorConstants.kWristLimitID);
 
   public static JoystickButton navXButton;
+        public static Encoder wristEncoder;
+        public static RelativeEncoder armEncoder;
 
-  public static JoystickButton wristPistonButton;
+        // Manipulator Buttons
+        public static JoystickButton forearmExtendButton;
+        public static JoystickButton forearmRetractButton;
+        public static JoystickButton wristPistonButton;
 
-  // Nav-X
-  public static AHRS ahrs; // Attitude and Heading Reference System (motion sensor).
-  public static boolean autoBalanceXMode; // Object Declaration for autoBalanceXmode. True/False output.
-  public static boolean autoBalanceYMode; // Object Declaration for autoBalanceYmode. True/False output.
+        // driver Buttons
+        public static JoystickButton targetCenteringButton;
+        public static JoystickButton toggleBrakeButton;
 
-  // Manipulator Limit Switches
-  public static DigitalInput upperShoulderLimitSwitch;
-  public static DigitalInput lowerShoulderLimitSwitch;
-  public static DigitalInput lowerForearmLimitSwitch;
-  public static DigitalInput lowerWristLimitSwitch;
+        // sendablechooser
+        public static SendableChooser<Command> m_Chooser;
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Drive Motors
-    rightFrontMotor = new CANSparkMax(OperatorConstants.kRightFrontDriveCANID, MotorType.kBrushless);
-    leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
-    rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
-    leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
+        /**
+         * The container for the robot. Contains subsystems, OI devices, and commands.
+         */
+        public RobotContainer() {
+                // Drive Motors
+                rightFrontMotor = new CANSparkMax(OperatorConstants.kRightFrontDriveCANID, MotorType.kBrushless);
+                leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
+                rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
+                leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
+                // Manipulator Motors
+                manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
+                manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
+                manipulatorClawMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+                // inverts the left motors and leaves the right motors
+                leftFrontMotor.setInverted(true);
+                leftBackMotor.setInverted(true);
+                rightFrontMotor.setInverted(false);
+                rightBackMotor.setInverted(false);
 
-    // Inverts the left motors and leaves the right motors
-    leftFrontMotor.setInverted(true);
-    leftBackMotor.setInverted(true);
-    rightFrontMotor.setInverted(false);
-    rightBackMotor.setInverted(false);
+                // Connects joystick ids to proper ports
+                joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
+                joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
+                // drive
+                m_drive = new Drive(joystickDriver);
 
-    // Manipulator Motors
-    shoulderMotor = new CANSparkMax(OperatorConstants.kShoulderMotorCANID, MotorType.kBrushless);
-    forearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
-    wristMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+                wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
+                armEncoder = manipulatorArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
-    // Manipulator Invertions
-    shoulderMotor.setInverted(false);
-    forearmMotor.setInverted(false);
-    wristMotor.setInverted(false);
+                // PID Controllers
+                shoulderPID = manipulatorArmMotor.getPIDController();
+                shoulderPID.setP(0.45);
+                shoulderPID.setI(0);
+                shoulderPID.setD(0);
+                forearmPID = manipulatorForearmMotor.getPIDController();
+                forearmPID.setP(0.1);
+                forearmPID.setI(0);
+                forearmPID.setD(0);
+                wristPID = new PIDController(0.485, 0, 0);
 
-    // Manipulator Piston
-    wristPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, OperatorConstants.kPistonForwardWristChannel,
-        OperatorConstants.kPistonReverseWristChannel);
+                toggleBrakeButton = new JoystickButton(joystickDriver,
+                                OperatorConstants.kToggleBrake);
+                m_drive = new Drive(joystickDriver);
+                m_manipulator = new Manipulator();
 
-    // Manipulator Limit Switches
-    upperShoulderLimitSwitch = new DigitalInput(OperatorConstants.kUpperShoulderLimitSwitchChannel);
-    lowerShoulderLimitSwitch = new DigitalInput(OperatorConstants.kLowerShoulderLimitSwitchChannel);
-    lowerForearmLimitSwitch = new DigitalInput(OperatorConstants.kLowerForearmLimitSwitchChannel);
-    lowerWristLimitSwitch = new DigitalInput(OperatorConstants.kLowerWristLimitSwitchChannel);
+                m_navX = new NavX();
+                ahrs = new AHRS();
+                m_vision = new Vision();
+                m_Chooser = new SendableChooser<Command>();
+                // sendable chooser options
+                m_Chooser.setDefaultOption("Choose Command",
+                                new SequentialCommandGroup(new InstantCommand(m_drive::driveStop),
+                                                new HomingCommand(m_manipulator)));
+                m_Chooser.setDefaultOption("score",
+                                new SequentialCommandGroup(new InstantCommand(m_drive::driveStop),
+                                                new HomingCommand(m_manipulator),
+                                                new InstantCommand(m_manipulator::shoulderUpsies)));
+                m_Chooser.addOption("Auto Backwards",
+                                new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                                                new InstantCommand(m_manipulator::shoulderUpsies),
+                                                new WaitCommand(1),
+                                                new AutoMoveBack(m_drive)));
+                // m_Chooser.addOption("take targets",
+                // new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                // new AutoMoveBackwards(m_drive),
+                // new AutoRotateLeft(m_drive), new AutoMoveForward(m_drive)));
+                m_Chooser.addOption("AutoForwards",
+                                new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                                                new AutoMoveForward(m_drive)));
+                // m_Chooser.addOption("turn around",
+                // new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                // new AutoForwardTarget(m_drive),
+                // new AutoTurnAround(m_drive), new AutoMoveForward(m_drive)));
+                m_Chooser.addOption("Community and Station",
+                                new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                                                new InstantCommand(m_manipulator::shoulderUpsies), new WaitCommand(1),
+                                                new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive)));
+                // Configure the trigger bindings
+                configureBindings();
+                SmartDashboard.putData("Chooser", m_Chooser);
+                SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX));
+                SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
+                SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
+        }
 
-    // Connects joystick ids to proper ports
-    joystickDriver = new Joystick(OperatorConstants.kJoystickDriverID);
-    joystickManipulator = new Joystick(OperatorConstants.kJoystickManipulatorID);
+        /**
+         * Use this method to define your trigger->command mappings. Triggers can be
+         * created via the
+         * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+         * an arbitrary
+         * predicate, or via the named factories in {@link
+         * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+         * {@link
+         * CommandXboxController
+         * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+         * PS4} controllers or
+         * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+         * joysticks}.
+         */
+        private void configureBindings() {
+                m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
+                m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
 
-    m_drive = new Drive(joystickDriver);
-    m_manipulator = new Manipulator(joystickManipulator);
-    ahrs = new AHRS();
-    m_navX = new NavX();
-    m_vision = new Vision();
+                targetCenteringButton = new JoystickButton(joystickDriver,
+                                OperatorConstants.kAimCentering);
+                targetCenteringButton.toggleOnTrue(new TargetCenteringVision(m_vision));
 
-    // Sendable chooser
-    SendableChooser<Command> m_Chooser = new SendableChooser<>();
-    // Sendable chooser options
-    m_Chooser.addOption("AutoForwards", new AutoMoveForward(m_drive));
-    m_Chooser.addOption("auto rotate and forward",
-        new SequentialCommandGroup(new InstantCommand(m_drive::calculateDistance), new AutoMoveForward(m_drive),
-            new InstantCommand(m_drive::calculateDistance)));
-    m_Chooser.setDefaultOption("Choose Command", new InstantCommand(m_drive::driveStop));
+                toggleBrakeButton.onTrue(new InstantCommand(m_drive::IdleCheck));
 
-    // Configure the trigger bindings
-    configureBindings();
+                forearmExtendButton = new JoystickButton(joystickManipulator,
+                                OperatorConstants.kManipulatorInputRetract);
+                forearmRetractButton = new JoystickButton(joystickManipulator,
+                                OperatorConstants.kManipulatorInputExtend);
 
-    SmartDashboard.putString("Code: ", "Helen's");
-    SmartDashboard.putData("BalanceMode", new AutoBalance(m_navX, m_drive));
-    SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
-    SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
-  }
+                forearmExtendButton.onTrue(new forearmInput(m_manipulator, true));
+                forearmRetractButton.onTrue(new forearmInput(m_manipulator, false));
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
-  private void configureBindings() {
-    m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
+                JoystickButton homingButton = new JoystickButton(joystickManipulator,
+                                OperatorConstants.kManipulatorHomingInput);
+                homingButton.onTrue(new HomingCommand(m_manipulator));
 
-    // This will do Shoulder and Wrist movements on Axis 2 (Shoulder) and Axis 5,6
-    // (Wrist)
-    // m_manipulator.setDefaultCommand(new ManipulatorMovement(joystickManipulator,
-    // m_manipulator));
-
-    // forearmExtendButton = new JoystickButton(joystickManipulator,
-    // OperatorConstants.kForearmExtendButtonNumber);
-    // forearmExtendButton.whileTrue(new ForearmExtension(m_manipulator));
-    // forearmRetractButton = new JoystickButton(joystickManipulator,
-    // OperatorConstants.kForearmRetractButtonNumber);
-    // forearmRetractButton.whileTrue(new ForearmRetraction(m_manipulator));
-    // // Extend/Retract Wrist Piston
-    // wristPistonButton = new JoystickButton(joystickManipulator,
-    // OperatorConstants.kWristPistonButtonNumber);
-    // wristPistonButton.toggleOnTrue(new InstantCommand(m_manipulator::extendWrist,
-    // m_manipulator))
-    // .toggleOnFalse(new InstantCommand(m_manipulator::retractWrist,
-    // m_manipulator));
+                JoystickButton clawToggleButton = new JoystickButton(joystickManipulator,
+                                OperatorConstants.kClawToggle);
+                clawToggleButton.onTrue(new ClawIntakeCommand(m_manipulator, true));
+                clawToggleButton.onFalse(new ClawIntakeCommand(m_manipulator, false));
 
     // m_navX.setDefaultCommand(new AutoBalance(m_navX, m_drive));
 
-    // m_navX.setDefaultCommand(new AutoBalance_2(m_navX, m_drive));
-
     navXButton = new JoystickButton(joystickDriver, Constants.OperatorConstants.kNavXButtonNumber);
     navXButton.onTrue(new AutoBalance_2(m_navX, m_drive));
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto();
-  }
+        /**
+         * Use this to pass the autonomous command to the main {@link Robot} class.
+         *
+         * @return the command to run in autonomous
+         */
+        public Command getAutonomousCommand() {
+                return m_Chooser.getSelected();
+        }
+    // m_navX.setDefaultCommand(new AutoBalance_2(m_navX, m_drive));
 }

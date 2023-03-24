@@ -7,8 +7,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.util.WPILibVersion;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,7 +29,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   WPILibVersion Ver = new WPILibVersion();
   private RobotContainer m_robotContainer;
-  // private MjpegServer Server1;
 
   // Hardware
 
@@ -34,14 +39,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
-    SmartDashboard.putString("WpilibVer", "2023.2.1");
+    SmartDashboard.putString("Code version", "3/24 gerald experimental");// drive claw and auto works
+    SmartDashboard.putString("WpilibVer", "2023.4.2");
     // CameraServer.startAutomaticCapture(0);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
   }
 
   /**
@@ -84,8 +90,11 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    RobotContainer.m_manipulator.isTeleOp = false;
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
+
       m_autonomousCommand.schedule();
     }
   }
@@ -101,6 +110,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    RobotContainer.m_manipulator.isTeleOp = true;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -113,6 +123,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+    teleopInit();
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
@@ -120,6 +131,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
+    teleopPeriodic();
   }
 
   /** This function is called once when the robot is first started up. */

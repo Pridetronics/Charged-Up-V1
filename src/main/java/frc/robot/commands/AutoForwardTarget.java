@@ -13,11 +13,11 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoMoveForward extends CommandBase {
+public class AutoForwardTarget extends CommandBase {
   private Drive m_drive;
 
   /** Creates a new AutoMoveForward. */
-  public AutoMoveForward(Drive drive) {
+  public AutoForwardTarget(Drive drive) {
     m_drive = drive;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -55,7 +55,7 @@ public class AutoMoveForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= Constants.OperatorConstants.longDistance) {
+    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= Constants.OperatorConstants.targetMid) {
       return true;
     } else {
       return false;

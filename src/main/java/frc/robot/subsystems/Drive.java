@@ -14,7 +14,8 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxRelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 //data collection
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -32,16 +33,9 @@ public class Drive extends SubsystemBase {
   public static RelativeEncoder m_leftBackEncoder;
 
   // Makes differential drive and motorcontroller groups
-  public static DifferentialDrive tankDrive;
-  public static DifferentialDrive arcadeDrive;
+  public static DifferentialDrive tankArcadeDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
-
-  // Variables
-  public double TPR;// ticks per revolution
-  public double TPI;// Ticks per inch
-  public double wheelCircumference;
-  public double desiredDistance;
 
   /** Creates a new Drive. */
   public Drive(Joystick joystickDriver) {
@@ -53,34 +47,41 @@ public class Drive extends SubsystemBase {
     m_leftBackMotor = RobotContainer.leftBackMotor;
 
     // Detects and sets encoder values
-    m_rightFrontEncoder = m_rightFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    m_leftFrontEncoder = m_leftFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    m_rightBackEncoder = m_rightBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    m_leftBackEncoder = m_leftBackMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+    m_rightFrontEncoder = m_rightFrontMotor.getEncoder();
+    m_leftFrontEncoder = m_leftFrontMotor.getEncoder();
+    m_rightBackEncoder = m_rightBackMotor.getEncoder();
+    m_leftBackEncoder = m_leftBackMotor.getEncoder();
 
-    // Zeroes encoders
-    zeroEncoders();
+    m_leftBackEncoder.setPositionConversionFactor(2.57);
+    m_leftFrontEncoder.setPositionConversionFactor(2.57);
+    m_rightFrontEncoder.setPositionConversionFactor(2.57);
+    m_rightBackEncoder.setPositionConversionFactor(2.57);
+
+    m_rightFrontMotor.setOpenLoopRampRate(.75);// time it takes to get motors up to full speed instead of 0 to 100 in
+                                               // .00001 seconds
+    m_rightBackMotor.setOpenLoopRampRate(.75);
+    m_leftBackMotor.setOpenLoopRampRate(.75);
+    m_leftFrontMotor.setOpenLoopRampRate(.75);
+
     // Two motorcontroller groups that will act as left and right in tank drive
     Left = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
     Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
-    tankDrive = new DifferentialDrive(Left, Right);
+    tankArcadeDrive = new DifferentialDrive(Left, Right);
 
-    // arcadeDrive = new DifferentialDrive(Left, Right);
-
-    tankDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
-    tankDrive.setExpiration(.1);
-    tankDrive.setMaxOutput(1);
-
-    // arcadeDrive.setSafetyEnabled(true);
+    tankArcadeDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
+    tankArcadeDrive.setExpiration(.1);
+    tankArcadeDrive.setMaxOutput(1);
+    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
     // arcadeDrive.setExpiration(.1);
+    // arcadeDrive.setSafetyEnabled(true);
     // arcadeDrive.setMaxOutput(1);
+    // arcadeDrive = new DifferentialDrive(Left, Right);
     // calculations
-    TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
-    SmartDashboard.putNumber("Ticks per revolution", TPR);
-    wheelCircumference = 2 * (Math.PI * 3);// circumference of wheel in inches
-    TPI = TPR * wheelCircumference;// converts ticks per rotation to inches, used as final product of
+    // TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
 
-    SmartDashboard.putNumber("Ticks per Inch", TPI);
   }
 
   @Override
@@ -92,12 +93,6 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Back Right Encoder", m_rightBackEncoder.getPosition());
   }
 
-  public void calculateDistance() {
-    TPR = m_leftFrontEncoder.getCountsPerRevolution();
-    TPI = TPR * wheelCircumference;
-    desiredDistance = TPI * 6; // 24 inches of tick temporary for testing
-  }
-
   public void zeroEncoders() {
     m_rightFrontEncoder.setPosition(0);
     m_leftFrontEncoder.setPosition(0);
@@ -105,15 +100,38 @@ public class Drive extends SubsystemBase {
     m_leftBackEncoder.setPosition(0);
   }
 
-  public void Tankinput(Joystick joystickDriver, double Yval1, double Yval2) {
+  public void Tankarcadeinput(Joystick joystickDriver, double Yval1, double Yval2) {
     Yval1 = joystickDriver.getRawAxis(1); // Left side of the robot
-    Yval2 = joystickDriver.getRawAxis(5); // Right side of the robot
-    // reduces speed so field is not torn apart
-    Yval1 = Yval1 * .71; // .61
-    Yval2 = Yval2 * .7; // .6
-    tankDrive.tankDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
+    Yval2 = joystickDriver.getRawAxis(4); // Right side of the robot
+    Yval1 *= .9;
+    Yval2 *= .9;
+    tankArcadeDrive.arcadeDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
+  public void Brake() {
+    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kBrake);
+  }
+
+  public void Coast() {
+    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
+  }
+
+  public void IdleCheck() {
+    IdleMode Idle = m_leftBackMotor.getIdleMode();
+    if (Idle == IdleMode.kCoast) {
+      Brake();
+    } else if (Idle == IdleMode.kBrake) {
+      Coast();
+    }
+  }
+
+  // all auto void functions
   public void driveStop() {
     m_leftFrontMotor.set(0);
     m_leftBackMotor.set(0);
@@ -122,13 +140,13 @@ public class Drive extends SubsystemBase {
   }
 
   public void driveBack() {
-    Left.set(-.6);
-    Right.set(-.6);
+    Left.set(.21);
+    Right.set(.2);
   }
 
   public void driveForward() {
-    Left.set(.6);
-    Right.set(.6);
+    Left.set(-.21);
+    Right.set(-.2);
   }
 
   // public static void arcadeDriveInput(double movement_speed, double
@@ -146,4 +164,13 @@ public class Drive extends SubsystemBase {
     Right.set(Constants.OperatorConstants.kAutoBalanceDriveForward);
   }
 
+  public void driveLeft() {
+    Left.set(-.21);
+    Right.set(.2);
+  }
+
+  public void driveRight() {
+    Left.set(.21);
+    Right.set(-.2);
+  }
 }

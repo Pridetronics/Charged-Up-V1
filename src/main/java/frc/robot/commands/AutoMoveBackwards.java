@@ -1,11 +1,7 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Vision;
+
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
@@ -13,11 +9,11 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoMoveForward extends CommandBase {
+public class AutoMoveBackwards extends CommandBase {
   private Drive m_drive;
 
   /** Creates a new AutoMoveForward. */
-  public AutoMoveForward(Drive drive) {
+  public AutoMoveBackwards(Drive drive) {
     m_drive = drive;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,7 +34,7 @@ public class AutoMoveForward extends CommandBase {
   @Override
   public void execute() {
 
-    m_drive.driveForward();
+    m_drive.driveBack();
   }
 
   // Called once the command ends or is interrupted.

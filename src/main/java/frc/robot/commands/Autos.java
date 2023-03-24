@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 
 public final class Autos {
   /** Example static factory for an autonomous command. */
-  public static CommandBase exampleAuto() {
+  public static CommandBase sendablechooserCommandBase() {
     return Commands.sequence();
   }
 
   private Autos() {
-    throw new UnsupportedOperationException("This is a utility class!");
+    throw new UnsupportedOperationException("I don't know what I'm doing!");
   }
 }

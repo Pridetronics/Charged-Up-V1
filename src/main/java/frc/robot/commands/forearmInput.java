@@ -4,45 +4,49 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+
+import java.lang.management.OperatingSystemMXBean;
+
+//joystick
+import edu.wpi.first.wpilibj.Joystick;
+
 import frc.robot.Constants.OperatorConstants;
+//subsystems
 import frc.robot.subsystems.Manipulator;
 
-public class ForearmExtension extends CommandBase {
-  private Manipulator m_manipulator;
 
-  /** Creates a new ShoulderExtension. */
-  public ForearmExtension(Manipulator manipulator) {
-    m_manipulator = manipulator;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+public class forearmInput extends InstantCommand {
+    private Manipulator manipulator;
+    private boolean moveForward;
+  /** Creates a new JoystickDrive. */
+  public forearmInput(Manipulator m_manipulator, boolean forwardButton) {
+    manipulator = m_manipulator;
+    moveForward = forwardButton;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(manipulator);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
+
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_manipulator.forearmExtension();
+    manipulator.moveForearm(moveForward);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_manipulator.stopForearmMotor();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_manipulator.m_forearmEncoder.getPosition() < OperatorConstants.encoderForearmDistance) {
-      return false;
-    } else {
-      return true;
-    }
+    return true;
   }
 }

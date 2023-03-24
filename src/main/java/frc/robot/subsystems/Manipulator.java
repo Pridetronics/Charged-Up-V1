@@ -5,259 +5,170 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.OperatorConstants;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-//hardware
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxRelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
+//joystick
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ManipulatorInput;
+
+//hardware
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
+import edu.wpi.first.wpilibj.Encoder;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
+
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkMaxRelativeEncoder;
 
 public class Manipulator extends SubsystemBase {
-  private CANSparkMax m_shoulderMotor;
-  private CANSparkMax m_forearmMotor;
-  private CANSparkMax m_wristMotor;
-  private static DoubleSolenoid m_wristPiston;
+  private Joystick joystick;
+  private DigitalInput armLimitSwitch = new DigitalInput(OperatorConstants.kShoulderLowerLimitID);
+  private DigitalInput upperArmLimitSwitch = new DigitalInput(OperatorConstants.kShoulderUpperLimitID);
+  private DigitalInput wristLimitSwitch = RobotContainer.wristLimitSwitch;
+  private DigitalInput forearmLimitSwitch = RobotContainer.forearmLimitSwitch;
 
-  public RelativeEncoder m_shoulderEncoder;
-  public RelativeEncoder m_forearmEncoder;
-  public Encoder m_wristEncoder;
+  private CANSparkMax armMotor;
+  private CANSparkMax clawMotor;
+  private CANSparkMax foreArmMotor;
 
-  private DigitalInput m_upperShoulderLimitSwitch;
-  private DigitalInput m_lowerShoulderLimitSwitch;
-  private DigitalInput m_lowerForearmLimitSwitch;
-  private DigitalInput m_lowerWristLimitSwitch;
+  private RelativeEncoder armEncoder;
+  private RelativeEncoder forearmEncoder;
 
-  private DifferentialDrive ManipulatorMovement;
+  private SparkMaxPIDController shoulderPID;
+  private SparkMaxPIDController forearmPID;
+
+  private double lastWristSetpoint = 0;
+  private double lastShoulderSetpoint = 0;
+  private double forarmSetpoint = 0;
+  public boolean currentlyHoming = true;
+  public boolean clawEnabled = false;
+  private boolean wristMovingLast = false;
+  public boolean isTeleOp = true;
 
   /** Creates a new Manipulator. */
-  public Manipulator(Joystick m_joystickManipulator) {
-    m_shoulderMotor = RobotContainer.shoulderMotor;
-    m_forearmMotor = RobotContainer.forearmMotor;
-    m_wristMotor = RobotContainer.wristMotor;
+  public Manipulator() {
 
-    m_wristPiston = RobotContainer.wristPiston;
+    // Retrives Motors
+    armMotor = RobotContainer.manipulatorArmMotor;
+    clawMotor = RobotContainer.manipulatorClawMotor;
+    foreArmMotor = RobotContainer.manipulatorForearmMotor;
 
-    m_joystickManipulator = RobotContainer.joystickManipulator;
+    // Retrieves Encoders
+    armEncoder = RobotContainer.armEncoder;
 
-    m_shoulderEncoder = m_shoulderMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    m_forearmEncoder = m_forearmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
-    m_wristEncoder = new Encoder(OperatorConstants.kWristMotorDIOID1,
-        OperatorConstants.kWristMotorDIOID2, false, EncodingType.k1X);
+    forearmEncoder = foreArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+    forearmEncoder.setPositionConversionFactor(OperatorConstants.kForearmCircum / 12);
 
-    m_upperShoulderLimitSwitch = RobotContainer.upperShoulderLimitSwitch;
-    m_lowerShoulderLimitSwitch = RobotContainer.lowerShoulderLimitSwitch;
-    m_lowerForearmLimitSwitch = RobotContainer.lowerForearmLimitSwitch;
-    m_lowerWristLimitSwitch = RobotContainer.lowerWristLimitSwitch;
+    // Retrieves PIDs
+    shoulderPID = RobotContainer.shoulderPID;
+    RobotContainer.armEncoder.setPositionConversionFactor(360 / (36 * 3.75));
 
-    ManipulatorMovement = new DifferentialDrive(m_shoulderMotor, m_wristMotor);
-    ManipulatorMovement.setSafetyEnabled(true);
-    ManipulatorMovement.setExpiration(.1);
-    ManipulatorMovement.setMaxOutput(1);
-    zeroEncoders();
-  }
-
-  public void ManipulatorInput(Joystick m_joystickManipulator, double YaxisShoulder, double YaxisWrist) {
-    m_joystickManipulator = RobotContainer.joystickManipulator;
-    YaxisShoulder = m_joystickManipulator.getRawAxis(OperatorConstants.kShoulderAxisNumber);
-    YaxisWrist = m_joystickManipulator.getRawAxis(OperatorConstants.kWristRotationAxisNumber);
-    m_shoulderMotor.set(YaxisShoulder);
-    m_wristMotor.set(YaxisWrist);
-    ManipulatorMovement.tankDrive(YaxisShoulder, YaxisWrist, true);
-  }
-
-  public void forearmExtension() {
-    m_forearmMotor.set(.5);
-  }
-
-  public void forearmRetraction() {
-    m_forearmMotor.set(-.5);
-  }
-
-  public void extendWrist() {
-    m_wristPiston.set(DoubleSolenoid.Value.kForward);
-  }
-
-  public void retractWrist() {
-    m_wristPiston.set(DoubleSolenoid.Value.kReverse);
-  }
-
-  public void stopShoulder() {
-    m_shoulderMotor.set(0);
-  }
-
-  public void stopForearmMotor() {
-    m_forearmMotor.set(0);
-  }
-
-  public void stopWristMotor() {
-    m_wristMotor.set(0);
-  }
-
-  public void zeroShoulderEncoder() {
-    m_shoulderEncoder.setPosition(0);
-  }
-
-  public void zeroForearmEncoder() {
-    m_forearmEncoder.setPosition(0);
-  }
-
-  public void zeroWristEncoder() {
-    m_wristEncoder.reset();
-  }
-
-  public void zeroEncoders() {
-    m_shoulderEncoder.setPosition(0);
-    m_forearmEncoder.setPosition(0);
-    m_wristEncoder.reset();
-  }
-
-  public boolean isShoulderAtTop() {
-    boolean isShoulderAtTop;
-    if (m_upperShoulderLimitSwitch.get() == true) {
-      isShoulderAtTop = true;
-    } else {
-      isShoulderAtTop = false;
-    }
-    return isShoulderAtTop;
-  }
-
-  public boolean isShoulderAtBottom() {
-    boolean isShoulderAtBottom;
-    if (m_lowerShoulderLimitSwitch.get() == true) {
-      isShoulderAtBottom = true;
-    } else {
-      isShoulderAtBottom = false;
-    }
-    return isShoulderAtBottom;
-
-  }
-
-  // Might have to switch true/false due to magnetic limit switch
-  public boolean isForearmAtBottom() {
-    boolean isForearmAtBottom;
-    if (m_lowerForearmLimitSwitch.get() == false) {
-      isForearmAtBottom = true;
-    } else {
-      isForearmAtBottom = false;
-    }
-    return isForearmAtBottom;
-  }
-
-  public boolean isForearmAtTop() {
-    boolean isForearmAtTop;
-    m_forearmEncoder.getPosition();
-    if (m_forearmEncoder.getPosition() >= OperatorConstants.encoderForearmDistance) {
-      isForearmAtTop = true;
-    } else {
-      isForearmAtTop = false;
-    }
-    return isForearmAtTop;
-  }
-
-  public boolean isWristAtBottom() {
-    boolean isWristAtBottom;
-    if (m_lowerWristLimitSwitch.get() == true) {
-      isWristAtBottom = true;
-    } else {
-      isWristAtBottom = false;
-    }
-    return isWristAtBottom;
-  }
-
-  public boolean isWristAtTop() {
-    boolean isWristAtTop;
-    m_wristEncoder.getDistance();
-    if (m_wristEncoder.getDistance() >= OperatorConstants.encoderWristDistance) {
-      isWristAtTop = true;
-    } else {
-      isWristAtTop = false;
-    }
-    return isWristAtTop;
-  }
-
-  public void ShoulderUpSlowly() {
-    if (isShoulderAtBottom() == true) {
-      System.out.println("Shoulder Rotation Up");
-      m_shoulderMotor.set(0.1);
-    } else {
-      stopShoulder();
-      zeroShoulderEncoder();
-    }
-  }
-
-  public void ShoulderDownSLowly() {
-    if (isShoulderAtBottom() == false) {
-      System.out.println("Shoulder Rotation Down");
-      m_shoulderMotor.set(-0.1);
-    } else {
-      stopShoulder();
-      zeroShoulderEncoder();
-    }
-  }
-
-  public void ForearmUpSlowly() {
-    if (isForearmAtBottom() == true) {
-      System.out.println("Forearm Extension");
-      m_shoulderMotor.set(0.1);
-    } else {
-      stopForearmMotor();
-      zeroForearmEncoder();
-    }
-  }
-
-  public void ForearmDownSlowly() {
-    if (isForearmAtBottom() == false) {
-      System.out.println("Forearm Retraction");
-      m_shoulderMotor.set(-0.1);
-    } else {
-      stopForearmMotor();
-      zeroForearmEncoder();
-    }
-  }
-
-  public void WristUpSlowly() {
-    if (isWristAtBottom() == true) {
-      System.out.println("Wrist Rotation Up");
-      m_shoulderMotor.set(0.1);
-    } else {
-      stopWristMotor();
-      zeroWristEncoder();
-    }
-  }
-
-  public void WristDownSlowly() {
-    if (isWristAtBottom() == false) {
-      System.out.println("Wrist Rotation Down");
-      m_shoulderMotor.set(-0.1);
-    } else {
-      stopWristMotor();
-      zeroWristEncoder();
-    }
+    forearmPID = RobotContainer.forearmPID;
 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shoulder Encoder", m_shoulderEncoder.getPosition());
-    SmartDashboard.putNumber("Forearm Encoder", m_forearmEncoder.getPosition());
-    SmartDashboard.putNumber("Wrist Encoder", m_wristEncoder.getDistance());
-    SmartDashboard.putBoolean("Lower Shoulder Limit Switch", RobotContainer.lowerShoulderLimitSwitch.get());
-    SmartDashboard.putBoolean("Upper Shoulder Limit Switch", RobotContainer.upperShoulderLimitSwitch.get());
-    SmartDashboard.putBoolean("Lower Forearm Limit Switch", RobotContainer.lowerForearmLimitSwitch.get());
-    SmartDashboard.putBoolean("Lower Wrist Limit Switch", RobotContainer.lowerWristLimitSwitch.get());
+  }
+
+  public void zeroEncoder() {
+    armEncoder.setPosition(0);
+  }
+
+  // Method called by ManipulatorInput to update shoulder
+  public void moveArm(double Speed) {
+    SmartDashboard.putNumber("First Speed", Speed);
+    double conversionFactor = 42;
+    // Gets a decimal percentage of the total amount of rotations made (A full
+    // roation == 1)
+    double curArmPos = armEncoder.getPosition();
+    // Checks if motor is out of limits
+    boolean upperLimit = upperArmLimitSwitch.get();
+    boolean lowerLimit = armLimitSwitch.get();
+    SmartDashboard.putBoolean("UpperLimit Shoulder", upperLimit);
+    SmartDashboard.putBoolean("lowerLimit Shoudldrr", lowerLimit);
+
+    // Updates the motor speed based on limits
+    if (upperLimit) {
+      Speed = Math.max(Speed, 0);
+    } else if (lowerLimit) {
+      Speed = Math.min(Speed, 0);
+    }
+    if (Speed > 0) {
+      Speed *= 0.55;
+    }
+    if (Math.abs(Speed) > 0.05) {
+      lastShoulderSetpoint = curArmPos;
+    }
+    SmartDashboard.putNumber("Speed Shoulder", Speed);
+    SmartDashboard.putNumber("lastShoulderSetpoint", lastShoulderSetpoint);
+    double incrementSpeed = Speed * OperatorConstants.shoulderSpeed;
+    // Updates PID/Motor with new speed, ensures velocity is the same
+    if (isTeleOp == true) {
+      shoulderPID.setReference(lastShoulderSetpoint + incrementSpeed, ControlType.kPosition);
+    }
+    // armMotor.set(0.2);
+  }
+
+  public void setClaw(int setToSpeed) {
+    int isClawEnabled = clawEnabled ? 1 : 0;
+    double finalSpeed = setToSpeed * OperatorConstants.wristSpeed;
+    clawMotor.set(finalSpeed);
+    SmartDashboard.putNumber("setToSpeed", finalSpeed);
+  }
+
+  public void moveForearm(boolean forwards) {
+    int direction = forwards ? 1 : -1;
+
+    // Converts the rotations into a form that works with the encoders, while also
+    // setting the direction it needs to go in
+    double increment = OperatorConstants.kForearmIncrement * direction;
+    // Gets the current position
+    double currentPos = forarmSetpoint;
+    // Find where the rotational goal is, set into the encoders
+    // countsPerRevlolutions form
+    double moveTo = increment + currentPos;
+
+    // Checks if any limit bounds have been reached
+    boolean lowerLimit = (!forearmLimitSwitch.get());
+    boolean upperLimit = moveTo > OperatorConstants.forearmExtendLimit;
+
+    // Updates the goal position based on limits
+    if (upperLimit && forwards) {
+      moveTo = Math.min(moveTo, OperatorConstants.forearmExtendLimit);
+    }
+    if (lowerLimit) {
+      moveTo = Math.max(moveTo, 0);
+    }
+
+    forarmSetpoint = moveTo;
+  };
+
+  public void forarmUpdate() {
+
+    if (!currentlyHoming) {
+      double moveTo = forarmSetpoint;
+      boolean lowerLimit = !forearmLimitSwitch.get();
+
+      double currentPos = forearmEncoder.getPosition();
+      if (lowerLimit) {
+        moveTo = Math.max(moveTo, currentPos);
+      }
+
+      forearmPID.setReference(moveTo, ControlType.kPosition);
+    }
+  }
+
+  public void shoulderUpsies() {
+    shoulderPID.setReference(OperatorConstants.kmMoveShoulderDegrees, ControlType.kPosition);
   }
 }
