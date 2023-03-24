@@ -4,31 +4,31 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.NavX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoBalance extends CommandBase {
-  private NavX m_navX;
+public class AutoTurnAround extends CommandBase {
+  private Drive m_Drive;
 
-  /** Creates a new AutoBalance. */
-  public AutoBalance(NavX navX) {
+  /** Creates a new AutoTurnAround. */
+  public AutoTurnAround(Drive drive) {
+    m_Drive = drive;
+
+    addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
-    m_navX = navX;
-    addRequirements(m_navX);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_Drive.zeroEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_navX.autoBalance();
-    SmartDashboard.putString("AutoBalance:", "Test");
+    m_Drive.driveRight();
   }
 
   // Called once the command ends or is interrupted.
@@ -39,10 +39,11 @@ public class AutoBalance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (RobotContainer.autoBalanceYMode == true) {
+    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= OperatorConstants.turn180Degrees) {
       return true;
     } else {
       return false;
     }
+
   }
 }
