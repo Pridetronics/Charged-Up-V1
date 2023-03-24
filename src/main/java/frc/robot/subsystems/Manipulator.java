@@ -51,6 +51,7 @@ public class Manipulator extends SubsystemBase {
   public boolean currentlyHoming = true;
   public boolean clawEnabled = false;
   private boolean wristMovingLast = false;
+  public boolean isTeleOp = true;
 
   /** Creates a new Manipulator. */
   public Manipulator() {
@@ -68,6 +69,8 @@ public class Manipulator extends SubsystemBase {
 
     // Retrieves PIDs
     shoulderPID = RobotContainer.shoulderPID;
+    RobotContainer.armEncoder.setPositionConversionFactor(360 / (36 * 3.75));
+
     forearmPID = RobotContainer.forearmPID;
 
   }
@@ -101,7 +104,7 @@ public class Manipulator extends SubsystemBase {
       Speed = Math.min(Speed, 0);
     }
     if (Speed > 0) {
-      Speed *= 0.1;
+      Speed *= 0.3;
     }
     if (Math.abs(Speed) > 0.05) {
       lastShoulderSetpoint = curArmPos;
@@ -110,8 +113,9 @@ public class Manipulator extends SubsystemBase {
     SmartDashboard.putNumber("lastShoulderSetpoint", lastShoulderSetpoint);
     double incrementSpeed = Speed * OperatorConstants.shoulderSpeed;
     // Updates PID/Motor with new speed, ensures velocity is the same
-
-    shoulderPID.setReference(lastShoulderSetpoint + incrementSpeed, ControlType.kPosition);
+    if (isTeleOp == true) {
+      shoulderPID.setReference(lastShoulderSetpoint + incrementSpeed, ControlType.kPosition);
+    }
     // armMotor.set(0.2);
   }
 
@@ -164,4 +168,7 @@ public class Manipulator extends SubsystemBase {
     }
   }
 
+  public void shoulderUpsies() {
+    shoulderPID.setReference(OperatorConstants.kmMoveShoulderDegrees, ControlType.kPosition);
+  }
 }

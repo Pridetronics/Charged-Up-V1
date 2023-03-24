@@ -53,8 +53,7 @@ public final class Constants {
     public static final int kManipulatorHomingInput = 8;
     public static final int kManipulatorClawIntake = 4;
 
-
-    //Limit Switches
+    // Limit Switches
     public static final int kShoulderLowerLimitID = 1;
     public static final int kShoulderUpperLimitID = 0;
     public static final int kForearmLimitID = 2;
@@ -71,8 +70,12 @@ public final class Constants {
     public static final double forearmExtendLimit = 25;
 
     // Motor speeds
-    public static final double shoulderSpeed = 0.7;
-    public static final double wristSpeed = 0.75;
+    public static final double shoulderSpeed = 0.75;
+    public static final double wristSpeed = 0.95;
+
+    // Driver buttons
+    public static final int kAimCentering = 1;
+    public static final int kToggleBrake = 2;
 
     // autonoous distances in inches
     public static final int kAutoDistanceOne = 12;// placeholder values
@@ -83,8 +86,9 @@ public final class Constants {
     public static final double shortDistance = 12;
     public static final double turn90Degrees = 18.81 / 4;// one full wheel rotation is 18.81 inches
     public static final double turn180Degrees = 18.81 / 2;// wheel rotation is found by multiplying gearbox with
-                                                          // countsper revolution and multiplying that by wheel
-                                                          // circumference
+    public static final int kmMoveShoulderDegrees = -7;
+    // countsper revolution and multiplying that by wheel
+    // circumference
     public static final double longDistance = 146.41;
     public static final double targetLineUp = 0;
     public static final double targetMid = 42.86;

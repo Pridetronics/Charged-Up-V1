@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 //data collection
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -69,7 +70,10 @@ public class Drive extends SubsystemBase {
     tankArcadeDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
     tankArcadeDrive.setExpiration(.1);
     tankArcadeDrive.setMaxOutput(1);
-
+    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
     // calculations
     // TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
 
@@ -97,6 +101,29 @@ public class Drive extends SubsystemBase {
     Yval1 *= .9;
     Yval2 *= .9;
     tankArcadeDrive.arcadeDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
+  }
+
+  public void Brake() {
+    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kBrake);
+  }
+
+  public void Coast() {
+    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
+    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
+  }
+
+  public void IdleCheck() {
+    IdleMode Idle = m_leftBackMotor.getIdleMode();
+    if (Idle == IdleMode.kCoast) {
+      Brake();
+    } else if (Idle == IdleMode.kBrake) {
+      Coast();
+    }
   }
 
   // all auto void functions

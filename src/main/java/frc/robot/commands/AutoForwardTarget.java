@@ -55,7 +55,7 @@ public class AutoForwardTarget extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= Constants.OperatorConstants.targetLineUp) {
+    if (Math.abs(Drive.m_leftBackEncoder.getPosition()) >= Constants.OperatorConstants.targetMid) {
       return true;
     } else {
       return false;

@@ -39,8 +39,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    SmartDashboard.putString("Code version", "3/21 DCA");// drive claw and auto works
-    SmartDashboard.putString("WpilibVer", "2023.2.1");
+    SmartDashboard.putString("Code version", "3/23 gerald experimental");// drive claw and auto works
+    SmartDashboard.putString("WpilibVer", "2023.4.2");
     // CameraServer.startAutomaticCapture(0);
 
     // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -90,6 +90,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    RobotContainer.m_manipulator.isTeleOp = false;
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
 
@@ -108,6 +110,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    RobotContainer.m_manipulator.isTeleOp = true;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
