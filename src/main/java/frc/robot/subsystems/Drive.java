@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 //drive train
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -32,8 +33,10 @@ public class Drive extends SubsystemBase {
 
   // Makes differential drive and motorcontroller groups
   public static DifferentialDrive tankDrive;
+  public static DifferentialDrive arcadeDrive;
   public MotorControllerGroup Left;
   public MotorControllerGroup Right;
+
   // Variables
   public double TPR;// ticks per revolution
   public double TPI;// Ticks per inch
@@ -62,9 +65,15 @@ public class Drive extends SubsystemBase {
     Right = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
     tankDrive = new DifferentialDrive(Left, Right);
 
+    // arcadeDrive = new DifferentialDrive(Left, Right);
+
     tankDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
     tankDrive.setExpiration(.1);
     tankDrive.setMaxOutput(1);
+
+    // arcadeDrive.setSafetyEnabled(true);
+    // arcadeDrive.setExpiration(.1);
+    // arcadeDrive.setMaxOutput(1);
     // calculations
     TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
     SmartDashboard.putNumber("Ticks per revolution", TPR);
@@ -100,8 +109,8 @@ public class Drive extends SubsystemBase {
     Yval1 = joystickDriver.getRawAxis(1); // Left side of the robot
     Yval2 = joystickDriver.getRawAxis(5); // Right side of the robot
     // reduces speed so field is not torn apart
-    Yval1 = Yval1 * .61; // .61
-    Yval2 = Yval2 * .6; // .6
+    Yval1 = Yval1 * .71; // .61
+    Yval2 = Yval2 * .7; // .6
     tankDrive.tankDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
@@ -120,6 +129,21 @@ public class Drive extends SubsystemBase {
   public void driveForward() {
     Left.set(.6);
     Right.set(.6);
+  }
+
+  // public static void arcadeDriveInput(double movement_speed, double
+  // rotation_speed) {
+  // arcadeDrive.arcadeDrive(movement_speed, rotation_speed);
+  // }
+
+  public void autoBalanceBackward() {
+    Left.set(Constants.OperatorConstants.kAutoBalanceDriveBackward);
+    Right.set(Constants.OperatorConstants.kAutoBalanceDriveBackward);
+  }
+
+  public void autoBalanceForward() {
+    Left.set(Constants.OperatorConstants.kAutoBalanceDriveForward);
+    Right.set(Constants.OperatorConstants.kAutoBalanceDriveForward);
   }
 
 }
