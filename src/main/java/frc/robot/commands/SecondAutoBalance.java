@@ -12,13 +12,13 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.NavX;
 
-public class AutoBalance_2 extends CommandBase {
+public class SecondAutoBalance extends CommandBase {
   private NavX m_navX;
   private Drive m_drive;
   // private AHRS m_ahrs;
 
   /** Creates a new AutoBalance_2. */
-  public AutoBalance_2(NavX navX, Drive drive) {
+  public SecondAutoBalance(NavX navX, Drive drive) {
     // m_ahrs = RobotContainer.ahrs;
     m_navX = navX;
     m_drive = drive;
