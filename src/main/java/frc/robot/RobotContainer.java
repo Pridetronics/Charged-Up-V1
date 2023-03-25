@@ -133,7 +133,7 @@ public class RobotContainer {
                 wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
                 armEncoder = manipulatorArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
-                // PID Controllers
+                // Manipulator PID Controllers
                 shoulderPID = manipulatorArmMotor.getPIDController();
                 shoulderPID.setP(0.45);
                 shoulderPID.setI(0);
@@ -143,15 +143,14 @@ public class RobotContainer {
                 forearmPID.setI(0);
                 forearmPID.setD(0);
                 wristPID = new PIDController(0.485, 0, 0);
-
-                toggleBrakeButton = new JoystickButton(joystickDriver,
-                                OperatorConstants.kToggleBrake);
+                // Subsystems
                 m_drive = new Drive(joystickDriver);
                 m_manipulator = new Manipulator();
 
                 m_navX = new NavX();
                 ahrs = new AHRS();
                 m_vision = new Vision();
+                // sendable chooser
                 m_Chooser = new SendableChooser<Command>();
                 // sendable chooser options
                 m_Chooser.setDefaultOption("Choose Command",
@@ -189,28 +188,17 @@ public class RobotContainer {
                 SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
         }
 
-        /**
-         * Use this method to define your trigger->command mappings. Triggers can be
-         * created via the
-         * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-         * an arbitrary
-         * predicate, or via the named factories in {@link
-         * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-         * {@link
-         * CommandXboxController
-         * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-         * PS4} controllers or
-         * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-         * joysticks}.
-         */
         private void configureBindings() {
+                // default commands for things always on
                 m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
                 m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
-
+                // button bindings
+                // buttons are assigned commands as they are made for the sake of organization
                 targetCenteringButton = new JoystickButton(joystickDriver,
                                 OperatorConstants.kAimCentering);
                 targetCenteringButton.toggleOnTrue(new TargetCenteringVision(m_vision));
-
+                toggleBrakeButton = new JoystickButton(joystickDriver,
+                                OperatorConstants.kToggleBrake);
                 toggleBrakeButton.onTrue(new InstantCommand(m_drive::IdleCheck));
 
                 forearmExtendButton = new JoystickButton(joystickManipulator,
@@ -230,13 +218,6 @@ public class RobotContainer {
                 clawToggleButton.onTrue(new ClawIntakeCommand(m_manipulator, true));
                 clawToggleButton.onFalse(new ClawIntakeCommand(m_manipulator, false));
 
-                // if (joystickDriver.getRawButtonPressed(0)) {
-                // new AutoBalance(m_navX);
-                // }
-                // if (joystickDriver.getRawButton(1)) {
-                // new AutoBalance(m_navX);
-                // } //Not needed as of 2/2/2023 for now
-                // Nav-X Button?????
         }
 
         /**
@@ -245,6 +226,8 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
+                // gets whatever command is chosen in shuffleboard and gives it to auto command
+                // in Robot.java
                 return m_Chooser.getSelected();
         }
 }

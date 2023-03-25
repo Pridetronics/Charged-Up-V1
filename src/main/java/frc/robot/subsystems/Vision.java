@@ -41,7 +41,6 @@ public class Vision extends SubsystemBase {
   private CANSparkMax m_leftFrontMotor;
   private CANSparkMax m_rightBackMotor;
   private CANSparkMax m_leftBackMotor;
-
   private CANSparkMax m_manipulatorShoulder;
 
   // Encoders
@@ -49,16 +48,18 @@ public class Vision extends SubsystemBase {
   private static RelativeEncoder m_leftFrontEncoder;
   private static RelativeEncoder m_rightBackEncoder;
   private static RelativeEncoder m_leftBackEncoder;
-
   private static RelativeEncoder m_shoulderEncoder;
+
   // motor groups
   private MotorControllerGroup Left;
   private MotorControllerGroup Right;
+
   // Variables
   private double ty;
   private double tx;
   private double tv;
   private double ta;
+
   // converted variables
   private double heightTotal;
   private double angleTotal;
@@ -67,8 +68,10 @@ public class Vision extends SubsystemBase {
   private double distanceInInches;
   private double distanceInFeet;
   private double roundedDistance;
+
   // Confirmation variables
   public double TargetisCentered;
+  // Gets limelight network tables
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   NetworkTable table = inst.getTable("limelight");
 
@@ -86,26 +89,19 @@ public class Vision extends SubsystemBase {
     m_manipulatorShoulder = RobotContainer.manipulatorArmMotor;
     m_shoulderEncoder = m_manipulatorShoulder.getEncoder();
 
-    // pov camera
+    // Used for usb camera
     camera_0 = CameraServer.startAutomaticCapture(0);
-    NetworkTableInstance.getDefault().getTable("USB Camera 0").getEntry("mode")
-        .setString("340x240 MJPEG 15 fps");
-    // CameraServer.putVideo("Serve_POV", 320, 240);// makes the cameraserver
-    // retrieve the Server1 name and sets
-    // resolution
+
     System.out.println("See All");
-    // inst.startClient3("3853");
-    // starts new DS client, Very important for lime
+
     inst.startDSClient();
-    // inst.getEntry("stream").setDouble(0);// when usb camera is plugged into
-    // limelight, shows isde by side video feeds
-    // network tables
 
     SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
   }
 
   @Override
   public void periodic() {
+    // Gets variables from the limelight to be used in calculations
     NetworkTableEntry yEntry = table.getEntry("ty");
     NetworkTableEntry xEntry = table.getEntry("tx");
     NetworkTableEntry aEntry = table.getEntry("ta");
@@ -117,11 +113,9 @@ public class Vision extends SubsystemBase {
     tv = vEntry.getDouble(0.0); // valid targets
 
     SmartDashboard.putNumber("Limelight X", tx);// will be commented out after testing
+    SmartDashboard.putNumber("Limelight Y", ty);// all smartdashboard values in this subsystem are to be used
+    SmartDashboard.putNumber("Limelight V", tv);// for calculations and checking is limelight is working
 
-    SmartDashboard.putNumber("Limelight Y", ty);
-    SmartDashboard.putNumber("Limelight V", tv);
-
-    // This method will be called once per scheduler run
   }
 
   public void findDistance() {

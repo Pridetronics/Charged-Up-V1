@@ -70,12 +70,11 @@ public class Drive extends SubsystemBase {
     tankArcadeDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
     tankArcadeDrive.setExpiration(.1);
     tankArcadeDrive.setMaxOutput(1);
+    // Sets behavior of motors when there is no input
     RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
     RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
     RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
     RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
-    // calculations
-    // TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
 
   }
 
@@ -117,6 +116,8 @@ public class Drive extends SubsystemBase {
     RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
   }
 
+  // when called upon, will check what idle behavior is set on motor and will
+  // change the mode to the opposite one
   public void IdleCheck() {
     IdleMode Idle = m_leftBackMotor.getIdleMode();
     if (Idle == IdleMode.kCoast) {
