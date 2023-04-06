@@ -173,4 +173,9 @@ public class Drive extends SubsystemBase {
     Left.set(.21);
     Right.set(-.2);
   }
+
+  public void autoBalancePIDSet(double speed) {
+    Left.set(speed);
+    Right.set(speed);
+  }
 }

@@ -4,22 +4,17 @@
 
 package frc.robot.commands;
 
-import com.kauailabs.navx.frc.AHRS;
-
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.NavX;
 
-public class SecondAutoBalance extends CommandBase {
+public class AccelerometerAutoBalance extends CommandBase {
   private NavX m_navX;
   private Drive m_drive;
-  private AHRS m_ahrs;
 
-  /** Creates a new AutoBalance_2. */
-  public SecondAutoBalance(NavX navX, Drive drive) {
-    m_ahrs = RobotContainer.ahrs;
+  /** Creates a new AccelerometerAutoBalance. */
+  public AccelerometerAutoBalance(NavX navX, Drive drive) {
     m_navX = navX;
     m_drive = drive;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -34,16 +29,7 @@ public class SecondAutoBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // m_navX.secondAutoBalance();
-    // double rollAngleDegrees = m_ahrs.getRoll();
-    // if (rollAngleDegrees > Constants.OperatorConstants.kFirstRollDegree) {
-    // m_drive.autoBalanceForward();
-    // } else if (rollAngleDegrees < Constants.OperatorConstants.kSecondRollDegree)
-    // {
-    // m_drive.autoBalanceBackward();
-    // } else {
-    // m_drive.driveStop();
-    // }
+    m_navX.RoboRioAccelerometer();
   }
 
   // Called once the command ends or is interrupted.
