@@ -36,7 +36,7 @@ public class NavX extends SubsystemBase {
     m_autoBalanceYMode = RobotContainer.autoBalanceYMode;
     xAxisRate = RobotContainer.joystickDriver.getX();
     yAxisRate = RobotContainer.joystickDriver.getY();
-    PIDController = new PIDController(0.70, 0.0, 0.0); // P: 0.35
+    PIDController = new PIDController(0.35, 0.0, 0.0); // P: 0.35
     m_accelerometer = RobotContainer.accelerometer;
 
     // try method tests a block of code to execute
@@ -135,9 +135,9 @@ public class NavX extends SubsystemBase {
   // }
   // }
   public void PIDAutoBalance() {
-    double pitchAngleDegrees = m_ahrs.getPitch();
-    pitchAngleDegrees *= 1.3;
-    double PIDValue = -PIDController.calculate(pitchAngleDegrees, 0);
+    double pitchAngleDegrees = m_ahrs.getRoll();
+    pitchAngleDegrees /= 40;
+    double PIDValue = PIDController.calculate(pitchAngleDegrees, 0);
     SmartDashboard.putNumber("PIDValue", PIDValue);
     SmartDashboard.putNumber("PitchAngle", pitchAngleDegrees);
     if (Math.abs(PIDValue) > Constants.OperatorConstants.kFirstRollDegree) {
