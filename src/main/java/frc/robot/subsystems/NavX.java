@@ -136,7 +136,7 @@ public class NavX extends SubsystemBase {
   // }
   public void PIDAutoBalance() {
     double pitchAngleDegrees = m_ahrs.getRoll();
-    pitchAngleDegrees /= 40;
+    pitchAngleDegrees /= 10;
     double PIDValue = PIDController.calculate(pitchAngleDegrees, 0);
     SmartDashboard.putNumber("PIDValue", PIDValue);
     SmartDashboard.putNumber("PitchAngle", pitchAngleDegrees);
