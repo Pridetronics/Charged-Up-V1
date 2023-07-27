@@ -49,8 +49,6 @@ public class ManipulatorInput extends CommandBase {
       manipulator.setClaw(0);
     }
 
-    SmartDashboard.putNumber("Clawspeed", hatPos);
-    SmartDashboard.putNumber("pos", hatPos);
     manipulator.forarmUpdate();
   }
 

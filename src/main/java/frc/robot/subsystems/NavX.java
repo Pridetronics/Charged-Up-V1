@@ -36,7 +36,7 @@ public class NavX extends SubsystemBase {
     m_autoBalanceYMode = RobotContainer.autoBalanceYMode;
     xAxisRate = RobotContainer.joystickDriver.getX();
     yAxisRate = RobotContainer.joystickDriver.getY();
-    PIDController = new PIDController(0.35, 0.0, 0.0); // P: 0.35
+    PIDController = new PIDController(0.05, 0.0, 0.0); // P: 0.35
     m_accelerometer = RobotContainer.accelerometer;
 
     // try method tests a block of code to execute
@@ -54,7 +54,7 @@ public class NavX extends SubsystemBase {
     // SmartDashboard.putNumber("Pitch Degree", m_ahrs.getPitch());
     // SmartDashboard.putBoolean("Calibration Finished?", m_ahrs.isCalibrating());\
     // SmartDashboard.putNumber("AccelerometerX", m_accelerometer.getX());
-    SmartDashboard.putNumber("AccelerometerY", m_accelerometer.getY() - 0.05);
+    //SmartDashboard.putNumber("AccelerometerY", m_accelerometer.getY() - 0.05);
   }
 
   public void autoBalance() {

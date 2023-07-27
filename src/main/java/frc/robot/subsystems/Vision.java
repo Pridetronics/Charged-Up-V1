@@ -101,7 +101,6 @@ public class Vision extends SubsystemBase {
     // limelight, shows isde by side video feeds
     // network tables
 
-    SmartDashboard.putNumber("Limelight Area", ta); // Displays base limelight values to Shuffleboard
   }
 
   @Override
@@ -115,11 +114,6 @@ public class Vision extends SubsystemBase {
     ty = yEntry.getDouble(0.0); // Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
     tx = xEntry.getDouble(0.0); // Horizontal Offset From Crosshair to Target (-27.5 degrees to 27.5 degrees)
     tv = vEntry.getDouble(0.0); // valid targets
-
-    SmartDashboard.putNumber("Limelight X", tx);// will be commented out after testing
-
-    SmartDashboard.putNumber("Limelight Y", ty);
-    SmartDashboard.putNumber("Limelight V", tv);
 
     // This method will be called once per scheduler run
   }

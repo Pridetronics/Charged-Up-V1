@@ -86,7 +86,6 @@ public class Manipulator extends SubsystemBase {
 
   // Method called by ManipulatorInput to update shoulder
   public void moveArm(double Speed) {
-    SmartDashboard.putNumber("First Speed", Speed);
     double conversionFactor = 42;
     // Gets a decimal percentage of the total amount of rotations made (A full
     // roation == 1)
@@ -94,8 +93,6 @@ public class Manipulator extends SubsystemBase {
     // Checks if motor is out of limits
     boolean upperLimit = upperArmLimitSwitch.get();
     boolean lowerLimit = armLimitSwitch.get();
-    SmartDashboard.putBoolean("UpperLimit Shoulder", upperLimit);
-    SmartDashboard.putBoolean("lowerLimit Shoudldrr", lowerLimit);
 
     // Updates the motor speed based on limits
     if (upperLimit) {
@@ -109,8 +106,6 @@ public class Manipulator extends SubsystemBase {
     if (Math.abs(Speed) > 0.05) {
       lastShoulderSetpoint = curArmPos;
     }
-    SmartDashboard.putNumber("Speed Shoulder", Speed);
-    SmartDashboard.putNumber("lastShoulderSetpoint", lastShoulderSetpoint);
     double incrementSpeed = Speed * OperatorConstants.shoulderSpeed;
     // Updates PID/Motor with new speed, ensures velocity is the same
     if (isTeleOp == true) {
@@ -123,7 +118,6 @@ public class Manipulator extends SubsystemBase {
     int isClawEnabled = clawEnabled ? 1 : 0;
     double finalSpeed = setToSpeed * OperatorConstants.wristSpeed;
     clawMotor.set(finalSpeed);
-    SmartDashboard.putNumber("setToSpeed", finalSpeed);
   }
 
   public void moveForearm(boolean forwards) {
