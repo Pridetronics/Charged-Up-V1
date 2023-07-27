@@ -4,21 +4,25 @@
 
 package frc.robot.commands;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.NavX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoBalance extends CommandBase {
+public class SecondAutoBalance extends CommandBase {
   private NavX m_navX;
   private Drive m_drive;
+  private AHRS m_ahrs;
 
-  /** Creates a new AutoBalance. */
-  public AutoBalance(NavX navX, Drive drive) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  /** Creates a new AutoBalance_2. */
+  public SecondAutoBalance(NavX navX, Drive drive) {
+    m_ahrs = RobotContainer.ahrs;
     m_navX = navX;
     m_drive = drive;
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_navX, m_drive);
   }
 
@@ -30,23 +34,26 @@ public class AutoBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_navX.autoBalance();
-    SmartDashboard.putString("AutoBalance:", "Test");
+    // m_navX.secondAutoBalance();
+    // double rollAngleDegrees = m_ahrs.getRoll();
+    // if (rollAngleDegrees > Constants.OperatorConstants.kFirstRollDegree) {
+    // m_drive.autoBalanceForward();
+    // } else if (rollAngleDegrees < Constants.OperatorConstants.kSecondRollDegree)
+    // {
+    // m_drive.autoBalanceBackward();
+    // } else {
+    // m_drive.driveStop();
+    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Drive.driveStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (RobotContainer.autoBalanceXMode == true) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }

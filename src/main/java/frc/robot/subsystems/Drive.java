@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 //drive train
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -74,6 +75,10 @@ public class Drive extends SubsystemBase {
     RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
     RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
     RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
+    // arcadeDrive.setExpiration(.1);
+    // arcadeDrive.setSafetyEnabled(true);
+    // arcadeDrive.setMaxOutput(1);
+    // arcadeDrive = new DifferentialDrive(Left, Right);
     // calculations
     // TPR = m_leftFrontEncoder.getCountsPerRevolution();// raw values
 
@@ -144,6 +149,21 @@ public class Drive extends SubsystemBase {
     Right.set(-.2);
   }
 
+  // public static void arcadeDriveInput(double movement_speed, double
+  // rotation_speed) {
+  // arcadeDrive.arcadeDrive(movement_speed, rotation_speed);
+  // }
+
+  public void autoBalanceBackward() {
+    Left.set(Constants.OperatorConstants.kAutoBalanceDriveBackward);
+    Right.set(Constants.OperatorConstants.kAutoBalanceDriveBackward);
+  }
+
+  public void autoBalanceForward() {
+    Left.set(Constants.OperatorConstants.kAutoBalanceDriveForward);
+    Right.set(Constants.OperatorConstants.kAutoBalanceDriveForward);
+  }
+
   public void driveLeft() {
     Left.set(-.21);
     Right.set(.2);
@@ -152,5 +172,10 @@ public class Drive extends SubsystemBase {
   public void driveRight() {
     Left.set(.21);
     Right.set(-.2);
+  }
+
+  public void autoBalancePIDSet(double speed) {
+    Left.set(speed);
+    Right.set(speed);
   }
 }

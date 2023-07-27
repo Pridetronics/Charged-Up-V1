@@ -31,14 +31,13 @@ public final class Constants {
     public static final int kRightBackDriveCANID = 4;
 
     // Nav-x IDs
-    public static final double kOffBalanceAngleThresholdDegrees = 10;
+    public static final double kOffBalanceAngleThresholdDegrees = 86;
     public static final double kOnBalanceAngleThresholdDegrees = 5;
 
-    // piston channels
-    public static final int kPistonExtendClawChannel = 0;
-    public static final int kPistonRetractClawChannel = 1;
-
-    // drive Autonomous
+    public static final double kAutoBalanceDriveBackward = -0.3;
+    public static final double kAutoBalanceDriveForward = 0.3;
+    public static final double kSecondRollDegree = 0.001;
+    public static final double kFirstRollDegree = 0.05;// originally 0
     public static final double kAutoVolt = -.5;
 
     // manipulator Motor IDs
@@ -60,6 +59,9 @@ public final class Constants {
     public static final int kWristLimitID = 3;
     public static final int kWristEncoderAID = 4;
     public static final int kWristEncoderBID = 5;
+
+    // NavX Button
+    public static final int kNavXButtonNumber = 3;
 
     // Solenoids
     public static final int kClawToggle = 1;

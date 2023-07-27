@@ -15,5 +15,12 @@
       "/SmartDashboard/BalanceMode": "Command",
       "/SmartDashboard/Chooser": "String Chooser"
     }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "open": true
+      }
+    }
   }
 }

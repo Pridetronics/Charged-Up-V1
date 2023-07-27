@@ -4,21 +4,20 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.NavX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoBalance extends CommandBase {
+public class AccelerometerAutoBalance extends CommandBase {
   private NavX m_navX;
   private Drive m_drive;
 
-  /** Creates a new AutoBalance. */
-  public AutoBalance(NavX navX, Drive drive) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  /** Creates a new AccelerometerAutoBalance. */
+  public AccelerometerAutoBalance(NavX navX, Drive drive) {
     m_navX = navX;
     m_drive = drive;
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_navX, m_drive);
   }
 
@@ -30,23 +29,17 @@ public class AutoBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_navX.autoBalance();
-    SmartDashboard.putString("AutoBalance:", "Test");
+    m_navX.RoboRioAccelerometer();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Drive.driveStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (RobotContainer.autoBalanceXMode == true) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }
