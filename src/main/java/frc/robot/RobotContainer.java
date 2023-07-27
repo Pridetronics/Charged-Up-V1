@@ -108,6 +108,7 @@ public class RobotContainer {
 
     // sendablechooser
     public static SendableChooser<Command> m_Chooser;
+    public static SendableChooser<Command> m_RobotType;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -154,52 +155,79 @@ public class RobotContainer {
         accelerometer = new BuiltInAccelerometer();
 
         m_drive = new Drive(joystickDriver);
-        m_manipulator = new Manipulator();
+        if(OperatorConstants.kUseManipulator) {
+                m_manipulator = new Manipulator();
+        }
 
         m_navX = new NavX();
         ahrs = new AHRS();
         m_vision = new Vision();
+
         m_Chooser = new SendableChooser<Command>();
         // sendable chooser options
-        m_Chooser.setDefaultOption("Choose Command",
-                new SequentialCommandGroup(new InstantCommand(m_drive::driveStop),
-                        new HomingCommand(m_manipulator)));
-        m_Chooser.setDefaultOption("score",
-                new SequentialCommandGroup(new InstantCommand(m_drive::driveStop),
-                        new HomingCommand(m_manipulator),
-                        new InstantCommand(m_manipulator::shoulderUpsies)));
-        m_Chooser.addOption("Auto Backwards",
-                new SequentialCommandGroup(new HomingCommand(m_manipulator),
-                        new InstantCommand(m_manipulator::shoulderUpsies),
-                        new WaitCommand(1),
-                        new AutoMoveBack(m_drive)));
-        // m_Chooser.addOption("take targets",
-        // new SequentialCommandGroup(new HomingCommand(m_manipulator),
-        // new AutoMoveBackwards(m_drive),
-        // new AutoRotateLeft(m_drive), new AutoMoveForward(m_drive)));
-        m_Chooser.addOption("AutoForwards",
-                new SequentialCommandGroup(new HomingCommand(m_manipulator),
-                        new AutoMoveForward(m_drive)));
-        // m_Chooser.addOption("turn around",
-        // new SequentialCommandGroup(new HomingCommand(m_manipulator),
-        // new AutoForwardTarget(m_drive),
-        // new AutoTurnAround(m_drive), new AutoMoveForward(m_drive)));
-        m_Chooser.addOption("Community and Station",
-                new SequentialCommandGroup(new HomingCommand(m_manipulator),
-                        new InstantCommand(m_manipulator::shoulderUpsies), new WaitCommand(1),
-                        new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive)));
+        if (OperatorConstants.kUseManipulator) {
+                m_Chooser.setDefaultOption("Choose Command",
+                        new SequentialCommandGroup(new InstantCommand(m_drive::driveStop),
+                                new HomingCommand(m_manipulator)));
+                m_Chooser.setDefaultOption("score",
+                        new SequentialCommandGroup(new InstantCommand(m_drive::driveStop),
+                                new HomingCommand(m_manipulator),
+                                new InstantCommand(m_manipulator::shoulderUpsies)));
+                m_Chooser.addOption("Auto Backwards",
+                        new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                                new InstantCommand(m_manipulator::shoulderUpsies),
+                                new WaitCommand(1),
+                                new AutoMoveBack(m_drive)));
+                // m_Chooser.addOption("take targets",
+                // new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                // new AutoMoveBackwards(m_drive),
+                // new AutoRotateLeft(m_drive), new AutoMoveForward(m_drive)));
+                m_Chooser.addOption("AutoForwards",
+                        new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                                new AutoMoveForward(m_drive)));
+                // m_Chooser.addOption("turn around",
+                // new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                // new AutoForwardTarget(m_drive),
+                // new AutoTurnAround(m_drive), new AutoMoveForward(m_drive)));
+                m_Chooser.addOption("Community and Station",
+                        new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                                new InstantCommand(m_manipulator::shoulderUpsies), new WaitCommand(1),
+                                new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive)));
 
-        m_Chooser.addOption("AutoBalance NavX",
-                new SequentialCommandGroup(new HomingCommand(m_manipulator),
-                        new InstantCommand(m_manipulator::shoulderUpsies), new WaitCommand(1),
-                        new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive),
-                        new PIDAutoBalance(m_navX, m_drive)));
+                m_Chooser.addOption("AutoBalance NavX",
+                        new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                                new InstantCommand(m_manipulator::shoulderUpsies), new WaitCommand(1),
+                                new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive),
+                                new PIDAutoBalance(m_navX, m_drive)));
+        } else {
+                m_Chooser.setDefaultOption("Choose Command",
+                        new SequentialCommandGroup(new InstantCommand(m_drive::driveStop)));
+                m_Chooser.setDefaultOption("score",
+                        new SequentialCommandGroup(new InstantCommand(m_drive::driveStop)));
+                m_Chooser.addOption("Auto Backwards",
+                        new SequentialCommandGroup(new AutoMoveBack(m_drive)));
+                // m_Chooser.addOption("take targets",
+                // new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                // new AutoMoveBackwards(m_drive),
+                // new AutoRotateLeft(m_drive), new AutoMoveForward(m_drive)));
+                m_Chooser.addOption("AutoForwards",
+                        new SequentialCommandGroup(new AutoMoveForward(m_drive)));
+                // m_Chooser.addOption("turn around",
+                // new SequentialCommandGroup(new HomingCommand(m_manipulator),
+                // new AutoForwardTarget(m_drive),
+                // new AutoTurnAround(m_drive), new AutoMoveForward(m_drive)));
+                m_Chooser.addOption("Community and Station",
+                        new SequentialCommandGroup(
+                                new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive)));
+
+                m_Chooser.addOption("AutoBalance NavX",
+                        new SequentialCommandGroup(
+                                new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive),
+                                new PIDAutoBalance(m_navX, m_drive)));
+        }
         // Configure the trigger bindings
         configureBindings();
-        SmartDashboard.putData("Chooser", m_Chooser);
-        SmartDashboard.putData("BalanceMode", new AccelerometerAutoBalance(m_navX, m_drive));
-        SmartDashboard.putBoolean("AutoBalanceXMode", autoBalanceXMode);
-        SmartDashboard.putBoolean("AutoBalanceYMode", autoBalanceYMode);
+        SmartDashboard.putData("Auto Mode", m_Chooser);
     }
 
     /**
@@ -218,7 +246,26 @@ public class RobotContainer {
      */
     private void configureBindings() {
         m_drive.setDefaultCommand(new JoystickDrive(joystickDriver, m_drive));
-        m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
+        if (OperatorConstants.kUseManipulator) {
+                m_manipulator.setDefaultCommand(new ManipulatorInput(joystickManipulator, m_manipulator));
+
+                forearmExtendButton = new JoystickButton(joystickManipulator,
+                OperatorConstants.kManipulatorInputRetract);
+                forearmRetractButton = new JoystickButton(joystickManipulator,
+                        OperatorConstants.kManipulatorInputExtend);
+
+                forearmExtendButton.onTrue(new forearmInput(m_manipulator, true));
+                forearmRetractButton.onTrue(new forearmInput(m_manipulator, false));
+
+                JoystickButton homingButton = new JoystickButton(joystickManipulator,
+                        OperatorConstants.kManipulatorHomingInput);
+                homingButton.onTrue(new HomingCommand(m_manipulator));
+
+                JoystickButton clawToggleButton = new JoystickButton(joystickManipulator,
+                        OperatorConstants.kClawToggle);
+                clawToggleButton.onTrue(new ClawIntakeCommand(m_manipulator, true));
+                clawToggleButton.onFalse(new ClawIntakeCommand(m_manipulator, false));
+        }
 
         targetCenteringButton = new JoystickButton(joystickDriver,
                 OperatorConstants.kAimCentering);
@@ -226,22 +273,7 @@ public class RobotContainer {
 
         toggleBrakeButton.onTrue(new InstantCommand(m_drive::IdleCheck));
 
-        forearmExtendButton = new JoystickButton(joystickManipulator,
-                OperatorConstants.kManipulatorInputRetract);
-        forearmRetractButton = new JoystickButton(joystickManipulator,
-                OperatorConstants.kManipulatorInputExtend);
 
-        forearmExtendButton.onTrue(new forearmInput(m_manipulator, true));
-        forearmRetractButton.onTrue(new forearmInput(m_manipulator, false));
-
-        JoystickButton homingButton = new JoystickButton(joystickManipulator,
-                OperatorConstants.kManipulatorHomingInput);
-        homingButton.onTrue(new HomingCommand(m_manipulator));
-
-        JoystickButton clawToggleButton = new JoystickButton(joystickManipulator,
-                OperatorConstants.kClawToggle);
-        clawToggleButton.onTrue(new ClawIntakeCommand(m_manipulator, true));
-        clawToggleButton.onFalse(new ClawIntakeCommand(m_manipulator, false));
 
         // m_navX.setDefaultCommand(new AutoBalance(m_navX, m_drive));
 
