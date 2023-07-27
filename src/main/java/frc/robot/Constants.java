@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public final class Constants {
   public static class OperatorConstants {
+    public static final boolean kUseManipulator = true;
+
     // Controller IDs
     public static final int kJoystickDriverID = 0;
     public static final int kJoystickManipulatorID = 1;
@@ -91,9 +93,9 @@ public final class Constants {
     public static final int kmMoveShoulderDegrees = -7;
     // countsper revolution and multiplying that by wheel
     // circumference
-    public static final double longDistance = 134.41;// moving on charge station
+    public static final double longDistance = 150.41;// moving on charge station
     public static final double targetLineUp = 0;// to be determined
-    public static final double targetMid = 42.86;// to middle of station
-    public static final double DistanceGround = 146.41;// moving along from ground
+    public static final double targetMid = 60;// to middle of station
+    public static final double DistanceGround = 146;// moving along from ground
   }
 }
