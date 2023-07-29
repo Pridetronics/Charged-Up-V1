@@ -90,7 +90,7 @@ public final class Constants {
     public static final double shortDistance = 12;
     public static final double turn90Degrees = 18.81 / 4;// one full wheel rotation is 18.81 inches
     public static final double turn180Degrees = 18.81 / 2;// wheel rotation is found by multiplying gearbox with
-    public static final int kmMoveShoulderDegrees = -7;
+    public static final int kmMoveShoulderDegrees = -14;
     // countsper revolution and multiplying that by wheel
     // circumference
     public static final double longDistance = 150.41;// moving on charge station

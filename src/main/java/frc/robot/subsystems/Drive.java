@@ -175,7 +175,9 @@ public class Drive extends SubsystemBase {
   }
 
   public void autoBalancePIDSet(double speed) {
-    Left.set(speed);
-    Right.set(speed);
+    double cappedSpeed = Math.min(speed, 0.35);
+    Left.set(cappedSpeed);
+    Right.set(cappedSpeed);
+    
   }
 }
