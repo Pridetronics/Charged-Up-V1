@@ -83,8 +83,8 @@ public class Vision extends SubsystemBase {
     m_rightBackMotor = RobotContainer.rightBackMotor;
     m_rightBackEncoder = m_rightBackMotor.getEncoder();
 
-    m_manipulatorShoulder = RobotContainer.manipulatorArmMotor;
-    m_shoulderEncoder = m_manipulatorShoulder.getEncoder();
+    // m_manipulatorShoulder = RobotContainer.manipulatorArmMotor;
+    // m_shoulderEncoder = m_manipulatorShoulder.getEncoder();
 
     // pov camera
     camera_0 = CameraServer.startAutomaticCapture(0);

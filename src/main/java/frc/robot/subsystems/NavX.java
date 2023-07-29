@@ -36,7 +36,7 @@ public class NavX extends SubsystemBase {
     m_autoBalanceYMode = RobotContainer.autoBalanceYMode;
     xAxisRate = RobotContainer.joystickDriver.getX();
     yAxisRate = RobotContainer.joystickDriver.getY();
-    PIDController = new PIDController(0.065, 0.0, 0.0); // P: 0.35
+    PIDController = new PIDController(0.063, 0.0, 0.0); // P: 0.35
     m_accelerometer = RobotContainer.accelerometer;
 
     // try method tests a block of code to execute

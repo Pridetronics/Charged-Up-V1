@@ -120,9 +120,11 @@ public class RobotContainer {
         rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
         leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
         // Manipulator Motors
-        manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
-        manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
-        manipulatorClawMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+        if (OperatorConstants.kUseManipulator) {
+                manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
+                manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
+                manipulatorClawMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+        }
         // inverts the left motors and leaves the right motors
         leftFrontMotor.setInverted(true);
         leftBackMotor.setInverted(true);
@@ -135,19 +137,21 @@ public class RobotContainer {
         // drive
         m_drive = new Drive(joystickDriver);
 
-        wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
-        armEncoder = manipulatorArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+        if (OperatorConstants.kUseManipulator) {
+                wristEncoder = new Encoder(OperatorConstants.kWristEncoderAID, OperatorConstants.kWristEncoderBID);
+                armEncoder = manipulatorArmMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
 
-        // PID Controllers
-        shoulderPID = manipulatorArmMotor.getPIDController();
-        shoulderPID.setP(0.45);
-        shoulderPID.setI(0);
-        shoulderPID.setD(0);
-        forearmPID = manipulatorForearmMotor.getPIDController();
-        forearmPID.setP(0.1);
-        forearmPID.setI(0);
-        forearmPID.setD(0);
-        wristPID = new PIDController(0.485, 0, 0);
+                // PID Controllers
+                shoulderPID = manipulatorArmMotor.getPIDController();
+                shoulderPID.setP(0.45);
+                shoulderPID.setI(0);
+                shoulderPID.setD(0);
+                forearmPID = manipulatorForearmMotor.getPIDController();
+                forearmPID.setP(0.1);
+                forearmPID.setI(0);
+                forearmPID.setD(0);
+                wristPID = new PIDController(0.485, 0, 0);
+        }
 
         toggleBrakeButton = new JoystickButton(joystickDriver,
                 OperatorConstants.kToggleBrake);
@@ -197,7 +201,7 @@ public class RobotContainer {
                 m_Chooser.addOption("AutoBalance NavX",
                         new SequentialCommandGroup(new HomingCommand(m_manipulator),
                                 new InstantCommand(m_manipulator::shoulderUpsies), new WaitCommand(1),
-                                new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive),
+                                new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive), new WaitCommand(0.5),
                                 new PIDAutoBalance(m_navX, m_drive)));
         } else {
                 m_Chooser.setDefaultOption("Choose Command",

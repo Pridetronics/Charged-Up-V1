@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.subsystems.*;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 
 /**
@@ -90,7 +91,9 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    RobotContainer.m_manipulator.isTeleOp = false;
+    if (OperatorConstants.kUseManipulator) {
+      RobotContainer.m_manipulator.isTeleOp = false;
+    }
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -110,7 +113,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    RobotContainer.m_manipulator.isTeleOp = true;
+    if (OperatorConstants.kUseManipulator) {
+      RobotContainer.m_manipulator.isTeleOp = true;
+    }
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
