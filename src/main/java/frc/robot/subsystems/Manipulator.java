@@ -152,12 +152,13 @@ public class Manipulator extends SubsystemBase {
     if (!currentlyHoming) {
       double moveTo = forarmSetpoint;
       boolean lowerLimit = !forearmLimitSwitch.get();
+      SmartDashboard.putBoolean("forarm lower", lowerLimit);
 
       double currentPos = forearmEncoder.getPosition();
       if (lowerLimit) {
         moveTo = Math.max(moveTo, currentPos);
       }
-
+      SmartDashboard.putNumber("forearmPos", moveTo);
       forearmPID.setReference(moveTo, ControlType.kPosition);
     }
   }
