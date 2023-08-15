@@ -1,0 +1,12 @@
+2023/02/06-15:15:29.934 34dc Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_mail.google.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/02/06-15:15:29.936 34dc Recovering log #7
+2023/02/06-15:15:29.951 34dc Reusing old log C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_mail.google.com_0.indexeddb.leveldb/000007.log 
+2023/02/06-15:15:43.711 3458 Level-0 table #12: started
+2023/02/06-15:15:43.774 3458 Level-0 table #12: 2310747 bytes OK
+2023/02/06-15:15:43.780 3458 Delete type=0 #7
+2023/02/06-15:15:54.269 34ec Compacting 1@1 + 1@2 files
+2023/02/06-15:15:54.284 34ec Generated table #13@1: 193 keys, 254351 bytes
+2023/02/06-15:15:54.284 34ec Compacted 1@1 + 1@2 files => 254351 bytes
+2023/02/06-15:15:54.286 34ec compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/02/06-15:15:54.287 34ec Delete type=2 #9
+2023/02/06-15:15:54.287 34ec Delete type=2 #12

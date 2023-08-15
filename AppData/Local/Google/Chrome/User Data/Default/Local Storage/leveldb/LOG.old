@@ -1,0 +1,9 @@
+2023/06/23-11:47:57.081 7420 Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Default\Local Storage\leveldb/MANIFEST-000001
+2023/06/23-11:47:57.087 7420 Recovering log #28
+2023/06/23-11:47:57.097 7420 Reusing old log C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Default\Local Storage\leveldb/000028.log 
+2023/06/23-11:48:18.050 3c2c Level-0 table #33: started
+2023/06/23-11:48:18.062 3c2c Level-0 table #33: 83668 bytes OK
+2023/06/23-11:48:18.066 3c2c Delete type=0 #28
+2023/06/23-11:58:25.100 3c2c Level-0 table #35: started
+2023/06/23-11:58:25.106 3c2c Level-0 table #35: 76929 bytes OK
+2023/06/23-11:58:25.108 3c2c Delete type=0 #32
