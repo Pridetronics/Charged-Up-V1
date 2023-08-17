@@ -1,0 +1,7 @@
+2023/02/10-16:28:32.817 44bc Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 4\IndexedDB\https_drive.google.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/02/10-16:28:32.818 44bc Recovering log #3
+2023/02/10-16:28:32.820 44bc Reusing old log C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 4\IndexedDB\https_drive.google.com_0.indexeddb.leveldb/000003.log 
+2023/02/10-16:54:42.701 2c24 Level-0 table #5: started
+2023/02/10-16:54:42.711 2c24 Level-0 table #5: 1389745 bytes OK
+2023/02/10-16:54:42.715 2c24 Delete type=0 #3
+2023/02/10-16:54:42.716 2c24 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

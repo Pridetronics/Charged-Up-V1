@@ -1,0 +1,5 @@
+2023/02/07-15:52:44.406 e5c Creating DB C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 3\Sync Data\LevelDB since it was missing.
+2023/02/07-15:52:44.427 e5c Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 3\Sync Data\LevelDB/MANIFEST-000001
+2023/02/07-16:01:41.886 2d54 Level-0 table #5: started
+2023/02/07-16:01:41.890 2d54 Level-0 table #5: 102785 bytes OK
+2023/02/07-16:01:41.893 2d54 Delete type=0 #3

@@ -1,0 +1,48 @@
+{
+   "checksum": "027b52e2a715cb61434b6de008e038bc",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13323824719984088",
+            "date_last_used": "0",
+            "guid": "17d00ef2-b131-4da1-85ec-806e51327095",
+            "id": "5",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Commands — FIRST Robotics Competition documentation",
+            "type": "url",
+            "url": "https://docs.wpilib.org/en/stable/docs/software/commandbased/commands.html"
+         } ],
+         "date_added": "13320454498463253",
+         "date_last_used": "0",
+         "date_modified": "13323824719984088",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Bookmarks bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13320454498463258",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13320454498463259",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile bookmarks",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "Cu0BCswBCIiBAhLFARI8CAISOAoGCgJibRABEDMaEgmA9EsNcfcFACGA9EsNcfcFADIYChYIAhEnWzMecfcFABgAIQAAAAAAAAAAIACSAX0KNAoOY2hyb21lX3N5bmNfYm0SBTUxIWJtGhIJRXIzHnH3BQARRXIzHnH3BQAp9VQ0HnH3BQAKRQoWYW5ub3RhdGlvbl9jaHJvbWVfc3luYxIFNTEhYmQaEgmAiQYYcfcFABGAiQYYcfcFACnAbjMecfcFADCAk5rAke79AroBAggBEgAgASoYQTc3WDIwbjlXNm8yeWVkTDRrU1dOdz09EsMBCAMSvgEKHG5qZ0R1ODhlQ3J2WHA4NnBEN2ZIR2NxRnA4OD0SZlo6QURxdEFaekxFZzRkRTNKZjhaR0VsZGlpUnNQamF1YmRUb1RWcHdhVjlBWXVPbUNnTUZGMmJ6NjRLTC92TGFpRGxKSkw4cE8rdFhiME1WWHYydFVXM0FnMFNDS3NLVDJEQ2c9PRgAIAAoADDNuL64u4n9AjgAQABKHHl6TkIwMWNuNTRBN2NSVTB1VCsvUGdtVHRVbz1aAGUAAAAAEqsBCAESpgEKHHl4Si82ZnZrZWNyN2twNUVRekI0dFdMcGRiRT0STlo6QURxdEFad3JhaVFlSkdibGFLSzdtQXEwOFVDdlNXcjdvNkVEWHdFS0ErZmVPbG9NakM5VXlRRWZzVVREVTNIQnhaTWcvYTZhMnlQNBgAIAAoADDNuL64u4n9AjgAQABKHGFSQ1dMZ2hGOWI1SW5xS0lEdnVKL2p2UWtGYz1aAGUAAAAAEsMBCAISvgEKHFljU1RvbnZFU1B3cUNzNEwyY3JWaHY2OEw5OD0SZlo6QURxdEFaekhTVmQxUFBNQVdreWt3bjlubFpML2R6akRnZ0NzMlZDZy9ZWi9GbkVqaDl0VzluQTBES0tuOWVIOFB4QmZDdWcyZ1RCc0xWY3NUVGQ1YjlaR3NjbW9ySVVxZ0E9PRgAIAAoADDNuL64u4n9AjgAQABKHG9QVmtod0JSYlY2NUtDV1IyK0lPTkhXb091OD1aAGUAAAAAEusBCAUS5gEKHFNoenlTOUVqTmI0WHdYYUtFTlYreU9lTnp4bz0SZlo6QURxdEFad2JXQUJaeHJLb1EzbWw2dWtIRjI5Z2NBN0JCaXpyakJ0V3pGREZ2R091Z1VTNFJocHRQQW9VZlJJVUppVzVnUmxKM1hIR1VnR1hlUU9NbHZzUUdnNjZDRUFNZ3c9PRgAIAIoAjCj5aq3xuv9Ajj1gIKJ8DBAkIGCifAwShx5L1VDT1B3N3MrdUUxQ1ZyVzY1bWlmMUlOZjg9Wh4iHGZtcWZkTFVrempKODd1Sm1DdHpNb0ZMNkRmMD1lN7qhrTABOAA=",
+   "version": 1
+}

@@ -1,0 +1,18 @@
+2023/08/10-15:47:27.607 26e8 Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 4\Local Storage\leveldb/MANIFEST-000001
+2023/08/10-15:47:27.609 26e8 Recovering log #53
+2023/08/10-15:47:27.616 26e8 Reusing old log C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 4\Local Storage\leveldb/000053.log 
+2023/08/15-15:52:38.613 26e8 Level-0 table #57: started
+2023/08/15-15:52:38.620 26e8 Level-0 table #57: 17659 bytes OK
+2023/08/15-15:52:38.624 26e8 Delete type=0 #53
+2023/08/15-15:52:38.626 26e8 Compacting 4@0 + 1@1 files
+2023/08/15-15:52:38.633 26e8 Generated table #58@0: 386 keys, 99949 bytes
+2023/08/15-15:52:38.633 26e8 Compacted 4@0 + 1@1 files => 99949 bytes
+2023/08/15-15:52:38.634 26e8 compacted to: files[ 0 1 1 0 0 0 0 ]
+2023/08/15-15:52:38.636 26e8 Delete type=2 #46
+2023/08/15-15:52:38.636 26e8 Delete type=2 #48
+2023/08/15-15:52:38.636 26e8 Delete type=2 #51
+2023/08/15-15:52:38.636 26e8 Delete type=2 #54
+2023/08/15-15:52:38.636 26e8 Delete type=2 #57
+2023/08/15-16:08:23.009 26e8 Level-0 table #60: started
+2023/08/15-16:08:23.018 26e8 Level-0 table #60: 17521 bytes OK
+2023/08/15-16:08:23.021 26e8 Delete type=0 #56

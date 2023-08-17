@@ -1,0 +1,7 @@
+2023/08/03-15:50:30.275 30ec Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 4\IndexedDB\https_docs.revrobotics.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/08/03-15:50:30.276 30ec Recovering log #7
+2023/08/03-15:50:30.278 30ec Reusing old log C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 4\IndexedDB\https_docs.revrobotics.com_0.indexeddb.leveldb/000007.log 
+2023/08/03-15:50:31.017 954 Level-0 table #12: started
+2023/08/03-15:50:31.020 954 Level-0 table #12: 82572 bytes OK
+2023/08/03-15:50:31.024 954 Delete type=0 #7
+2023/08/03-15:50:31.024 4488 Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)

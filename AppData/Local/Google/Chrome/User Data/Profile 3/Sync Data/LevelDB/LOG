@@ -1,0 +1,9 @@
+2023/02/13-15:27:57.443 2988 Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 3\Sync Data\LevelDB/MANIFEST-000001
+2023/02/13-15:27:57.444 2988 Recovering log #4
+2023/02/13-15:27:57.448 2988 Reusing old log C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 3\Sync Data\LevelDB/000004.log 
+2023/02/13-15:28:01.070 136c Level-0 table #8: started
+2023/02/13-15:28:01.081 136c Level-0 table #8: 91002 bytes OK
+2023/02/13-15:28:01.085 136c Delete type=0 #4
+2023/02/13-15:58:00.412 1498 Level-0 table #10: started
+2023/02/13-15:58:00.422 1498 Level-0 table #10: 95046 bytes OK
+2023/02/13-15:58:00.427 1498 Delete type=0 #7

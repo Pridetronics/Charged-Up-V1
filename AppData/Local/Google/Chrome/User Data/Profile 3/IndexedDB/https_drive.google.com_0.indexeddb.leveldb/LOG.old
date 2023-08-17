@@ -1,0 +1,14 @@
+2023/02/07-15:54:38.684 39c8 Creating DB C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 3\IndexedDB\https_drive.google.com_0.indexeddb.leveldb since it was missing.
+2023/02/07-15:54:38.691 39c8 Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 3\IndexedDB\https_drive.google.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/02/07-15:54:40.534 2d54 Level-0 table #5: started
+2023/02/07-15:54:40.555 2d54 Level-0 table #5: 1309740 bytes OK
+2023/02/07-15:54:40.557 2d54 Delete type=0 #3
+2023/02/07-15:56:49.338 2d54 Level-0 table #7: started
+2023/02/07-15:56:49.357 2d54 Level-0 table #7: 1563612 bytes OK
+2023/02/07-15:56:49.359 2d54 Delete type=0 #4
+2023/02/07-15:58:31.392 420c Compacting 1@1 + 1@2 files
+2023/02/07-15:58:31.409 420c Generated table #8@1: 223 keys, 104380 bytes
+2023/02/07-15:58:31.409 420c Compacted 1@1 + 1@2 files => 104380 bytes
+2023/02/07-15:58:31.410 420c compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/02/07-15:58:31.411 420c Delete type=2 #5
+2023/02/07-15:58:31.411 420c Delete type=2 #7
