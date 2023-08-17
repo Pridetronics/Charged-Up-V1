@@ -1,0 +1,40 @@
+{
+   "background": {
+      "persistent": true,
+      "scripts": [ "THSSRBackground.js" ]
+   },
+   "browser_action": {
+      "default_icon": {
+         "16": "img/icon16.png",
+         "24": "img/icon24.png",
+         "32": "img/icon48.png"
+      }
+   },
+   "content_scripts": [ {
+      "css": [ "ocrTexthelp.css" ],
+      "js": [ "THSSRContent.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_end"
+   } ],
+   "content_security_policy": "script-src 'self' 'unsafe-eval' chrome-extension://enfolipbjmnmleonhhebhalojdpcpdoo https://texthelp.com; object-src 'self'",
+   "default_locale": "en_US",
+   "description": "__MSG_appDesc__",
+   "externally_connectable": {
+      "ids": [ "inoeonmfapjbbkmdafoankkfajkcphgd", "ikfigngpioedjjooplekefdiilaokaik", "dbjckccifhpibdafmobmejknpeabihae", "ajaeogmnpifbkbeafhdkehdigkllnlmj", "khlcpnnojomfljfplojjgafklknofead", "efeafadncamffgiohgiciboonbjldkfj", "feepmdlmhplaojabeoecaobfmibooaid", "ohfjebjepnlldifcbcfmopifaebcjehc", "bjglhpoliipklkfjcahfefdlfpifcinb" ],
+      "matches": [ "https://pdf.texthelp.com/*", "https://pdf.dev.texthelp.com/*", "https://orbitproxy.texthelp.com/*", "https://orbit.texthelp.com/*", "https://orbitdoc.texthelp.com/*" ]
+   },
+   "icons": {
+      "128": "img/icon128.png",
+      "16": "img/icon16.png",
+      "48": "img/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmueDSO2WNe7/ltRXH5pxRKwRaMKoDOU5PGGUKt1SNIBrSGAAmSR77AhkUqzhHke3bMNN2/0WOFp0k7LJSk5r8hmQ65eg59wjFLBkbtWuSUkxs9ZrdK30sC7lQde8JSoAR9qyezqqZ3pEKXNPBCkllRU2xDao42+QWPZeit/S6cIFQE4ZlQfMSfvw2Qs5QkbPnRlfb2Fsmk1C+uAGLADEu3IHXsFohrhx4bsTXKqjrJpcfyswTrl+flG/t+3ikrnOGV/gfWPsPnBPppLcaiKo3EVm51DXFtK3BZ4ENkLYfK8DDPKEG/khzhvkc65zFOme3qQC7qH1MmMftwx2dS13NQIDAQAB",
+   "manifest_version": 2,
+   "minimum_chrome_version": "28",
+   "name": "__MSG_appName__",
+   "offline_enabled": true,
+   "permissions": [ "activeTab", "\u003Call_urls>", "tts" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.0.8.9",
+   "web_accessible_resources": [ "ocrTexthelp.css", "tesseract_lang/deu.traineddata.gz", "tesseract_lang/eng.traineddata.gz", "tesseract_lang/fra.traineddata.gz", "tesseract_lang/msa.traineddata.gz", "tesseract_lang/por.traineddata.gz", "tesseract_lang/rus.traineddata.gz", "tesseract_lang/spa.traineddata.gz", "tesseract_lang/swe.traineddata.gz" ]
+}

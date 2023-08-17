@@ -1,0 +1,1 @@
+{"phishAlertService":{"Value":{"loglevel":"ERROR","api_key":"CD086794A2040E7EC76E23A7428CC41F","base":"https://training.knowbe4.com/api/v1/phishalert/","icon_url":"https://training.knowbe4.com/pab_uploads_prefix/pab_icon/CD086794A2040E7EC76E23A7428CC41F/icon_gmail_64x64.png","endpoints":{"forwardEmails":"forward_emails","report":"report","initialized":"addin_initialized"}}}}

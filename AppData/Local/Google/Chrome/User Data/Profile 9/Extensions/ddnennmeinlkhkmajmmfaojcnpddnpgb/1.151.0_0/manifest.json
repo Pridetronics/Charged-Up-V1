@@ -1,0 +1,43 @@
+{
+   "action": {
+      "default_icon": "images/icon32.png",
+      "default_popup": "popup.html",
+      "default_title": "Start Recording"
+   },
+   "background": {
+      "service_worker": "service-worker.bundle.js",
+      "type": "module"
+   },
+   "content_scripts": [ {
+      "all_frames": false,
+      "js": [ "webapps-install-page-listener.bundle.js" ],
+      "matches": [ "https://app.thousandeyes.com/install/endpoint-agent*" ],
+      "run_at": "document_start"
+   }, {
+      "all_frames": true,
+      "js": [ "all-frames-content-scripts.bundle.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_start"
+   }, {
+      "all_frames": false,
+      "js": [ "main-frame-only-content-scripts.bundle.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_start"
+   } ],
+   "description": "Help troubleshoot performance problems with web sites you visit.",
+   "homepage_url": "https://www.thousandeyes.com/product/endpoint-agents/end-user-faq",
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "images/icon128.png",
+      "16": "images/icon16.png",
+      "32": "images/icon32.png",
+      "48": "images/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn0Xlyu1ilji8U1bvJnWw2pZkk0biM9dahz0SCfu3/n9+mNqRXglW7s/CShHT2K56M4il0o1WYfzwCYxUpz1JMbDObwyOqSBkn3I4WFtcTy9LopqcmwdmKqhE27msmMyCty4k8ONfagxTzKz1iujAWr/en3QMjJWFBsf+dwp8dXxBcZmNpxUsFDTFa1ummy+5G8ns2ShfaPipXAQ5ycuFpfbf/tSgURZcepnXQgIsjc0xhLfHq8KJCrol+CoONupGyNU9xWTdH2wy0GURbrW4X2OhxpGtLooLAxApsNG+f1ugJtRIfmCnrN2nS1N2i2Xvj/nhMY9gvonA9I0mePApiQIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "88",
+   "name": "ThousandEyes Endpoint Agent",
+   "permissions": [ "nativeMessaging", "geolocation", "activeTab", "webRequest", "webNavigation" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.151.0"
+}

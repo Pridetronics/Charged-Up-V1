@@ -1,0 +1,6 @@
+2023/05/12-15:57:19.858 29b0 Creating DB C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 5\IndexedDB\https_codev5.vex.com_0.indexeddb.leveldb since it was missing.
+2023/05/12-15:57:19.871 29b0 Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 5\IndexedDB\https_codev5.vex.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/05/12-15:57:23.641 29b0 Level-0 table #5: started
+2023/05/12-15:57:23.645 29b0 Level-0 table #5: 1294 bytes OK
+2023/05/12-15:57:23.649 29b0 Delete type=0 #3
+2023/05/12-15:57:23.650 29b0 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

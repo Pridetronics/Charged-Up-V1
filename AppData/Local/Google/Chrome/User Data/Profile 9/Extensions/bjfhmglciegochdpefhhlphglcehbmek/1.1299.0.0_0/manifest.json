@@ -1,0 +1,41 @@
+{
+   "action": {
+      "default_icon": {
+         "19": "images/browser-icon-inactive.png",
+         "38": "images/browser-icon-inactive@2x.png"
+      }
+   },
+   "background": {
+      "service_worker": "extension.bundle.js"
+   },
+   "description": "Collaboratively annotate, highlight, and tag web pages and PDF documents.",
+   "externally_connectable": {
+      "matches": [ "https://hyp.is/*" ]
+   },
+   "homepage_url": "https://hypothes.is/",
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "images/icon128.png",
+      "16": "images/icon16.png",
+      "48": "images/icon48.png"
+   },
+   "incognito": "split",
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCq7XsXE/uakq4aKMG5Smz2nc8VSaandriziGorxX08py3mTkab79GpWYu7j/hA3Yf7fkCLQnX8QoZGj7WdaMX6+b+eHxF7vYpOhEW/Bam7TOlb+5AVmL1KReG9PPTLz4dp+xA4WfK2dqFM+XN40FTbm2G/SNk3GRP3gQOxgy3ZKwIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "88",
+   "name": "Hypothesis - Web & PDF Annotation",
+   "offline_enabled": false,
+   "optional_permissions": [ "webNavigation" ],
+   "options_ui": {
+      "page": "options/index.html"
+   },
+   "permissions": [ "scripting", "storage", "tabs" ],
+   "short_name": "Hypothesis",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.1299.0.0",
+   "version_name": "1.1299.0.0 (Official Build)",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "client/*", "help/*", "pdfjs/*", "pdfjs/web/viewer.html" ]
+   } ]
+}

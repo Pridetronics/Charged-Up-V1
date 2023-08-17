@@ -1,0 +1,69 @@
+{
+   "author": "Poll Everywhere, Inc.",
+   "background": {
+      "service_worker": "service_worker.js",
+      "type": "module"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "css": [ "stylesheets/all.css" ],
+      "exclude_globs": [ "*rm=minimal*", "*invite=*" ],
+      "js": [ "edit_loop.js" ],
+      "matches": [ "*://docs.google.com/presentation/*/edit*", "*://docs.google.com/*/presentation/*/edit*", "*://docs.google.com/*/*/presentation/*/edit*" ],
+      "run_at": "document_end"
+   }, {
+      "all_frames": true,
+      "css": [ "stylesheets/all.css" ],
+      "js": [ "presentation_loop.js" ],
+      "match_about_blank": true,
+      "matches": [ "*://docs.google.com/presentation/*" ],
+      "run_at": "document_end"
+   }, {
+      "all_frames": true,
+      "js": [ "inject_fn.js", "inject_binding_layer.js" ],
+      "matches": [ "*://presenter.polleverywhere.com/*", "*://beta.polleverywhere.com/*" ],
+      "run_at": "document_end"
+   }, {
+      "all_frames": true,
+      "js": [ "uploader_loader.js" ],
+      "matches": [ "*://docs.google.com/picker*", "*://docs.google.com/*/picker*", "*://docs.google.com/*/*/picker*" ],
+      "run_at": "document_end"
+   }, {
+      "all_frames": true,
+      "include_globs": [ "*platform=goog_presenter*" ],
+      "js": [ "keyboard_loader.js", "inject_fn.js", "inject_slide_visibility.js" ],
+      "matches": [ "*://viz.polleverywhere.com/*" ],
+      "run_at": "document_end"
+   } ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+   },
+   "description": "Live audience response polling in Google Slides",
+   "externally_connectable": {
+      "matches": [ "*://*.polleverywhere.com/*", "*://*.pollev.com/*", "*://polleverywhere.com/*" ]
+   },
+   "homepage_url": "https://www.polleverywhere.com/app/google-slides",
+   "icons": {
+      "128": "images/icon128.png",
+      "16": "images/icon16.png",
+      "32": "images/icon32.png",
+      "48": "images/icon48.png",
+      "64": "images/icon64.png"
+   },
+   "incognito": "spanning",
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm+/LYAaxdp6MEQe+QNjuoRZbuO8JwmBJAoLlZnTK25pIQMHObgcVCu5zTzZD89ablYjDFQ7ioVbIQuu7CbgJdDDiEb0CKDHh5LKewCQ2d8dWoxfLf3j6bboX2CtlvVliH3Dv2f3GwTrWlOrl0yGZooGDZ1wUx6EQO/q1s9dEgmfvEeI7ViWc0YrxQnzw5PIzj5ZKTvVGBGv7848eSyoqVw/MoYWSbG9r9+JA/UN8rXgcAn/UR/+VJed/ddZFl108juu/LHtGE+4At9lWvsWpm+jk00QJ0kwzjJFMgOyvajZqeQkpCaX4vtL/xEUChv2opsJi6UBdgsU1JxYPuQFf/QIDAQAB",
+   "manifest_version": 3,
+   "name": "Poll Everywhere for Google Slides",
+   "offline_enabled": false,
+   "permissions": [ "webNavigation" ],
+   "short_name": "Poll Everywhere",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.18.1",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "fonts/pollev_assets/*" ]
+   }, {
+      "matches": [ "*://presenter.polleverywhere.com/*", "*://viz.polleverywhere.com/*", "https://docs.google.com/*", "https://*.ops.pe/*", "https://*.eng.pe/*" ],
+      "resources": [ "/*" ]
+   } ]
+}

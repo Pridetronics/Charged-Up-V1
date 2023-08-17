@@ -1,0 +1,30 @@
+2023/06/17-10:40:13.580 34d4 Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 5\Session Storage/MANIFEST-000001
+2023/06/17-10:40:13.583 34d4 Recovering log #3
+2023/06/17-10:40:13.595 34d4 Reusing old log C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 5\Session Storage/000003.log 
+2023/06/17-11:14:54.697 34e0 Level-0 table #5: started
+2023/06/17-11:14:54.704 34e0 Level-0 table #5: 43619 bytes OK
+2023/06/17-11:14:54.710 34e0 Delete type=0 #3
+2023/06/17-11:59:54.692 34e0 Level-0 table #7: started
+2023/06/17-11:59:54.701 34e0 Level-0 table #7: 56581 bytes OK
+2023/06/17-11:59:54.706 34e0 Delete type=0 #4
+2023/06/17-12:57:16.988 34e0 Level-0 table #9: started
+2023/06/17-12:57:17.001 34e0 Level-0 table #9: 47229 bytes OK
+2023/06/17-12:57:17.005 34e0 Delete type=0 #6
+2023/06/19-11:05:31.836 34e0 Level-0 table #11: started
+2023/06/19-11:05:31.844 34e0 Level-0 table #11: 40101 bytes OK
+2023/06/19-11:05:31.848 34e0 Delete type=0 #8
+2023/06/19-12:04:11.462 34d4 Level-0 table #13: started
+2023/06/19-12:04:11.477 34d4 Level-0 table #13: 49787 bytes OK
+2023/06/19-12:04:11.482 34d4 Delete type=0 #10
+2023/06/19-15:00:56.143 34e0 Level-0 table #15: started
+2023/06/19-15:00:56.153 34e0 Level-0 table #15: 34131 bytes OK
+2023/06/19-15:00:56.160 34e0 Delete type=0 #12
+2023/06/19-15:00:56.161 34e0 Compacting 4@0 + 1@1 files
+2023/06/19-15:00:56.167 34e0 Generated table #16@0: 107 keys, 8057 bytes
+2023/06/19-15:00:56.167 34e0 Compacted 4@0 + 1@1 files => 8057 bytes
+2023/06/19-15:00:56.170 34e0 compacted to: files[ 0 1 1 0 0 0 0 ]
+2023/06/19-15:00:56.171 34e0 Delete type=2 #7
+2023/06/19-15:00:56.171 34e0 Delete type=2 #9
+2023/06/19-15:00:56.171 34e0 Delete type=2 #11
+2023/06/19-15:00:56.171 34e0 Delete type=2 #13
+2023/06/19-15:00:56.171 34e0 Delete type=2 #15

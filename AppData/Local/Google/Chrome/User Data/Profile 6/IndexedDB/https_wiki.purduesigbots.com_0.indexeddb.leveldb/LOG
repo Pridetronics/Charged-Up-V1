@@ -1,0 +1,6 @@
+2023/06/01-10:03:52.427 4794 Creating DB C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 6\IndexedDB\https_wiki.purduesigbots.com_0.indexeddb.leveldb since it was missing.
+2023/06/01-10:03:52.439 4794 Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 6\IndexedDB\https_wiki.purduesigbots.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/06/01-10:03:53.621 2f00 Level-0 table #5: started
+2023/06/01-10:03:53.626 2f00 Level-0 table #5: 1740 bytes OK
+2023/06/01-10:03:53.649 2f00 Delete type=0 #3
+2023/06/01-10:03:53.650 4794 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)

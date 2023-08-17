@@ -1,0 +1,74 @@
+2023/06/17-10:40:15.147 2520 Creating DB C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 5\Local Extension Settings\fheoggkfdfchfphceeifdbepaooicaho since it was missing.
+2023/06/17-10:40:15.154 2520 Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 5\Local Extension Settings\fheoggkfdfchfphceeifdbepaooicaho/MANIFEST-000001
+2023/06/17-12:04:54.217 31b4 Level-0 table #5: started
+2023/06/17-12:04:54.236 31b4 Level-0 table #5: 745074 bytes OK
+2023/06/17-12:04:54.242 31b4 Delete type=0 #3
+2023/06/17-12:37:01.752 31b4 Level-0 table #7: started
+2023/06/17-12:37:01.767 31b4 Level-0 table #7: 700955 bytes OK
+2023/06/17-12:37:01.771 31b4 Delete type=0 #4
+2023/06/19-10:06:08.596 13f0 Level-0 table #9: started
+2023/06/19-10:06:08.614 13f0 Level-0 table #9: 721949 bytes OK
+2023/06/19-10:06:08.618 13f0 Delete type=0 #6
+2023/06/19-10:18:59.128 13f0 Level-0 table #11: started
+2023/06/19-10:18:59.142 13f0 Level-0 table #11: 741090 bytes OK
+2023/06/19-10:18:59.146 13f0 Delete type=0 #8
+2023/06/19-10:30:03.381 13f0 Level-0 table #13: started
+2023/06/19-10:30:03.395 13f0 Level-0 table #13: 787648 bytes OK
+2023/06/19-10:30:03.399 13f0 Delete type=0 #10
+2023/06/19-10:30:11.939 13f0 Level-0 table #15: started
+2023/06/19-10:30:11.957 13f0 Level-0 table #15: 845793 bytes OK
+2023/06/19-10:30:11.961 13f0 Delete type=0 #12
+2023/06/19-10:30:11.964 13f0 Compacting 4@0 + 1@1 files
+2023/06/19-10:30:11.995 13f0 Generated table #16@0: 6 keys, 29798 bytes
+2023/06/19-10:30:11.995 13f0 Compacted 4@0 + 1@1 files => 29798 bytes
+2023/06/19-10:30:11.998 13f0 compacted to: files[ 0 1 1 0 0 0 0 ]
+2023/06/19-10:30:11.999 13f0 Delete type=2 #7
+2023/06/19-10:30:11.999 13f0 Delete type=2 #9
+2023/06/19-10:30:11.999 13f0 Delete type=2 #11
+2023/06/19-10:30:11.999 13f0 Delete type=2 #13
+2023/06/19-10:30:11.999 13f0 Delete type=2 #15
+2023/06/19-10:30:18.436 13f0 Level-0 table #18: started
+2023/06/19-10:30:18.448 13f0 Level-0 table #18: 887316 bytes OK
+2023/06/19-10:30:18.452 13f0 Delete type=0 #14
+2023/06/19-10:30:22.598 13f0 Level-0 table #20: started
+2023/06/19-10:30:22.627 13f0 Level-0 table #20: 744571 bytes OK
+2023/06/19-10:30:22.634 13f0 Delete type=0 #17
+2023/06/19-10:30:26.606 13f0 Level-0 table #22: started
+2023/06/19-10:30:26.648 13f0 Level-0 table #22: 968282 bytes OK
+2023/06/19-10:30:26.656 13f0 Delete type=0 #19
+2023/06/19-10:30:32.003 13f0 Level-0 table #24: started
+2023/06/19-10:30:32.026 13f0 Level-0 table #24: 941264 bytes OK
+2023/06/19-10:30:32.033 13f0 Delete type=0 #21
+2023/06/19-10:30:32.037 13f0 Compacting 4@0 + 1@1 files
+2023/06/19-10:30:32.065 13f0 Generated table #25@0: 6 keys, 39597 bytes
+2023/06/19-10:30:32.065 13f0 Compacted 4@0 + 1@1 files => 39597 bytes
+2023/06/19-10:30:32.066 13f0 compacted to: files[ 0 1 1 0 0 0 0 ]
+2023/06/19-10:30:32.067 13f0 Delete type=2 #16
+2023/06/19-10:30:32.067 13f0 Delete type=2 #18
+2023/06/19-10:30:32.067 13f0 Delete type=2 #20
+2023/06/19-10:30:32.067 13f0 Delete type=2 #22
+2023/06/19-10:30:32.067 13f0 Delete type=2 #24
+2023/06/19-10:30:33.763 13f0 Level-0 table #27: started
+2023/06/19-10:30:33.797 13f0 Level-0 table #27: 1004861 bytes OK
+2023/06/19-10:30:33.801 13f0 Delete type=0 #23
+2023/06/19-10:30:40.193 13f0 Level-0 table #29: started
+2023/06/19-10:30:40.217 13f0 Level-0 table #29: 1095909 bytes OK
+2023/06/19-10:30:40.223 13f0 Delete type=0 #26
+2023/06/19-10:35:50.925 31b4 Level-0 table #31: started
+2023/06/19-10:35:50.938 31b4 Level-0 table #31: 1106815 bytes OK
+2023/06/19-10:35:50.941 31b4 Delete type=0 #28
+2023/06/19-11:28:25.567 13f0 Level-0 table #33: started
+2023/06/19-11:28:25.613 13f0 Level-0 table #33: 1139479 bytes OK
+2023/06/19-11:28:25.616 13f0 Delete type=0 #30
+2023/06/19-11:28:25.618 13f0 Compacting 4@0 + 1@1 files
+2023/06/19-11:28:25.631 13f0 Generated table #34@0: 6 keys, 63691 bytes
+2023/06/19-11:28:25.631 13f0 Compacted 4@0 + 1@1 files => 63691 bytes
+2023/06/19-11:28:25.632 13f0 compacted to: files[ 0 1 1 0 0 0 0 ]
+2023/06/19-11:28:25.632 13f0 Delete type=2 #25
+2023/06/19-11:28:25.632 13f0 Delete type=2 #27
+2023/06/19-11:28:25.632 13f0 Delete type=2 #29
+2023/06/19-11:28:25.632 13f0 Delete type=2 #31
+2023/06/19-11:28:25.632 13f0 Delete type=2 #33
+2023/06/19-15:00:30.762 13f0 Level-0 table #36: started
+2023/06/19-15:00:30.777 13f0 Level-0 table #36: 1133712 bytes OK
+2023/06/19-15:00:30.781 13f0 Delete type=0 #32

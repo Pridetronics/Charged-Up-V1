@@ -1,0 +1,23 @@
+{
+   "author": "Identity Automation, LP",
+   "background": {
+      "persistent": true,
+      "scripts": [ "background.js" ]
+   },
+   "content_scripts": [ {
+      "js": [ "content.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_idle"
+   } ],
+   "content_security_policy": "script-src 'self'; object-src 'self'",
+   "description": "Provides Form-Fill SSO capabilities when used with Identity Automation’s RapidIdentity product",
+   "icons": {
+      "256": "icon.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAl4tYmD8tgrMP8Eh3QlDY+SAOUa6m5tgq4044JGcthPY1/m9Rcicr+ikTHQft/9IWGxy5j7WgM7r8zGRT7taCVLlWzH4VO2K85uoFeOkfQjlx6RumwB6NnswYLpNUqEYVMN6+UcfgdDPld6oFePFtEwuTDGUe5TITAOwXPk1927zTKfmGtPqzrRTitWM8cB58NXk3byiwBs9SFgoRH4z3A5gT1nLzUdLEovpSAk7qYAQ9xkdkrOVd8Oy2hByVBc2UL8+rBc+XiFqqME5Exnc5gfEFIIK3lkQT9edNWMpcER0RWp+37jNU1IGNzpI7OfifqD/unLCgchIZrS77wTX0WwIDAQAB",
+   "manifest_version": 2,
+   "name": "RapidIdentity",
+   "permissions": [ "tabs", "nativeMessaging", "webRequest", "webRequestBlocking" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2020.7.27.1"
+}

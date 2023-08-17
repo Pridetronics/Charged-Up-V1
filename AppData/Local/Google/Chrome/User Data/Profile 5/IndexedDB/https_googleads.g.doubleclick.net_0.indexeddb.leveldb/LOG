@@ -1,0 +1,6 @@
+2023/06/19-10:30:04.835 2520 Creating DB C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 5\IndexedDB\https_googleads.g.doubleclick.net_0.indexeddb.leveldb since it was missing.
+2023/06/19-10:30:04.847 2520 Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 5\IndexedDB\https_googleads.g.doubleclick.net_0.indexeddb.leveldb/MANIFEST-000001
+2023/06/19-10:30:33.658 31b4 Level-0 table #5: started
+2023/06/19-10:30:33.662 31b4 Level-0 table #5: 405 bytes OK
+2023/06/19-10:30:33.669 31b4 Delete type=0 #3
+2023/06/19-10:30:33.670 2520 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

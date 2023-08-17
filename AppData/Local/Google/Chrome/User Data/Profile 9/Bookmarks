@@ -1,0 +1,85 @@
+{
+   "checksum": "bed7e6d09d1a665d23516af27483b1ac",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13304107358612086",
+            "date_last_used": "13310194798300409",
+            "guid": "8f763a88-f0ff-4015-ba35-607a87bccccf",
+            "id": "5",
+            "name": "Gmail",
+            "type": "url",
+            "url": "https://accounts.google.com/b/0/AddMailService"
+         }, {
+            "date_added": "13304107358614666",
+            "date_last_used": "0",
+            "guid": "76981c73-d181-459a-817e-e558fc3f81c4",
+            "id": "6",
+            "name": "YouTube",
+            "type": "url",
+            "url": "https://youtube.com/"
+         }, {
+            "date_added": "13304107358616318",
+            "date_last_used": "0",
+            "guid": "9664fffe-e675-436d-b900-7d04b6fcd77c",
+            "id": "7",
+            "name": "Maps",
+            "type": "url",
+            "url": "https://maps.google.com/"
+         }, {
+            "date_added": "13304107997167338",
+            "date_last_used": "13332022796857192",
+            "guid": "937f6ddb-04fb-43f1-a8e9-652fcf4553a4",
+            "id": "8",
+            "name": "Applications | RapidIdentity",
+            "type": "url",
+            "url": "https://portal.tempeunion.org/ui/applications"
+         }, {
+            "date_added": "13304109119845168",
+            "date_last_used": "0",
+            "guid": "83aae156-e6fa-4687-a08b-ea8f169e82bb",
+            "id": "9",
+            "name": "StudentVUE",
+            "type": "url",
+            "url": "https://az-tuhsd-psv.edupoint.com/PXP2_Login_Student.aspx?regenerateSessionId=True"
+         }, {
+            "date_added": "13304458525777055",
+            "date_last_used": "13324153208061494",
+            "guid": "2bab6be8-469e-4b97-bef9-c55cf16aa77c",
+            "id": "10",
+            "name": "Home | Schoology",
+            "type": "url",
+            "url": "https://tempeunion.schoology.com/home#/?_k=ru2fu9"
+         } ],
+         "date_added": "13332022755668774",
+         "date_last_used": "0",
+         "date_modified": "13304458525777055",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Bookmarks bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13332022755668776",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13332022755668777",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile bookmarks",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "CvACCs0CCIiBAhLGAhJSCAISTgoGCgJibRABEDMaEgkAwbkY0f4FACEAwbkY0f4FACIUCXNwlinR/gUAEAkZDpZ7ZdmdevoyGAoWCAIR+Q6fKdH+BQAYACEAAAAAAAAAACAAkgHnAQqdAQoOY2hyb21lX3N5bmNfYm0SBTUxIWJtGhIJQiSfKdH+BQARQiSfKdH+BQAiMQlycJYp0f4FABAJGVcFSFbNKYV0IAEqGTUxIWJtOjg4MjE1MDM0NDIwMTYzNjkzNzEiNAnkAI0p0f4FABADGWX/wCmDWi0rIAEqHDUxIWJtL2ZkOjkxNjM3MjM1NTk0Njg4OTMxNjEpQyqgKdH+BQAKRQoWYW5ub3RhdGlvbl9jaHJvbWVfc3luYxIFNTEhYmQaEgkAVnQj0f4FABEAVnQj0f4FACneH58p0f4FADCArNGbktr/AroBAggBEgAgASoYblNGRzdvendUNFdXM1drbzNaY1NXUT09SAMSwwEIAxK+AQocbmpnRHU4OGVDcnZYcDg2cEQ3ZkhHY3FGcDg4PRJmWjpBRHF0QVp6QldVTlVrVUh3cm45M3BRaHVDWkppcC9Ma3N3RmJwNFVROTVpTHRLZEhWZ3ZBbUNXV2M2LytYSU1TdXU0WldJQVBhQTlJWkVzWHIvbFhGbDBtbHpacEx4bE8xZz09GAAgACgAMOSBtMyS2v8COABAAEoceXpOQjAxY241NEE3Y1JVMHVUKy9QZ21UdFVvPVoAZQAAAAAS7AEIBhLnAQocOVhramVLb2R2aC9lYWlLZVhCdHZzT05JZ2xjPRJmWjpBRHF0QVp6WmRDZXhqNTZCSDBHR3FGTVJmaUFhcnpiUnkxUXgwdlB5clhDb1lZZ2dBWmpqdTViU3VhUkh2cWx5TTdFS2E4V3FYQVRVNG82MjZLQWthcnk5WDVVN2p6Sm85dz09GAAgAigCMPLg2cyS2v8COJryj8+mMEDMz5TOjjFKHEdnYVNyNE9aVkxvTGUxdzNZWnpFa3ZRS2x0dz1aHyIdt1Q4Zm5MbGlla2svVDd6SThNYVFMcmRsTFlDMD1lOPk5MxLsAQgKEucBChxUN29LekN6QVhDbC90azkvYUg2QjBLdXdvSkE9EmZaOkFEcXRBWnpaZENleGo1NkJIMEdHcUZNUmZpQWFFenFueEZ0TVFTSXBwbStCMWZqMng0UGYvdTJxM1NmV3ppc21lVWE0cFAvZEwwNUd2RU9Ta1ZVbDJNV2duL09LUmcyQ3JBPT0YACACKAIw8uDZzJLa/wI40ai/9qcwQM3PlM6OMUocN0F4VUdsRm1lUWVrdGVJYjZYTjN3cUMrdEtNPVofIh39RFVNbUVxREsyZ2lRWisxM0pzeVc4TWVpOWZJPWVpV7yMEuwBCAcS5wEKHHFTdnFWNjJ6ZTFWZURiYTUwYjUzVkh1Rmhkcz0SZlo6QURxdEFaelpkQ2V4ajU2QkgwR0dxRk1SZmlBYVlpVnRHZUZMMFpGVGNPLzBkbnBYcFEwWUpiRmVJc3V1OVk4dXQ3MFlYWkVQMmYrMVp1OVR5ZXRUTnZCWll0UDdVK2M2NVE9PRgAIAIoAjDy4NnMktr/Ajib8o/PpjBAzM+Uzo4xShxwQ09LYmQva3h3RGlLbytiWWxLSGkyZ0JxNkU9Wh8iHdtRRVF1ZHZmdEVvQmVoWTBoTFZOei8rcS9OaFU9ZT1shRES6wEIBRLmAQocUGZhUzR0R3RxN2xsVjU3RWtiVnBPQllNeVpJPRJmWjpBRHF0QVp6WmRDZXhqNTZCSDBHR3FGTVJmaUFhQXNDTkYyUE1sWVlKUEI4UmNhb0xZRjBNYmd6dkJxVDJoVWlsYmN3MFk3Y20wUTVjTTk1eFdFLzE5L21VYUtPT2s4SjUzZz09GAAgAigCMPLg2cyS2v8COJryj8+mMEDLz5TOjjFKHGVIRlFPcnBlT2xiVlVqM2gySnYrTWdSa0dtbz1aHiIcb0Z3dmx1N1ZOMW45MjNIN2RMQVpGZ0c0Q3M4PWWLoIzREuwBCAkS5wEKHE9SeUpwSmFsYjVBYUd0ZHdnZlg2Nk5MN0UrQT0SZlo6QURxdEFaelpkQ2V4ajU2QkgwR0dxRk1SZmlBYWF6anl0NXVlaVZOdlJrSDM0OEpRNTZZNUd4RGV1T3Z4S3lCYUhITzdMK3pEOEEwMWJNd1BOQ3ZYb2RqY0ZEN0Mrb3ZieEE9PRgAIAIoAjDy4NnMktr/AjjmovHPpjBAzc+Uzo4xShxVaDN0WmltbzlqRDZsVWwwQzlXbnpBbjRzVXM9Wh8iHftPa2hwbHo1WmhrNFU5ak1xdGpXL3E5MlpSbHM9ZbtFdxoSqwEIARKmAQoceXhKLzZmdmtlY3I3a3A1RVF6QjR0V0xwZGJFPRJOWjpBRHF0QVp6akVjdlRoSlhPMHZ1dHdKU3laM0VONG9rMzZkRFo0Rjg5RDVaek5YOGZDNFNoVC9tMHZ2aDU2aEFBV2thMUYvUG1Ob0l6GAAgACgAMOSBtMyS2v8COABAAEocYVJDV0xnaEY5YjVJbnFLSUR2dUovanZRa0ZjPVoAZQAAAAAS7AEICBLnAQocZFlVbTlNcC9kOHJpMWRJWXhtdFB3SUhnZG1zPRJmWjpBRHF0QVp6WmRDZXhqNTZCSDBHR3FGTVJmaUFhckhhRGJXQUNLNDVmc1Jta050cEZCNGN2U3NMT3M4WXRibUYyQTRFbmVkSVNKSWFOTExMTlBmMURVcDMxek5hOGhGTlhHQT09GAAgAigCMPLg2cyS2v8COPHfrM+mMEDNz5TOjjFKHFQxMDZ3QVdQZkdxUjlZOGRFMHljOEdzbUFZdz1aHyId9nV5amIrVVB0SE1LSzVvV25VVUpqaFZPSHdUUT1lis+FzhLDAQgCEr4BChxZY1NUb252RVNQd3FDczRMMmNyVmh2NjhMOTg9EmZaOkFEcXRBWndSbXNTWGpjYVdsd3R5KzNsdEFMamFEa1M2SFBJRjZTRUxVOEZnaHNJOXlxMEV1cnhYNTR4dnJwK0NraFdFZk0vOThVNnRzcUloWEo0VVRUZkZCZUV6NExQMm93PT0YACAAKAAw5IG0zJLa/wI4AEAAShxvUFZraHdCUmJWNjVLQ1dSMitJT05IV29PdTg9WgBlAAAAADABOAA=",
+   "version": 1
+}

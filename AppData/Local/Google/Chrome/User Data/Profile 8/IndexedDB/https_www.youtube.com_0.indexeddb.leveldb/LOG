@@ -1,0 +1,21 @@
+2023/06/23-09:38:05.822 2afc Reusing MANIFEST C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 8\IndexedDB\https_www.youtube.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/06/23-09:38:05.823 2afc Recovering log #17
+2023/06/23-09:38:05.831 2afc Reusing old log C:\Users\Robotics\AppData\Local\Google\Chrome\User Data\Profile 8\IndexedDB\https_www.youtube.com_0.indexeddb.leveldb/000017.log 
+2023/06/23-09:59:36.866 2bd8 Level-0 table #22: started
+2023/06/23-09:59:36.887 2bd8 Level-0 table #22: 1083470 bytes OK
+2023/06/23-09:59:36.891 2bd8 Delete type=0 #17
+2023/06/23-10:09:10.917 2bd8 Compacting 1@1 + 1@2 files
+2023/06/23-10:09:10.925 2bd8 Generated table #23@1: 602 keys, 39121 bytes
+2023/06/23-10:09:10.925 2bd8 Compacted 1@1 + 1@2 files => 39121 bytes
+2023/06/23-10:09:10.928 2bd8 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/06/23-10:09:10.929 2bd8 Delete type=2 #19
+2023/06/23-10:09:10.929 2bd8 Delete type=2 #22
+2023/06/23-10:29:14.546 2bd8 Level-0 table #25: started
+2023/06/23-10:29:14.606 2bd8 Level-0 table #25: 1185902 bytes OK
+2023/06/23-10:29:14.615 2bd8 Delete type=0 #21
+2023/06/23-10:34:37.499 2bd8 Compacting 1@1 + 1@2 files
+2023/06/23-10:34:37.538 2bd8 Generated table #26@1: 496 keys, 33662 bytes
+2023/06/23-10:34:37.538 2bd8 Compacted 1@1 + 1@2 files => 33662 bytes
+2023/06/23-10:34:37.540 2bd8 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/06/23-10:34:37.541 2bd8 Delete type=2 #23
+2023/06/23-10:34:37.541 2bd8 Delete type=2 #25
