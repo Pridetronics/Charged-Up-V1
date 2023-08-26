@@ -97,6 +97,7 @@ public class Robot extends TimedRobot {
 
       m_autonomousCommand.schedule();
     }
+    RobotContainer.m_drive.Brake();
   }
 
   /** This function is called periodically during autonomous. */
@@ -114,6 +115,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    RobotContainer.m_drive.Coast();
   }
 
   /** This function is called periodically during operator control. */

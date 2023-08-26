@@ -71,10 +71,12 @@ public class Drive extends SubsystemBase {
     tankArcadeDrive.setExpiration(.1);
     tankArcadeDrive.setMaxOutput(1);
     // Sets behavior of motors when there is no input
-    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
-    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
-    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
-    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
+    
+    SmartDashboard.putString("Wheel Mode", "Brake");
+    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
+    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kBrake);
 
   }
 
@@ -103,6 +105,7 @@ public class Drive extends SubsystemBase {
   }
 
   public void Brake() {
+    SmartDashboard.putString("Wheel Mode", "Brake");
     RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
     RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
     RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
@@ -110,6 +113,7 @@ public class Drive extends SubsystemBase {
   }
 
   public void Coast() {
+    SmartDashboard.putString("Wheel Mode", "Coast");
     RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
     RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
     RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);

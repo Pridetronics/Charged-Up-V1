@@ -76,6 +76,7 @@ public final class Constants {
     // Driver buttons
     public static final int kAimCentering = 1;
     public static final int kToggleBrake = 2;
+    public static final int kToggleBrakeDriveButtonID = 2;
 
     // autonoous distances in inches
     public static final int kAutoDistanceOne = 12;// placeholder values
