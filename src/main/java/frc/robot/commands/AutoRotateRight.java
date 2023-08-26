@@ -26,10 +26,6 @@ public class AutoRotateRight extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
-    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
-    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
-    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kBrake);
     m_Drive.zeroEncoders();
   }
 
@@ -45,10 +41,6 @@ public class AutoRotateRight extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Drive.driveStop();
-    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
-    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
-    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
-    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
   }
 
   // Returns true when the command should end.

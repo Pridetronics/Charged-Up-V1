@@ -29,10 +29,6 @@ public class AutoForwardTarget extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
-    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
-    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
-    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kBrake);
     //m_drive.zeroEncoders();
     SmartDashboard.putNumber("forward start pos", Drive.m_leftBackEncoder.getPosition());
     startPos = Drive.m_leftBackEncoder.getPosition();
@@ -49,10 +45,6 @@ public class AutoForwardTarget extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.driveStop();
-    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
-    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
-    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
-    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kBrake);
     SmartDashboard.putNumber("Forward end pos", Drive.m_leftBackEncoder.getPosition());
   }
 

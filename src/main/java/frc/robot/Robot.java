@@ -95,6 +95,8 @@ public class Robot extends TimedRobot {
       RobotContainer.m_manipulator.isTeleOp = false;
     }
 
+    RobotContainer.m_drive.Brake();
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
 
@@ -116,6 +118,7 @@ public class Robot extends TimedRobot {
     if (OperatorConstants.kUseManipulator) {
       RobotContainer.m_manipulator.isTeleOp = true;
     }
+    RobotContainer.m_drive.Coast();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

@@ -109,6 +109,7 @@ public class Drive extends SubsystemBase {
   }
 
   public void Brake() {
+    SmartDashboard.putString("Wheel Mode", "Brake");
     RobotContainer.leftBackMotor.setIdleMode(IdleMode.kBrake);
     RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kBrake);
     RobotContainer.rightBackMotor.setIdleMode(IdleMode.kBrake);
@@ -116,6 +117,7 @@ public class Drive extends SubsystemBase {
   }
 
   public void Coast() {
+    SmartDashboard.putString("Wheel Mode", "Coast");
     RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
     RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
     RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
