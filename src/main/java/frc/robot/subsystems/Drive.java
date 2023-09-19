@@ -71,10 +71,7 @@ public class Drive extends SubsystemBase {
     tankArcadeDrive.setSafetyEnabled(true);// drive settings, required for safety reasons
     tankArcadeDrive.setExpiration(.1);
     tankArcadeDrive.setMaxOutput(1);
-    RobotContainer.leftBackMotor.setIdleMode(IdleMode.kCoast);
-    RobotContainer.leftFrontMotor.setIdleMode(IdleMode.kCoast);
-    RobotContainer.rightBackMotor.setIdleMode(IdleMode.kCoast);
-    RobotContainer.rightFrontMotor.setIdleMode(IdleMode.kCoast);
+    Coast();
     // arcadeDrive.setExpiration(.1);
     // arcadeDrive.setSafetyEnabled(true);
     // arcadeDrive.setMaxOutput(1);

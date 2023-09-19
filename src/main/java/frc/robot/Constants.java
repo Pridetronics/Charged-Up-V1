@@ -69,12 +69,12 @@ public final class Constants {
     public static final int kClawToggle = 1;
 
     public static final double kForearmCircum = (0.75 + 0.25) * Math.PI;
-    public static final double kForearmIncrement = 2;
+    public static final double kForearmIncrement = 4;
     // value is in Inches
     public static final double forearmExtendLimit = 25;
 
     // Motor speeds
-    public static final double shoulderSpeed = 0.9;
+    public static final double shoulderSpeed = 1.8;
     public static final double wristSpeed = 0.95;
 
     // Driver buttons
@@ -93,9 +93,9 @@ public final class Constants {
     public static final int kmMoveShoulderDegrees = -14;
     // countsper revolution and multiplying that by wheel
     // circumference
-    public static final double longDistance = 150.41;// moving on charge station
+    public static final double longDistance = 150.41+12;// moving on charge station
     public static final double targetLineUp = 0;// to be determined
-    public static final double targetMid = 60;// to middle of station
+    public static final double targetMid = 60+12;// to middle of station
     public static final double DistanceGround = 146;// moving along from ground
   }
 }
