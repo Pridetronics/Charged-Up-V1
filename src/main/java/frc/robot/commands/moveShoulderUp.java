@@ -5,13 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Manipulator;
 
 public class moveShoulderUp extends CommandBase {
 
-  private DigitalInput upperArmLimitSwitch = new DigitalInput(OperatorConstants.kShoulderUpperLimitID);
+  private DigitalInput upperArmLimitSwitch;
 
   Manipulator m_Manipulator;
 
@@ -19,17 +20,19 @@ public class moveShoulderUp extends CommandBase {
   public moveShoulderUp(Manipulator manipulator) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Manipulator = manipulator;
-    addRequirements(m_Manipulator);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    //m_Manipulator.isTeleOp = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Manipulator.moveArm(0.45);
+    m_Manipulator.moveArm(-0.45);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,7 +42,8 @@ public class moveShoulderUp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean upperLimit = upperArmLimitSwitch.get();
+    SmartDashboard.putBoolean(getName(), m_Manipulator.getUpperLimitSwitchEnabled());
+    boolean upperLimit = m_Manipulator.getUpperLimitSwitchEnabled();
     return upperLimit;
   }
 }

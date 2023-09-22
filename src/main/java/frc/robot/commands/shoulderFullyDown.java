@@ -4,29 +4,37 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
-
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Manipulator;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class shoulderFullyDown extends InstantCommand {
+public class shoulderFullyDown extends CommandBase {
 
-  private SparkMaxPIDController shoulderPID;
+Manipulator m_Manipulator;
 
-
-  public shoulderFullyDown(Manipulator m_Manipulator) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    shoulderPID = RobotContainer.shoulderPID;
+  /** Creates a new shoulderFullyDown. */
+  public shoulderFullyDown(Manipulator manipulator) {
+    m_Manipulator = manipulator;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    shoulderPID.setReference(0, ControlType.kPosition);
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    
+    m_Manipulator.moveArm(0.45);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    boolean lowerLimit = m_Manipulator.getLowerLimitState();
+    return lowerLimit;
   }
 }

@@ -246,16 +246,23 @@ public class RobotContainer {
                         new SequentialCommandGroup(
                                 new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive),
                                 new PIDAutoBalance(m_navX, m_drive)));
-                m_Chooser.addOption("High Pole, Move backwards",
-                        new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        new HomingCommand(m_manipulator),
-                                        new moveShoulderUp(m_manipulator),
-                                ),
-                                new AutoMoveBackwards(m_drive),
-                                //new PIDAutoBalance(m_navX, m_drive)
-                        )
-                );
+                                m_Chooser.addOption("High Placement, Move backwards",
+                                new SequentialCommandGroup(
+                                        new ParallelCommandGroup(
+                                                new HomingCommand(m_manipulator),
+                                                new moveShoulderUp(m_manipulator)
+                                        ),
+                                        new ExtendForearm(m_manipulator),
+                                        new ClawShoot(m_manipulator),
+                                        new WaitCommand(2),
+                                        new ClawStopShoot(m_manipulator),
+                                        new ParallelCommandGroup(
+                                                new AutoMoveBackwards(m_drive),
+                                                new shoulderFullyDown(m_manipulator)
+                                        )
+                                        //new PIDAutoBalance(m_navX, m_drive)
+                                )
+                        );
         }
         // Configure the trigger bindings
         configureBindings();

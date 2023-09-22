@@ -84,6 +84,14 @@ public class Manipulator extends SubsystemBase {
     armEncoder.setPosition(0);
   }
 
+  public boolean getUpperLimitSwitchEnabled() {
+    return upperArmLimitSwitch.get();
+  }
+
+  public boolean getLowerLimitState() {
+    return armEncoder.getPosition() <= 10;// TODO check if motor cant move any more
+  }
+
   // Method called by ManipulatorInput to update shoulder
   public void moveArm(double Speed) {
     double conversionFactor = 42;
@@ -107,10 +115,14 @@ public class Manipulator extends SubsystemBase {
       lastShoulderSetpoint = curArmPos;
     }
     double incrementSpeed = Speed * OperatorConstants.shoulderSpeed;
+    SmartDashboard.putNumber("shoulder setpoint", lastShoulderSetpoint);
+    SmartDashboard.putNumber("increment", Speed);
     // Updates PID/Motor with new speed, ensures velocity is the same
-    if (isTeleOp == true) {
+    SmartDashboard.putNumber("Final pos to go to", lastShoulderSetpoint + incrementSpeed);
+    //if (isTeleOp == true) {
+
       shoulderPID.setReference(lastShoulderSetpoint + incrementSpeed, ControlType.kPosition);
-    }
+    //}
     // armMotor.set(0.2);
   }
 
