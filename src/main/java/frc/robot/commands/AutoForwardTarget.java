@@ -11,7 +11,6 @@ import frc.robot.RobotContainer;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoForwardTarget extends CommandBase {
@@ -30,7 +29,6 @@ public class AutoForwardTarget extends CommandBase {
   @Override
   public void initialize() {
     //m_drive.zeroEncoders();
-    SmartDashboard.putNumber("forward start pos", Drive.m_leftBackEncoder.getPosition());
     startPos = Drive.m_leftBackEncoder.getPosition();
   }
 
@@ -45,13 +43,11 @@ public class AutoForwardTarget extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.driveStop();
-    SmartDashboard.putNumber("Forward end pos", Drive.m_leftBackEncoder.getPosition());
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putNumber("Forward checking", Drive.m_leftBackEncoder.getPosition());
     if (Math.abs(Drive.m_leftBackEncoder.getPosition()-startPos) >= Constants.OperatorConstants.targetMid) {
       return true;
     } else {

@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Manipulator;
 
 public class shoulderFullyDown extends CommandBase {
@@ -25,6 +27,7 @@ Manipulator m_Manipulator;
   public void execute() {
     
     m_Manipulator.moveArm(0.45);
+    SmartDashboard.putNumber("Arm Angle going down", RobotContainer.armEncoder.getPosition());
   }
 
   // Called once the command ends or is interrupted.

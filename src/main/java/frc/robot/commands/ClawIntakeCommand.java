@@ -18,7 +18,6 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class ClawIntakeCommand extends CommandBase {

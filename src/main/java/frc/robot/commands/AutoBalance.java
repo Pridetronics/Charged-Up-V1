@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.NavX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoBalance extends CommandBase {
   private NavX m_navX;

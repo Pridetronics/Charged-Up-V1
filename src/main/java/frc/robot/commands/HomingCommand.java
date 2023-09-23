@@ -53,12 +53,6 @@ public class HomingCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putBoolean("forarm limit", !forearmLimitSwitch.get());
-    boolean isGreen = SmartDashboard.getBoolean("limit has toggled before", false);
-    if (!isGreen) {
-      SmartDashboard.putBoolean("limit has toggled before",isGreen);
-
-    }
     if (!forearmEnded && !forearmLimitSwitch.get()) {
       endForearm();
     } else {

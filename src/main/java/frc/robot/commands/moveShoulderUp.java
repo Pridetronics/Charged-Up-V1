@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Manipulator;
@@ -42,7 +41,6 @@ public class moveShoulderUp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putBoolean(getName(), m_Manipulator.getUpperLimitSwitchEnabled());
     boolean upperLimit = m_Manipulator.getUpperLimitSwitchEnabled();
     return upperLimit;
   }
