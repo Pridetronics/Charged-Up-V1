@@ -201,7 +201,7 @@ public class RobotContainer {
                 m_Chooser.addOption("AutoBalance NavX",
                         new SequentialCommandGroup(new HomingCommand(m_manipulator),
                                 new InstantCommand(m_manipulator::shoulderUpsies), new WaitCommand(1),
-                                new AutoMoveBackwards(m_drive), new AutoForwardTarget(m_drive), new WaitCommand(0.5),
+                                new AutoMoveToStation(m_drive), new WaitCommand(0.5),
                                 new PIDAutoBalance(m_navX, m_drive)));
 
                 m_Chooser.addOption("High Placement, Move backwards",
@@ -216,7 +216,8 @@ public class RobotContainer {
                         new ClawStopShoot(m_manipulator),
                         new ParallelCommandGroup(
                                 new AutoMoveBackwards(m_drive),
-                                new shoulderFullyDown(m_manipulator)
+                                new shoulderFullyDown(m_manipulator),
+                                new RetractForarmEntirly(m_manipulator)
                         )
                         //new PIDAutoBalance(m_navX, m_drive)
                 )

@@ -101,7 +101,7 @@ public class Drive extends SubsystemBase {
     Yval1 = joystickDriver.getRawAxis(1); // Left side of the robot
     Yval2 = joystickDriver.getRawAxis(4); // Right side of the robot
     Yval1 *= .9;
-    Yval2 *= .45;
+    Yval2 *= .51;
     tankArcadeDrive.arcadeDrive(Yval1, Yval2, true);// better for driving, think of aim smoothing on fps games
   }
 
