@@ -93,6 +93,8 @@ public class Robot extends TimedRobot {
 
     if (OperatorConstants.kUseManipulator) {
       RobotContainer.m_manipulator.isTeleOp = false;
+      
+      RobotContainer.m_manipulator.resetPIDControllers();
     }
 
     RobotContainer.m_drive.Brake();
@@ -117,6 +119,7 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (OperatorConstants.kUseManipulator) {
       RobotContainer.m_manipulator.isTeleOp = true;
+      RobotContainer.m_manipulator.resetPIDControllers();
     }
     RobotContainer.m_drive.Coast();
     if (m_autonomousCommand != null) {

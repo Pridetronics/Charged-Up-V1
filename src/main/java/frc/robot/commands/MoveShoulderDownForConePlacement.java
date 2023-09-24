@@ -4,28 +4,38 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Manipulator;
 
-public class shoulderFullyDown extends CommandBase {
+public class MoveShoulderDownForConePlacement extends CommandBase {
 
-Manipulator m_Manipulator;
+  public Manipulator m_Manipulator;
+  public SparkMaxPIDController shoulderPID = RobotContainer.shoulderPID;
+  public RelativeEncoder armEncoder = RobotContainer.armEncoder;
 
-  /** Creates a new shoulderFullyDown. */
-  public shoulderFullyDown(Manipulator manipulator) {
+  public double shoulderPosition;
+  /** Creates a new MoveShoulderDownForConePlacement. */
+  public MoveShoulderDownForConePlacement(Manipulator manipulator) {
     m_Manipulator = manipulator;
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    shoulderPosition = armEncoder.getPosition();
+    //shoulderPID.setReference(shoulderPosition+5, ControlType.kPosition);
+  }
 
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
     m_Manipulator.moveArm(0.45);
   }
 
@@ -38,7 +48,6 @@ Manipulator m_Manipulator;
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean lowerLimit = m_Manipulator.getLowerLimitState();
-    return lowerLimit;
+    return armEncoder.getPosition() >= shoulderPosition+5;
   }
 }

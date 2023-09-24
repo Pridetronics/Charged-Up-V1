@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.HomingCommand;
 import frc.robot.commands.ManipulatorInput;
 
 //hardware
@@ -80,6 +81,13 @@ public class Manipulator extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void resetPIDControllers() {
+    shoulderPID.setReference(armEncoder.getPosition(), ControlType.kPosition);
+    forearmPID.setReference(forearmEncoder.getPosition(), ControlType.kPosition);
+    lastShoulderSetpoint = armEncoder.getPosition();
+    forarmSetpoint = forearmEncoder.getPosition();
+  }
+
   public void zeroEncoder() {
     armEncoder.setPosition(0);
   }
@@ -89,7 +97,7 @@ public class Manipulator extends SubsystemBase {
   }
 
   public boolean getLowerLimitState() {
-    return armEncoder.getPosition() <= 10;// TODO check if motor cant move any more
+    return armEncoder.getPosition() >= -10;// TODO check if motor cant move any more
   }
 
   // Method called by ManipulatorInput to update shoulder
@@ -115,10 +123,7 @@ public class Manipulator extends SubsystemBase {
       lastShoulderSetpoint = curArmPos;
     }
     double incrementSpeed = Speed * OperatorConstants.shoulderSpeed;
-    SmartDashboard.putNumber("shoulder setpoint", lastShoulderSetpoint);
-    SmartDashboard.putNumber("increment", Speed);
     // Updates PID/Motor with new speed, ensures velocity is the same
-    SmartDashboard.putNumber("Final pos to go to", lastShoulderSetpoint + incrementSpeed);
     //if (isTeleOp == true) {
 
       shoulderPID.setReference(lastShoulderSetpoint + incrementSpeed, ControlType.kPosition);
@@ -164,13 +169,11 @@ public class Manipulator extends SubsystemBase {
     if (!currentlyHoming) {
       double moveTo = forarmSetpoint;
       boolean lowerLimit = !forearmLimitSwitch.get();
-      SmartDashboard.putBoolean("forarm lower", lowerLimit);
 
       double currentPos = forearmEncoder.getPosition();
       if (lowerLimit) {
         moveTo = Math.max(moveTo, currentPos);
       }
-      SmartDashboard.putNumber("forearmPos", moveTo);
       forearmPID.setReference(moveTo, ControlType.kPosition);
     }
   }

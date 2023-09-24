@@ -10,6 +10,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
@@ -52,7 +53,9 @@ public class ExtendForearm extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double distanceToSubtractFromExtentionLimit = 0.1;
+    double distanceToSubtractFromExtentionLimit = 1;
+    SmartDashboard.putNumber("Forearm Current Pos", forearmEncoder.getPosition());
+    SmartDashboard.putNumber("Forearm Target Pos", OperatorConstants.forearmExtendLimit-distanceToSubtractFromExtentionLimit);
     return forearmEncoder.getPosition() >= OperatorConstants.forearmExtendLimit-distanceToSubtractFromExtentionLimit;
   }
 }

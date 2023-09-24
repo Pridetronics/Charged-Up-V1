@@ -36,6 +36,7 @@ public class ManipulatorInput extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (!manipulator.isTeleOp) return;
     double armJoystickMovement = joystick.getRawAxis(OperatorConstants.kArmInputAxis);
     manipulator.moveArm(armJoystickMovement);
 

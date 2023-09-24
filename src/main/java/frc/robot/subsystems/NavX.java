@@ -50,11 +50,6 @@ public class NavX extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Roll Degree", m_ahrs.getRoll());
-    // SmartDashboard.putNumber("Pitch Degree", m_ahrs.getPitch());
-    // SmartDashboard.putBoolean("Calibration Finished?", m_ahrs.isCalibrating());\
-    // SmartDashboard.putNumber("AccelerometerX", m_accelerometer.getX());
-    //SmartDashboard.putNumber("AccelerometerY", m_accelerometer.getY() - 0.05);
   }
 
   public void autoBalance() {
@@ -138,8 +133,6 @@ public class NavX extends SubsystemBase {
     double pitchAngleDegrees = m_ahrs.getRoll();
     pitchAngleDegrees /= 10;
     double PIDValue = PIDController.calculate(pitchAngleDegrees, 0);
-    SmartDashboard.putNumber("PIDValue", PIDValue);
-    SmartDashboard.putNumber("PitchAngle", pitchAngleDegrees);
     if (Math.abs(PIDValue) > Constants.OperatorConstants.kFirstRollDegree) {
       m_drive.autoBalancePIDSet(PIDValue);
     } else {
@@ -148,8 +141,6 @@ public class NavX extends SubsystemBase {
     // double rollAngleDegrees = m_ahrs.getRoll();
     // rollAngleDegrees *= 1.3;
     // double PIDValue = -PIDController.calculate(rollAngleDegrees, 0);
-    // SmartDashboard.putNumber("PIDValue", PIDValue);
-    // SmartDashboard.putNumber("RollAngle", rollAngleDegrees);
     // if (Math.abs(PIDValue) > Constants.OperatorConstants.kFirstRollDegree) {
     // m_drive.autoBalancePIDSet(PIDValue);
     // } else {
@@ -161,7 +152,6 @@ public class NavX extends SubsystemBase {
     // double accelerometerX = m_accelerometer.getX();
     double accelerometerY = m_accelerometer.getY() - 0.05; // 0.03
     double PIDValue = -PIDController.calculate(accelerometerY, 0);
-    SmartDashboard.putNumber("PIDValue", PIDValue);
     if (Math.abs(PIDValue) > Constants.OperatorConstants.kFirstRollDegree
         || PIDValue < Constants.OperatorConstants.kSecondRollDegree) {
       m_drive.autoBalancePIDSet(PIDValue);
