@@ -271,26 +271,6 @@ public class RobotContainer {
                                 //new PIDAutoBalance(m_navX, m_drive)
                         )
                 );
-                m_Chooser.addOption("Cone High Placement, Out of Community",
-                        new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        new ClawHold(m_manipulator),
-                                        new HomingCommand(m_manipulator),
-                                        new moveShoulderUp(m_manipulator)
-                                ),
-                                new ExtendForearm(m_manipulator),
-                                new MoveShoulderDownForConePlacement(m_manipulator),
-                                new ClawShoot(m_manipulator),
-                                new WaitCommand(1),
-                                new ClawStopShoot(m_manipulator),
-                                new ParallelCommandGroup(
-                                        new AutoMoveBackwards(m_drive),
-                                        new shoulderFullyDown(m_manipulator),
-                                        new RetractForarmEntirly(m_manipulator)
-                                )
-                                //new PIDAutoBalance(m_navX, m_drive)
-                        )
-                );
                 m_Chooser.addOption("Cone High Placement, Do Nothing",
                         new SequentialCommandGroup(
                                 new ParallelCommandGroup(
@@ -316,6 +296,87 @@ public class RobotContainer {
                                 new ClawShoot(m_manipulator),
                                 new WaitCommand(1),
                                 new ClawStopShoot(m_manipulator)
+                        )
+                );
+                m_Chooser.addOption("Cone High Placement, Out of Community",
+                        new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        new ClawHold(m_manipulator),
+                                        new HomingCommand(m_manipulator),
+                                        new moveShoulderUp(m_manipulator)
+                                ),
+                                new ExtendForearm(m_manipulator),
+                                new MoveShoulderDownForConePlacement(m_manipulator),
+                                new ClawShoot(m_manipulator),
+                                new WaitCommand(1),
+                                new ClawStopShoot(m_manipulator),
+                                new ParallelCommandGroup(
+                                        new AutoMoveBackwards(m_drive),
+                                        new shoulderFullyDown(m_manipulator),
+                                        new RetractForarmEntirly(m_manipulator)
+                                )
+                                //new PIDAutoBalance(m_navX, m_drive)
+                        )
+                );
+                m_Chooser.addOption("Cone High Placement, ram into wall, Out of Community",
+                        new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        new ClawHold(m_manipulator),
+                                        new HomingCommand(m_manipulator),
+                                        new moveShoulderUp(m_manipulator)
+                                ),
+                                new ExtendForearm(m_manipulator),
+                                new AutoMoveForwardOneSecond(m_drive),
+                                new MoveShoulderDownForConePlacement(m_manipulator),
+                                new ClawShoot(m_manipulator),
+                                new WaitCommand(1),
+                                new ClawStopShoot(m_manipulator),
+                                new ParallelCommandGroup(
+                                        new AutoMoveBackwards(m_drive),
+                                        new shoulderFullyDown(m_manipulator),
+                                        new RetractForarmEntirly(m_manipulator)
+                                )
+                        )
+                );
+                m_Chooser.addOption("Cone High Placement, ram into wall, Auto Balance",
+                        new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        new ClawHold(m_manipulator),
+                                        new HomingCommand(m_manipulator),
+                                        new moveShoulderUp(m_manipulator)
+                                ),
+                                new ExtendForearm(m_manipulator),
+                                new AutoMoveForwardOneSecond(m_drive),
+                                new MoveShoulderDownForConePlacement(m_manipulator),
+                                new ClawShoot(m_manipulator),
+                                new WaitCommand(1),
+                                new ClawStopShoot(m_manipulator),
+                                new ParallelCommandGroup(
+                                        new SequentialCommandGroup(
+                                                new AutoMoveToStation(m_drive), 
+                                                new WaitCommand(0.5),
+                                                new PIDAutoBalance(m_navX, m_drive)
+                                        ),
+                                        new shoulderFullyDown(m_manipulator),
+                                        new RetractForarmEntirly(m_manipulator)
+                                )
+                        )
+                );
+                m_Chooser.addOption("Cone High Placement, Ram into wall, Do Nothing",
+                        new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        new ClawHold(m_manipulator),
+                                        new HomingCommand(m_manipulator),
+                                        new moveShoulderUp(m_manipulator)
+                                ),
+                                new ExtendForearm(m_manipulator),
+                                new AutoMoveForwardOneSecond(m_drive),
+                                new MoveShoulderDownForConePlacement(m_manipulator),
+                                new ClawShoot(m_manipulator),
+                                new WaitCommand(1),
+                                new ClawStopShoot(m_manipulator),
+                                new RetractForarmEntirly(m_manipulator),
+                                new shoulderFullyDown(m_manipulator)
                         )
                 );
         } else {

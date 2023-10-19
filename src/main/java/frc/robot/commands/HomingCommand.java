@@ -48,11 +48,14 @@ public class HomingCommand extends CommandBase {
   public void initialize() {
 
     m_manipulator.currentlyHoming = true;
+
+    SmartDashboard.putBoolean("HomingStatus", false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putBoolean("HomingStatus", false);
     if (!forearmEnded && !forearmLimitSwitch.get()) {
       endForearm();
     } else {
@@ -71,7 +74,7 @@ public class HomingCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {    
-
+    SmartDashboard.putBoolean("HomingStatus", true);
     m_manipulator.currentlyHoming = false;
   }
 
