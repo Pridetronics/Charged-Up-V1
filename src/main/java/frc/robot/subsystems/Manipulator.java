@@ -40,8 +40,8 @@ public class Manipulator extends SubsystemBase {
   private CANSparkMax clawMotor;
   private CANSparkMax foreArmMotor;
 
-  private RelativeEncoder armEncoder;
-  private RelativeEncoder forearmEncoder;
+  public RelativeEncoder armEncoder;
+  public RelativeEncoder forearmEncoder;
 
   private SparkMaxPIDController shoulderPID;
   private SparkMaxPIDController forearmPID;

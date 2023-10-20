@@ -26,6 +26,7 @@ public class AutoMoveForwardOneSecond extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.reset();
     timer.start();
     m_drive.zeroEncoders();
   }

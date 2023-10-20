@@ -4,31 +4,46 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Manipulator;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RetractForarmEntirly extends InstantCommand {
+public class RetractForarmEntirly extends CommandBase {
 
-  public Manipulator m_Manipulator;
-  public SparkMaxPIDController forearmPID = RobotContainer.forearmPID;
-
+  private Manipulator m_Manipulator;
+  private SparkMaxPIDController forearmPID = RobotContainer.forearmPID;
+  private RelativeEncoder forearmEncoder;
+  /** Creates a new RetractForearm. */
   public RetractForarmEntirly(Manipulator manipulator) {
+
+    
     m_Manipulator = manipulator;
+    forearmEncoder = manipulator.forearmEncoder;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    
     forearmPID.setReference(0, ControlType.kPosition);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return Math.abs(0-forearmEncoder.getPosition()) <= 2;
   }
 }
