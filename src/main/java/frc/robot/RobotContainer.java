@@ -119,12 +119,13 @@ public class RobotContainer {
         leftFrontMotor = new CANSparkMax(OperatorConstants.kLeftFrontDriveCANID, MotorType.kBrushless);
         rightBackMotor = new CANSparkMax(OperatorConstants.kRightBackDriveCANID, MotorType.kBrushless);
         leftBackMotor = new CANSparkMax(OperatorConstants.kLeftBackDriveCANID, MotorType.kBrushless);
-        // Manipulator Motors
+        // Manipulator MotorsMotorType
         if (OperatorConstants.kUseManipulator) {
                 manipulatorArmMotor = new CANSparkMax(OperatorConstants.kArmMotorCANID, MotorType.kBrushless);
                 manipulatorArmMotor.setSmartCurrentLimit(60);
                 manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
                 manipulatorClawMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
+                manipulatorClawMotor.setSmartCurrentLimit(30);
         }
         // inverts the left motors and leaves the right motors
         leftFrontMotor.setInverted(true);
