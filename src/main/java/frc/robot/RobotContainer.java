@@ -125,7 +125,6 @@ public class RobotContainer {
                 manipulatorArmMotor.setSmartCurrentLimit(60);
                 manipulatorForearmMotor = new CANSparkMax(OperatorConstants.kForearmMotorCANID, MotorType.kBrushless);
                 manipulatorClawMotor = new CANSparkMax(OperatorConstants.kWristMotorCANID, MotorType.kBrushed);
-                manipulatorClawMotor.setSmartCurrentLimit(30);
         }
         // inverts the left motors and leaves the right motors
         leftFrontMotor.setInverted(true);
@@ -223,8 +222,8 @@ public class RobotContainer {
                                                 new WaitCommand(0.5),
                                                 new PIDAutoBalance(m_navX, m_drive)
                                         ),
-                                        new shoulderFullyDown(m_manipulator),
-                                        new RetractForarmEntirly(m_manipulator)
+                                        new RetractForarmEntirly(m_manipulator),
+                                        new shoulderFullyDown(m_manipulator)
                                 )
                                 //new PIDAutoBalance(m_navX, m_drive)
                         )
@@ -242,8 +241,8 @@ public class RobotContainer {
                                 new ClawStopShoot(m_manipulator),
                                 new ParallelCommandGroup(
                                         new AutoMoveBackwards(m_drive),
-                                        new shoulderFullyDown(m_manipulator),
-                                        new RetractForarmEntirly(m_manipulator)
+                                        new RetractForarmEntirly(m_manipulator),
+                                        new shoulderFullyDown(m_manipulator)
                                 )
                                 //new PIDAutoBalance(m_navX, m_drive)
                         )
@@ -266,8 +265,8 @@ public class RobotContainer {
                                                 new WaitCommand(0.5),
                                                 new PIDAutoBalance(m_navX, m_drive)
                                         ),
-                                        new shoulderFullyDown(m_manipulator),
-                                        new RetractForarmEntirly(m_manipulator)
+                                        new RetractForarmEntirly(m_manipulator),
+                                        new shoulderFullyDown(m_manipulator)
                                 )
                                 //new PIDAutoBalance(m_navX, m_drive)
                         )
@@ -313,8 +312,8 @@ public class RobotContainer {
                                 new ClawStopShoot(m_manipulator),
                                 new ParallelCommandGroup(
                                         new AutoMoveBackwards(m_drive),
-                                        new shoulderFullyDown(m_manipulator),
-                                        new RetractForarmEntirly(m_manipulator)
+                                        new RetractForarmEntirly(m_manipulator),
+                                        new shoulderFullyDown(m_manipulator)
                                 )
                                 //new PIDAutoBalance(m_navX, m_drive)
                         )
@@ -334,8 +333,8 @@ public class RobotContainer {
                                 new ClawStopShoot(m_manipulator),
                                 new ParallelCommandGroup(
                                         new AutoMoveBackwards(m_drive),
-                                        new shoulderFullyDown(m_manipulator),
-                                        new RetractForarmEntirly(m_manipulator)
+                                        new RetractForarmEntirly(m_manipulator),
+                                        new shoulderFullyDown(m_manipulator)
                                 )
                         )
                 );
@@ -358,8 +357,8 @@ public class RobotContainer {
                                                 new WaitCommand(0.5),
                                                 new PIDAutoBalance(m_navX, m_drive)
                                         ),
-                                        new shoulderFullyDown(m_manipulator),
-                                        new RetractForarmEntirly(m_manipulator)
+                                        new RetractForarmEntirly(m_manipulator),
+                                        new shoulderFullyDown(m_manipulator)
                                 )
                         )
                 );

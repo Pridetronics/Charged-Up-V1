@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ClawIntakeCommand;
 import frc.robot.commands.HomingCommand;
 import frc.robot.commands.ManipulatorInput;
 
@@ -61,7 +62,7 @@ public class Manipulator extends SubsystemBase {
     armMotor = RobotContainer.manipulatorArmMotor;
     clawMotor = RobotContainer.manipulatorClawMotor;
     foreArmMotor = RobotContainer.manipulatorForearmMotor;
-
+    clawMotor.setSmartCurrentLimit(30);
     // Retrieves Encoders
     armEncoder = RobotContainer.armEncoder;
 
@@ -78,6 +79,7 @@ public class Manipulator extends SubsystemBase {
 
   @Override
   public void periodic() {
+    clawMotor.setSmartCurrentLimit(30);
     // This method will be called once per scheduler run
   }
 
